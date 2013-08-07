@@ -1,0 +1,18 @@
+[color]
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+[core]
+	editor = vim
+	quotepath = false
+[alias]
+	st = status
+	co = checkout
+  ci = commit
+	br = branch
+  df = diff
+  dc = diff --cached
+  logg = log --pretty=format:'%cr|%s|[%cn]' -1
+  history = "!function pp() { for file in \"$@\"; do echo \"$file|\" `git logg -- \"$GIT_PREFIX$file\"`; done | column -t --separator '|'; }; pp "
+
