@@ -205,17 +205,6 @@ let g:tcommentLineC = {
             \ }
 " }}}
 
-" Tlist plugin {{{
-" let Tlist_Ctags_Cmd = "/usr/bin/ctags"
-" let Tlist_WinWidth = 40
-" let Tlist_Use_Right_Window = 1
-" let Tlist_Show_One_File = 1
-" let Tlist_Compact_Format = 1
-" let Tlist_Enable_Fold_Column = 0
-"
-" map <F4> :TlistToggle<cr>
-" }}}
-
 " Haskellmode plugin {{{
 let g:haddock_browser = "/usr/bin/chromium"
 
