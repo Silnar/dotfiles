@@ -39,7 +39,6 @@ Bundle 'fugitive.vim'
 
 Bundle 'taskpaper.vim'
 Bundle 'bitc/vim-hdevtools'
-Bundle 'laurilehmijoki/haskellmode-vim.git'
 " }}}
 
 " Vim: Functions {{{
@@ -221,15 +220,6 @@ let g:tcommentLineC = {
             \ 'commentstring': '// %s',
             \ 'replacements': g:tcomment#replacements_c
             \ }
-" }}}
-
-" Haskellmode plugin {{{
-let g:haddock_browser = "/usr/bin/chromium"
-
-au FileType haskell let b:ghc_staticoptions = '-isrc -itests'
-
-autocmd Bufenter *.hs compiler ghc
-autocmd BufWritePost *.hs GHCReload
 " }}}
 
 " Go plugin {{{
