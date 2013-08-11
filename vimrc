@@ -39,6 +39,8 @@ Bundle 'fugitive.vim'
 
 Bundle 'taskpaper.vim'
 Bundle 'bitc/vim-hdevtools'
+Bundle 'ujihisa/neco-ghc'
+Bundle 'bitc/lushtags'
 " }}}
 
 " Vim: Functions {{{
@@ -220,6 +222,10 @@ cnoremap <M-f>  <S-Right>
 " cnoremap <Esc>f <S-Right>
 " cnoremap <Esc>d <S-right><Delete>
 " cnoremap <C-g>  <C-c>
+" }}}
+
+" Filetype plugin {{{
+au FileType haskell setlocal omnifunc=necoghc#omnifunc
 " }}}
 
 " CtrlP {{{
