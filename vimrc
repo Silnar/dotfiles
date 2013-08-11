@@ -3,6 +3,7 @@
 " - Favorite vim plugins & scripts: http://stackoverflow.com/questions/21725/favorite-gvim-plugins-scripts
 " - http://amix.dk/vim/vimrc.html
 " - http://statico.github.io/vim.html
+" - http://www.vimninjas.com/2012/08/26/10-vim-color-schemes-you-need-to-own/
 
 " Vundle {{{
 set nocompatible
@@ -13,7 +14,14 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
+Bundle 'morhetz/gruvbox'
+Bundle 'zeis/vim-kolor'
+Bundle 'Zenburn'
 Bundle 'synic.vim'
+Bundle 'github-theme'
+Bundle 'Solarized'
+Bundle 'twilight'
+Bundle 'Wombat'
 
 Bundle 'unimpaired.vim'
 Bundle 'surround.vim'
@@ -100,7 +108,8 @@ set hlsearch
 syntax on
 
 if has("gui_running")
-  colorscheme synic
+  colorscheme gruvbox
+  set bg=dark
 else
   colorscheme elflord
   set bg=dark
