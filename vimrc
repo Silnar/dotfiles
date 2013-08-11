@@ -51,6 +51,8 @@ endfunction
 " Vim: Behavior {{{
 filetype plugin indent on
 
+set omnifunc=syntaxcomplete#Complete
+
 set autowrite
 set noequalalways
 
