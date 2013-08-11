@@ -115,6 +115,10 @@ else
   set bg=dark
 endif
 
+set cursorline
+
+set number
+
 " Configure statusline
 set statusline=%n\ %f%<
 set statusline+=\ %m%r%h%w%q
