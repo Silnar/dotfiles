@@ -179,6 +179,8 @@ nmap <Leader>o :TagbarToggle<CR>
 
 nmap <Leader>. :edit ~/.vimrc<CR>
 nmap <Leader>> :source ~/.vimrc<CR>
+" CtrlP
+nmap <Leader>p :CtrlPMixed<CR>
 
 nmap <Leader>w :w<CR>
 
@@ -201,8 +203,8 @@ cnoremap <M-f>  <S-Right>
 " }}}
 
 " CtrlP {{{
-let g:ctrlp_map = '<Leader>t'
-let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_map = ''
+let g:ctrlp_cmd = ''
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_custom_ignore = '\v\~$|\.(o|6|pyc|hi|swp)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
