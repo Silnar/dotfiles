@@ -171,21 +171,41 @@ autocmd BufWritePre * :%s/\s\+$//e
 " }}}
 
 " Global mappings {{{
-nmap <Leader>q :nohlsearch<CR>
-nmap <leader>l :set list!<CR>
-
+" Explore
 nmap <Leader>e :NERDTreeToggle<CR>
+
+" Outline
 nmap <Leader>o :TagbarToggle<CR>
 
-nmap <Leader>. :edit ~/.vimrc<CR>
-nmap <Leader>> :source ~/.vimrc<CR>
 " CtrlP
 nmap <Leader>p :CtrlPMixed<CR>
 
+" Item info
+au FileType haskell nmap <Leader>i :HdevtoolsInfo<CR>
+au FileType haskell nmap <Leader>t :HdevtoolsType<CR>
+au FileType haskell nmap <Leader>c :HdevtoolsClear<CR>
+
+" Write file
+nmap <C-S> :w<CR>
 nmap <Leader>w :w<CR>
 
+" Hide search highlight
+nmap <Leader>q :nohlsearch<CR>
+
+" Show invisibles
+nmap <leader>l :set list!<CR>
+
+" Edit preferences
+nmap <Leader>. :edit ~/.vimrc<CR>
+nmap <Leader>> :source ~/.vimrc<CR>
+
+" Insert new line
 nmap <Leader>n o<Esc>
 nmap <Leader>N O<Esc>
+
+" Set background
+nmap <Leader>bd :set background=dark<CR>
+nmap <Leader>bl :set background=light<CR>
 " }}}
 
 " Commandline mappings {{{
