@@ -182,6 +182,9 @@ nmap <Leader>. :edit ~/.vimrc<CR>
 nmap <Leader>> :source ~/.vimrc<CR>
 
 nmap <Leader>w :w<CR>
+
+nmap <Leader>n o<Esc>
+nmap <Leader>N O<Esc>
 " }}}
 
 " Commandline mappings {{{
