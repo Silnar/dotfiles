@@ -26,6 +26,7 @@ Bundle 'Wombat'
 Bundle 'unimpaired.vim'
 Bundle 'surround.vim'
 Bundle 'DfrankUtil'
+Bundle 'Gundo'
 
 Bundle 'ctrlp.vim'
 Bundle 'The-NERD-tree'
@@ -208,6 +209,9 @@ nmap <Leader>N O<Esc>
 " Set background
 nmap <Leader>bd :set background=dark<CR>
 nmap <Leader>bl :set background=light<CR>
+
+" Run Gundo
+nmap <Leader>u :GundoToggle<CR>
 " }}}
 
 " Commandline mappings {{{
