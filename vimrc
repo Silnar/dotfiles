@@ -32,6 +32,7 @@ Bundle 'ctrlp.vim'
 Bundle 'The-NERD-tree'
 
 Bundle 'vimprj'
+Bundle 'embear/vim-localvimrc'
 Bundle 'Tagbar'
 Bundle 'Syntastic'
 Bundle 'tComment'
@@ -117,6 +118,9 @@ set wildignore=*.o,*~,*.pyc
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
+
+" Persistence
+set viminfo+=!
 
 " Swap files
 let s:swapDir = $HOME . "/.vimswap"
@@ -249,6 +253,11 @@ let g:tcommentLineC = {
 
 " Go {{{
 set rtp+=$GOROOT/misc/vim
+" }}}
+
+" LocalVimRC {{{
+let g:localvimrc_sandbox = 0
+let g:localvimrc_persistent = 2
 " }}}
 
 " vim:foldmethod=marker
