@@ -75,6 +75,15 @@ set hid
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
+
+" Swap files
+let s:swapDir = $HOME . "/.vimswap"
+if !isdirectory(s:swapDir)
+  call mkdir(s:swapDir)
+endif
+
+set directory-=.
+let &directory = s:swapDir . '//,' . &directory
 " }}}
 
 " Vim: Tabs {{{
