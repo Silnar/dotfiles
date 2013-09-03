@@ -211,6 +211,9 @@ nmap <Leader>bl :set background=light<CR>
 
 " Run Gundo
 nmap <Leader>u :GundoToggle<CR>
+
+" Substitute word under cursor
+nmap <Leader>s :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
 " }}}
 
 " Commandline mappings {{{
