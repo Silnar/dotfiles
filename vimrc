@@ -44,33 +44,75 @@ Bundle 'ujihisa/neco-ghc'
 Bundle 'bitc/lushtags'
 " }}}
 
-" Vim: Functions {{{
-" http://dhruvasagar.com/2013/03/28/vim-better-foldtext
-function! NeatFoldText()
-  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
-  let lines_count = v:foldend - v:foldstart + 1
-  let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
-  let foldchar = matchstr(&fillchars, 'fold:\zs.')
-  let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
-  let foldtextend = lines_count_text . repeat(foldchar, 8)
-  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
-  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
-endfunction
-" }}}
-
-" Vim: Behavior {{{
+" Vim options {{{
+" Filetype detection
 filetype plugin indent on
 
+" Syntax highlighting
+syntax on
+
+" Code completion
 set omnifunc=syntaxcomplete#Complete
 
-set autowrite
-set noequalalways
+" Gui options
+set guioptions=
+
+if has("gui_running")
+  if has("gui_macvim")
+    set guifont=Monaco:h12
+    set noantialias
+  else
+    set guifont=DejaVu\ Sans\ Mono\ 10
+  endif
+endif
+
+" Colorscheme
+if has("gui_running")
+  colorscheme gruvbox
+else
+  colorscheme elflord
+endif
+
+" Highlight current line
+set cursorline
+
+" Show line numbers
+set number
+
+" Show file position
+set ruler
+
+" Show matching brackets
+set showmatch
+set matchtime=2
 
 " Don't redraw while executing macros (good performance config)
 set lazyredraw
 
-" A buffer becomes hidden when it is abandoned
+" Buffers
+set autowrite
 set hid
+
+" Windows
+set noequalalways
+set laststatus=2
+
+" Tabs
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+
+" Searching
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+
+" Wild menu
+set wildmenu
+set wildmode=longest:full
+set wildignore=*.o,*~,*.pyc
 
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
@@ -84,43 +126,11 @@ endif
 
 set directory-=.
 let &directory = s:swapDir . '//,' . &directory
-" }}}
 
-" Vim: Tabs {{{
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
-" }}}
+" Invisible symbols
+set listchars=tab:▸\ ,eol:¬
 
-" Vim: Tab settings per filetype {{{
-autocmd Filetype haskell setlocal ts=2 sts=2 sw=2 et ai
-autocmd Filetype taskpaper setlocal ts=2 sts=2 sw=2 ai
-" }}}
-
-" Vim: Searching {{{
-set ignorecase
-set smartcase
-set incsearch
-set hlsearch
-" }}}
-
-" Vim: UI {{{
-syntax on
-
-if has("gui_running")
-  colorscheme gruvbox
-  set bg=dark
-else
-  colorscheme elflord
-  set bg=dark
-endif
-
-set cursorline
-
-set number
-
-" Configure statusline
+" Statusline
 set statusline=%n\ %f%<
 set statusline+=\ %m%r%h%w%q
 set statusline+=%=
@@ -129,47 +139,20 @@ set statusline+=\ %y
 set statusline+=[%{strlen(&fenc)?&fenc:&enc}]
 set statusline+=[row:%l\ col:%v]
 
-"Always show current position
-set ruler
-
-" Use the same symbols as TextMate for tabstops and EOLs
-set listchars=tab:▸\ ,eol:¬
-
-" Show matching brackets when text indicator is over them
-set showmatch
-" How many tenths of a second to blink when matching brackets
-set mat=2
+" Folding
+" http://dhruvasagar.com/2013/03/28/vim-better-foldtext
+function! NeatFoldText()
+  let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+  let lines_count = v:foldend - v:foldstart + 1
+  let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+  let foldchar = matchstr(&fillchars, 'fold:\zs.')
+  let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+  let foldtextend = lines_count_text . repeat(foldchar, 8)
+  let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+  return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+endfunction
 
 set foldtext=NeatFoldText()
-
-set laststatus=2
-
-" Gui options
-" set go-=T
-" set go-=l
-" set go-=L
-" set go-=R
-" set go-=r
-" set go-=e
-set guioptions=
-set guifont=DejaVu\ Sans\ Mono\ 10
-" }}}
-
-" Vim: Wild menu {{{
-" Turn on the Wild menu
-set wildmenu
-set wildmode=longest:full
-
-" Ignore compiled files
-set wildignore=*.o,*~,*.pyc
-" }}}
-
-" Vim: Tags {{{
-set tags+=~/.vim/tags/c.tags
-" }}}
-
-" Vim: Remove trailing whitespaces on write {{{
-autocmd BufWritePre * :%s/\s\+$//e
 " }}}
 
 " Global mappings {{{
@@ -230,8 +213,16 @@ cnoremap <M-f>  <S-Right>
 " cnoremap <C-g>  <C-c>
 " }}}
 
-" Filetype plugin {{{
-au FileType haskell setlocal omnifunc=necoghc#omnifunc
+" Filetype & Autocommand {{{
+" Tabs
+autocmd Filetype haskell setlocal ts=2 sts=2 sw=2 et ai
+autocmd Filetype taskpaper setlocal ts=2 sts=2 sw=2 ai
+
+" Code completion
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+
+" Remove trailing whitespaces on write
+autocmd BufWritePre * :%s/\s\+$//e
 " }}}
 
 " CtrlP {{{
@@ -245,7 +236,7 @@ let g:ctrlp_dotfiles = 0
 let g:ctrlp_switch_buffer = 0
 " }}}
 
-" TComment plugin {{{
+" TComment {{{
 let g:tcomment#replacements_c = {
             \     '/*': '#<{(|',
             \     '*/': '|)}>#',
@@ -256,7 +247,7 @@ let g:tcommentLineC = {
             \ }
 " }}}
 
-" Go plugin {{{
+" Go {{{
 set rtp+=$GOROOT/misc/vim
 " }}}
 
