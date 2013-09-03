@@ -99,19 +99,9 @@ autocmd Filetype taskpaper setlocal ts=2 sts=2 sw=2 ai
 " }}}
 
 " Vim: Searching {{{
-" Ignore case when searching
 set ignorecase
-
-" When searching try to be smart about cases
 set smartcase
-
-" For regular expressions turn magic on
-set magic
-
-" Makes search act like search in modern browsers
 set incsearch
-set ignorecase
-set smartcase
 set hlsearch
 " }}}
 
