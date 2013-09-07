@@ -32,7 +32,6 @@ Bundle 'ctrlp.vim'
 Bundle 'The-NERD-tree'
 
 Bundle 'vimprj'
-Bundle 'embear/vim-localvimrc'
 Bundle 'Tagbar'
 Bundle 'Syntastic'
 Bundle 'tComment'
