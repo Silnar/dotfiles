@@ -32,6 +32,8 @@ Bundle 'ctrlp.vim'
 Bundle 'The-NERD-tree'
 
 Bundle 'vimprj'
+Bundle 'Shougo/neocomplete.vim'
+Bundle 'Shougo/neosnippet'
 Bundle 'Tagbar'
 Bundle 'Syntastic'
 Bundle 'tComment'
@@ -222,7 +224,7 @@ autocmd Filetype haskell setlocal ts=2 sts=2 sw=2 et ai
 autocmd Filetype taskpaper setlocal ts=2 sts=2 sw=2 ai
 
 " Code completion
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+" autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 
 " Remove trailing whitespaces on write
 autocmd BufWritePre * :%s/\s\+$//e
@@ -257,6 +259,39 @@ set rtp+=$GOROOT/misc/vim
 " LocalVimRC {{{
 let g:localvimrc_sandbox = 0
 let g:localvimrc_persistent = 2
+" }}}
+
+" Neo Complete {{{
+let g:acp_enableAtStartup = 0
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+
+" let g:neocomplete#sources#syntax#min_keyword_length = 3
+" let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+" }}}
+
+" Neco-GHC {{{
+let g:necoghc_enable_detailed_browse = 1
+" }}}
+
+" Neo Snippet {{{
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+      \ "\<Plug>(neosnippet_expand_or_jump)"
+      \: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+      \ "\<Plug>(neosnippet_expand_or_jump)"
+      \: "\<TAB>"
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
 " }}}
 
 " vim:foldmethod=marker
