@@ -5,45 +5,56 @@
 " - http://statico.github.io/vim.html
 " - http://www.vimninjas.com/2012/08/26/10-vim-color-schemes-you-need-to-own/
 
-" Vundle {{{
+" Packages {{{
 set nocompatible
-filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+if has('vim_starting')
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
 
-Bundle 'gmarik/vundle'
+call neobundle#rc(expand('~/.vim/bundle/'))
 
-Bundle 'morhetz/gruvbox'
-Bundle 'zeis/vim-kolor'
-Bundle 'Zenburn'
-Bundle 'synic.vim'
-Bundle 'github-theme'
-Bundle 'Solarized'
-Bundle 'twilight'
-Bundle 'Wombat'
+" Let NeoBundle manage NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
 
-Bundle 'unimpaired.vim'
-Bundle 'surround.vim'
-Bundle 'DfrankUtil'
-Bundle 'Gundo'
+" Recommended to install
+" After install, turn shell ~/.vim/bundle/vimproc, (n,g)make -f your_machines_makefile
+NeoBundle 'Shougo/vimproc'
 
-Bundle 'ctrlp.vim'
-Bundle 'The-NERD-tree'
 
-Bundle 'vimprj'
-Bundle 'Shougo/neocomplete.vim'
-Bundle 'Shougo/neosnippet'
-Bundle 'Tagbar'
-Bundle 'Syntastic'
-Bundle 'tComment'
-Bundle 'indexer.tar.gz'
-Bundle 'fugitive.vim'
+NeoBundle 'morhetz/gruvbox'
+NeoBundle 'zeis/vim-kolor'
+NeoBundle 'Zenburn'
+NeoBundle 'synic.vim'
+NeoBundle 'github-theme'
+NeoBundle 'Solarized'
+NeoBundle 'twilight'
+NeoBundle 'Wombat'
 
-Bundle 'taskpaper.vim'
-Bundle 'bitc/vim-hdevtools'
-Bundle 'ujihisa/neco-ghc'
-Bundle 'bitc/lushtags'
+NeoBundle 'unimpaired.vim'
+NeoBundle 'surround.vim'
+NeoBundle 'Gundo'
+
+NeoBundle 'The-NERD-tree'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/context_filetype.vim'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'honza/vim-snippets'
+NeoBundleLazy 'Rip-Rip/clang_complete'
+
+NeoBundle 'Tagbar'
+NeoBundle 'Syntastic'
+NeoBundle 'tComment'
+NeoBundle 'fugitive.vim'
+
+NeoBundleLazy 'taskpaper.vim'
+NeoBundleLazy 'bitc/vim-hdevtools'
+NeoBundleLazy 'ujihisa/neco-ghc'
+NeoBundleLazy 'bitc/lushtags'
+
+au FileType c,cpp,objc,objcpp NeoBundleSource clang_complete
+au FileType haskell NeoBundleSource vim-hdevtools neco-ghc lushtags
 " }}}
 
 " Vim options {{{
@@ -113,7 +124,7 @@ set hlsearch
 
 " Wild menu
 set wildmenu
-set wildmode=longest:full
+set wildmode=longest:list
 set wildignore=*.o,*~,*.pyc
 
 " Configure backspace so it acts as it should act
@@ -161,19 +172,28 @@ set foldtext=NeatFoldText()
 " }}}
 
 " Global mappings {{{
+" Unite
+nnoremap    [unite]   <Nop>
+nmap    <Leader>f [unite]
+
+nnoremap <silent> [unite]m :<C-u>Unite -start-insert file_mru<CR>
+nnoremap <silent> [unite]p :<C-u>Unite -start-insert file_rec/async:!<CR>
+nnoremap <silent> [unite]r :<C-u>Unite -start-insert file_rec/async<CR>
+nnoremap <silent> [unite]b :<C-u>Unite -start-insert buffer<CR>
+nnoremap <silent> [unite]g :<C-u>Unite grep:.<CR>
+nnoremap <silent> [unite]ma :<C-u>Unite mapping<CR>
+
 " Explore
 nmap <Leader>e :NERDTreeToggle<CR>
 
 " Outline
 nmap <Leader>o :TagbarToggle<CR>
 
-" CtrlP
-nmap <Leader>p :CtrlPMixed<CR>
+" Run Gundo
+nmap <Leader>u :GundoToggle<CR>
 
-" Item info
-au FileType haskell nmap <Leader>i :HdevtoolsInfo<CR>
-au FileType haskell nmap <Leader>t :HdevtoolsType<CR>
-au FileType haskell nmap <Leader>c :HdevtoolsClear<CR>
+" Open new tab
+nmap <Leader>t :tabnew<CR>
 
 " Write file
 nmap <C-S> :w<CR>
@@ -185,23 +205,22 @@ nmap <Leader>q :nohlsearch<CR>
 " Show invisibles
 nmap <leader>l :set list!<CR>
 
-" Edit preferences
-nmap <Leader>. :edit ~/.vimrc<CR>
-nmap <Leader>> :source ~/.vimrc<CR>
-
-" Insert new line
-nmap <Leader>n o<Esc>
-nmap <Leader>N O<Esc>
-
 " Set background
 nmap <Leader>bd :set background=dark<CR>
 nmap <Leader>bl :set background=light<CR>
 
-" Run Gundo
-nmap <Leader>u :GundoToggle<CR>
+" Edit preferences
+nmap <Leader>. :edit ~/.vimrc<CR>
+nmap <Leader>> :source ~/.vimrc<CR>
 
 " Substitute word under cursor
 nmap <Leader>s :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
+
+" " Item info
+" au FileType haskell nmap <Leader>i :HdevtoolsInfo<CR>
+" au FileType haskell nmap <Leader>t :HdevtoolsType<CR>
+" au FileType haskell nmap <Leader>c :HdevtoolsClear<CR>
+
 " }}}
 
 " Commandline mappings {{{
@@ -223,22 +242,8 @@ cnoremap <M-f>  <S-Right>
 autocmd Filetype haskell setlocal ts=2 sts=2 sw=2 et ai
 autocmd Filetype taskpaper setlocal ts=2 sts=2 sw=2 ai
 
-" Code completion
-" autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-
 " Remove trailing whitespaces on write
 autocmd BufWritePre * :%s/\s\+$//e
-" }}}
-
-" CtrlP {{{
-let g:ctrlp_map = ''
-let g:ctrlp_cmd = ''
-let g:ctrlp_match_window_bottom = 0
-let g:ctrlp_match_window_reversed = 0
-let g:ctrlp_custom_ignore = '\v\~$|\.(o|6|pyc|hi|swp)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_dotfiles = 0
-let g:ctrlp_switch_buffer = 0
 " }}}
 
 " TComment {{{
@@ -254,11 +259,6 @@ let g:tcommentLineC = {
 
 " Go {{{
 set rtp+=$GOROOT/misc/vim
-" }}}
-
-" LocalVimRC {{{
-let g:localvimrc_sandbox = 0
-let g:localvimrc_persistent = 2
 " }}}
 
 " Neo Complete {{{
@@ -292,6 +292,24 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 if has('conceal')
   set conceallevel=2 concealcursor=i
 endif
+" }}}
+
+" Clang Complete {{{
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_overwrite_completefunc = 1
+let g:neocomplete#force_omni_input_patterns.c =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.cpp =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:neocomplete#force_omni_input_patterns.objc =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.objcpp =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:clang_complete_auto = 0
+let g:clang_auto_select = 0
+"let g:clang_use_library = 1
 " }}}
 
 " vim:foldmethod=marker
