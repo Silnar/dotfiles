@@ -27,15 +27,17 @@ NeoBundle 'zeis/vim-kolor'
 NeoBundle 'Zenburn'
 NeoBundle 'synic.vim'
 NeoBundle 'github-theme'
-NeoBundle 'Solarized'
+NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'twilight'
 NeoBundle 'Wombat'
+NeoBundle 'noctu.vim'
 
 NeoBundle 'unimpaired.vim'
 NeoBundle 'surround.vim'
 NeoBundle 'Gundo'
+NeoBundle 'godlygeek/tabular'
 
-NeoBundle 'The-NERD-tree'
+NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/context_filetype.vim'
@@ -124,7 +126,7 @@ set hlsearch
 
 " Wild menu
 set wildmenu
-set wildmode=longest:list
+set wildmode=longest:full,full
 set wildignore=*.o,*~,*.pyc
 
 " Configure backspace so it acts as it should act
@@ -176,15 +178,15 @@ set foldtext=NeatFoldText()
 nnoremap    [unite]   <Nop>
 nmap    <Leader>f [unite]
 
-nnoremap <silent> [unite]m :<C-u>Unite -start-insert file_mru<CR>
+nnoremap <silent> [unite]f :<C-u>Unite -default-action=lcd bookmark<CR>
+nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
+nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
 nnoremap <silent> [unite]p :<C-u>Unite -start-insert file_rec/async:!<CR>
 nnoremap <silent> [unite]r :<C-u>Unite -start-insert file_rec/async<CR>
-nnoremap <silent> [unite]b :<C-u>Unite -start-insert buffer<CR>
 nnoremap <silent> [unite]g :<C-u>Unite grep:.<CR>
-nnoremap <silent> [unite]ma :<C-u>Unite mapping<CR>
 
 " Explore
-nmap <Leader>e :NERDTreeToggle<CR>
+nmap <Leader>e :VimFilerExplorer<CR>
 
 " Outline
 nmap <Leader>o :TagbarToggle<CR>
@@ -244,6 +246,75 @@ autocmd Filetype taskpaper setlocal ts=2 sts=2 sw=2 ai
 
 " Remove trailing whitespaces on write
 autocmd BufWritePre * :%s/\s\+$//e
+" }}}
+
+" VimFiler {{{
+let g:vimfiler_as_default_explorer = 1
+
+" Enable file operation commands.
+"let g:vimfiler_safe_mode_by_default = 0
+
+" Like Textmate icons.
+let g:vimfiler_tree_leaf_icon = ' '
+let g:vimfiler_tree_opened_icon = '▾'
+let g:vimfiler_tree_closed_icon = '▸'
+let g:vimfiler_file_icon = '-'
+let g:vimfiler_marked_file_icon = '*'
+
+
+let s:vimfilerexplorer = {
+      \ 'description' : 'open vimfiler explorer here',
+      \ }
+function! s:vimfilerexplorer.func(candidate) "{{{
+  if !exists(':VimFilerExplorer')
+    echo 'vimfiler is not installed.'
+    return
+  endif
+
+  if !s:check_is_directory(a:candidate.action__directory)
+    return
+  endif
+
+  execute 'VimFilerExplorer' escape(a:candidate.action__directory, '\ ')
+
+  if has_key(a:candidate, 'action__path')
+        \ && a:candidate.action__directory !=# a:candidate.action__path
+    " Move cursor.
+    call vimfiler#mappings#search_cursor(a:candidate.action__path)
+    call s:move_vimfiler_cursor(a:candidate)
+  endif
+endfunction"}}}
+
+function! s:move_vimfiler_cursor(candidate) "{{{
+  if &filetype !=# 'vimfiler'
+    return
+  endif
+
+  if has_key(a:candidate, 'action__path')
+        \ && a:candidate.action__directory !=# a:candidate.action__path
+    " Move cursor.
+    call vimfiler#mappings#search_cursor(a:candidate.action__path)
+  endif
+endfunction"}}}
+
+function! s:check_is_directory(directory) "{{{
+  if !isdirectory(a:directory)
+    let yesno = input(printf(
+          \ 'Directory path "%s" is not exists. Create? : ', a:directory))
+    redraw
+    if yesno !~ '^y\%[es]$'
+      echo 'Canceled.'
+      return 0
+    endif
+
+    call mkdir(a:directory, 'p')
+  endif
+
+  return 1
+endfunction
+"}}}
+
+call unite#custom#action('cdable', 'vimfilerexplorer', s:vimfilerexplorer)
 " }}}
 
 " TComment {{{
