@@ -57,6 +57,7 @@ NeoBundleLazy 'bitc/lushtags'
 
 au FileType c,cpp,objc,objcpp NeoBundleSource clang_complete
 au FileType haskell NeoBundleSource vim-hdevtools neco-ghc lushtags
+au FileType taskpaper NeoBundleSource taskpaper.vim
 " }}}
 
 " Vim options {{{
