@@ -36,6 +36,7 @@ NeoBundle 'github-theme'
 
 NeoBundle 'unimpaired.vim'
 NeoBundle 'surround.vim'
+NeoBundle 'tommcdo/vim-exchange'
 NeoBundle 'Gundo'
 NeoBundle 'godlygeek/tabular'
 
