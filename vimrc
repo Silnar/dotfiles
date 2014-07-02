@@ -86,11 +86,8 @@ if has("gui_running")
 endif
 
 " Colorscheme
-if has("gui_running")
-  colorscheme gruvbox
-else
-  colorscheme elflord
-endif
+colorscheme gruvbox
+set background=dark
 
 " Highlight current line
 set cursorline
