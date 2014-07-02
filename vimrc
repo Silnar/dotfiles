@@ -123,7 +123,7 @@ set expandtab
 set ignorecase
 set smartcase
 set incsearch
-set hlsearch
+" set hlsearch
 
 " Wild menu
 set wildmenu
@@ -203,7 +203,7 @@ nmap <C-S> :w<CR>
 nmap <Leader>w :w<CR>
 
 " Hide search highlight
-nmap <Leader>q :nohlsearch<CR>
+nmap <Leader>h :set hlsearch!<CR>
 
 " Show invisibles
 nmap <leader>l :set list!<CR>
@@ -217,7 +217,8 @@ nmap <Leader>. :edit ~/.vimrc<CR>
 nmap <Leader>> :source ~/.vimrc<CR>
 
 " Substitute word under cursor
-nmap <Leader>s :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
+nmap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
+vnoremap <Leader>r "hy:%s/<C-r>h//gc<left><left><left>
 
 " " Item info
 " au FileType haskell nmap <Leader>i :HdevtoolsInfo<CR>
