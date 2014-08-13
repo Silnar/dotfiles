@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # confirm you can access the internet
-if [[ ! $(curl -Is http://www.google.com/ | head -n 1) =~ "*302 Found*" ]]; then
+if [[ ! $(curl -Is http://www.google.com/ | head -n 1) =~ "302 Found" ]]; then
 echo "Your Internet seems broken. Press Ctrl-C to abort or enter to continue."
 read
 fi
