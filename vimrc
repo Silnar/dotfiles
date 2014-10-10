@@ -85,6 +85,11 @@ if has("gui_running")
   endif
 endif
 
+" Enable mouse support on terminals
+if has("mouse")
+  set mouse=a
+endif
+
 " Colorscheme
 colorscheme gruvbox
 set background=dark
