@@ -17,3 +17,5 @@
   logga = log --graph --decorate --pretty=oneline --abbrev-commit --branches --format='%C(auto)%d%C(auto,reset) %s (%h, %an)' --all
   ign = ls-files -o -i --exclude-standard
   history = "!function pp() { for file in \"$@\"; do echo \"$file|\" `git log --pretty=format:'%cr: %s [%cn]' -1 -- \"$GIT_PREFIX$file\"`; done | column -t --separator '|'; }; pp "
+[push]
+	default = simple
