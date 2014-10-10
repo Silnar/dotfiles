@@ -90,6 +90,9 @@ if has("mouse")
   set mouse=a
 endif
 
+" Assume fast terminal connection
+set ttyfast
+
 " Colorscheme
 colorscheme gruvbox
 set background=dark
