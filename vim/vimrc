@@ -6,13 +6,15 @@
 " - http://www.vimninjas.com/2012/08/26/10-vim-color-schemes-you-need-to-own/
 
 " Packages {{{
-set nocompatible
+" Note: Skip initialization for vim-tiny or vim-small.
+if !1 | finish | endif
 
 if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
+ set nocompatible
+ set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-call neobundle#rc(expand('~/.vim/bundle/'))
+call neobundle#begin(expand('~/.vim/bundle/'))
 
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
@@ -58,15 +60,18 @@ NeoBundleLazy 'bitc/vim-hdevtools'
 NeoBundleLazy 'ujihisa/neco-ghc'
 NeoBundleLazy 'bitc/lushtags'
 
+call neobundle#end()
+
+filetype plugin indent on
+
+NeoBundleCheck
+
 au FileType c,cpp,objc,objcpp NeoBundleSource clang_complete
 au FileType haskell NeoBundleSource vim-hdevtools neco-ghc lushtags
 au FileType taskpaper NeoBundleSource taskpaper.vim
 " }}}
 
 " Vim options {{{
-" Filetype detection
-filetype plugin indent on
-
 " Syntax highlighting
 syntax on
 
