@@ -15,6 +15,7 @@ exec --no-startup-id setxkbmap pl,ru -option '' -option ctrl:nocaps -option 'grp
 exec --no-startup-id sh ~/.wallpaper.sh
 exec --no-startup-id nm-applet
 exec --no-startup-id mpd ~/.config/mpd/mpd.conf
+exec --no-startup-id xcompmgr -c -f -n -D 3
 
 set $mod Mod4
 
