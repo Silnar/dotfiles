@@ -12,3 +12,5 @@ fi
 
 # Customize to your needs...
 setopt CHECK_JOBS
+
+[ -f ~/.env ] && source ~/.env
