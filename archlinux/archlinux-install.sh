@@ -22,7 +22,7 @@ PARTITION_ROOT=/dev/sda2
 
 # Create filesystems
 mkfs.ext2 $PARTITION_BOOT
-mkfs.ext4 $PARTITION_HOME
+mkfs.ext4 $PARTITION_ROOT
 
 # Set up /mnt
 mount /dev/sda2 /mnt
