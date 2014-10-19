@@ -62,6 +62,9 @@ sed -i '/^#pl_PL.UTF-8 UTF-8/s/^#//' /etc/locale.conf
 sed -i '/^#pl_PL ISO-8859-2/s/^#//' /etc/locale.conf
 locale-gen
 
+# Set locale
+echo LANG=pl_PL.UTF-8 > /etc/locale.conf
+
 # Configure vconsole
 cat <<END > /etc/vconsole.conf
 KEYMAP=pl
@@ -147,9 +150,6 @@ echo $USER:$USER | chpasswd
 EOF
 
 arch-chroot /mnt /bin/bash <<EOF
-# Install vim
-pacman -S --noconfirm vim
-
 # Install sudo
 pacman -S --noconfirm sudo
 sed -i '/%wheel ALL=(ALL) ALL/s/^# //' /etc/sudoers
@@ -210,6 +210,16 @@ dmenu
 i3status
 i3lock
 END
+
+# Install basic apps
+pacman -S --noconfirm - <<END
+gvim
+kdebase-konsole
+kdebase-dolphin
+firefox
+firefox-i18n-pl
+END
+
 
 EOF
 
