@@ -80,7 +80,7 @@ pacman -S syslinux --noconfirm
 syslinux-install_update -i -a -m
 
 # Update syslinux config with correct root disk
-wget -O /boot/syslinux/splash.png https://projects.archlinux.org/archiso.git/plain/configs/releng/syslinux/splash.png
+curl -o https://projects.archlinux.org/archiso.git/plain/configs/releng/syslinux/splash.png /boot/syslinux/splash.png
 cat <<END > /boot/syslinux/syslinux.cfg
 UI vesamenu.c32
 DEFAULT arch
@@ -170,8 +170,25 @@ useradd -m -G wheel -s /bin/bash $USER
 echo $USER:$USER | chpasswd
 
 # Install yaourt
-aur_install package-query https://aur.archlinux.org/packages/pa/package-query/package-query.tar.gz
-aur_install yaourt https://aur.archlinux.org/packages/ya/yaourt/yaourt.tar.gz
+pushd /tmp
+cat <<END | sudo -u $USER bash
+curl -O https://aur.archlinux.org/packages/pa/package-query/package-query.tar.gz
+tar xzvf package-query.tar.gz
+cd package-query
+makepkg -s --noconfirm
+END
+pacman -U --noconfirm "package-query/package-query*.tar.xz
+popd
+
+pushd /tmp
+cat <<END | sudo -u $USER bash
+curl -O https://aur.archlinux.org/packages/ya/yaourt/yaourt.tar.gz
+tar xzvf yaourt.tar.gz
+cd yaourt
+makepkg -s --noconfirm
+END
+pacman -U --noconfirm "yaourt/yaourt*.tar.xz
+popd
 
 # Install xorg-server
 pacman -S --noconfirm - <<END
@@ -182,7 +199,17 @@ END
 
 # Install lxdm
 pacman -S --noconfirm lxdm
-aur_install industrial-arch-lxdm https://aur.archlinux.org/packages/in/industrial-arch-lxdm/industrial-arch-lxdm.tar.gz
+
+pushd /tmp
+cat <<END | sudo -u $USER bash
+curl -O https://aur.archlinux.org/packages/in/industrial-arch-lxdm/industrial-arch-lxdm.tar.gz
+tar xzvf industrial-arch-lxdm.tar.gz
+cd industrial-arch-lxdm
+makepkg -s --noconfirm
+END
+pacman -U --noconfirm "industrial-arch-lxdm/industrial-arch-lxdm*.tar.xz
+popd
+
 sed -i 's/^theme=.*$/theme=industrial-arch-lxdm/' /etc/lxdm/lxdm.conf
 systemctl enable lxdm
 
