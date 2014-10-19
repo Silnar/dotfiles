@@ -139,37 +139,42 @@ LABEL shutdown
 END
 
 
-# end section sent to chroot
-EOF
-
-arch-chroot /mnt /bin/bash <<EOF
-# Install sudo
-pacman -S --noconfirm sudo
-sed -i '/^%wheel ALL=(ALL) ALL/s/^#//' /etc/sudoers
-
 # Create user
 useradd -m -G wheel -s /bin/bash $USER
 echo $USER:$USER | chpasswd
 
+# end section sent to chroot
+EOF
+
+arch-chroot /mnt /bin/bash <<EOF
+# Install vim
+pacman -S --noconfirm vim
+
+# Install sudo
+pacman -S --noconfirm sudo
+sed -i '/%wheel ALL=(ALL) ALL/s/^# //' /etc/sudoers
+
 # Install yaourt
 pushd /tmp
 cat <<END | sudo -u $USER bash
+set -x
 curl -O https://aur.archlinux.org/packages/pa/package-query/package-query.tar.gz
 tar xzvf package-query.tar.gz
 cd package-query
 makepkg -s --noconfirm
 END
-pacman -U --noconfirm "package-query/package-query*.tar.xz
+pacman -U --noconfirm package-query/package-query*.tar.xz
 popd
 
 pushd /tmp
 cat <<END | sudo -u $USER bash
+set -x
 curl -O https://aur.archlinux.org/packages/ya/yaourt/yaourt.tar.gz
 tar xzvf yaourt.tar.gz
 cd yaourt
 makepkg -s --noconfirm
 END
-pacman -U --noconfirm "yaourt/yaourt*.tar.xz
+pacman -U --noconfirm yaourt/yaourt*.tar.xz
 popd
 
 # Install xorg-server
@@ -182,14 +187,17 @@ END
 # Install lxdm
 pacman -S --noconfirm lxdm
 
+pacman -S --noconfirm --asdeps perl-error
+pacman -S --noconfirm git
 pushd /tmp
 cat <<END | sudo -u $USER bash
+set -x
 curl -O https://aur.archlinux.org/packages/in/industrial-arch-lxdm/industrial-arch-lxdm.tar.gz
 tar xzvf industrial-arch-lxdm.tar.gz
 cd industrial-arch-lxdm
 makepkg -s --noconfirm
 END
-pacman -U --noconfirm "industrial-arch-lxdm/industrial-arch-lxdm*.tar.xz
+pacman -U --noconfirm industrial-arch-lxdm/industrial-arch-lxdm*.tar.xz
 popd
 
 sed -i 's/^theme=.*$/theme=industrial-arch-lxdm/' /etc/lxdm/lxdm.conf
