@@ -143,24 +143,6 @@ END
 EOF
 
 arch-chroot /mnt /bin/bash <<EOF
-# Aur helper
-function aur_install {
-  local name=$1
-  local url=$2
-
-cat <<END | sudo -u $USER bash
-mkdir /tmp/Aur
-cd /tmp/Aur
-wget "$url"
-tar xzvf "$name".tar.gz
-cd "$name"
-makepkg -s --noconfirm
-END
-
-  pacman -U --noconfirm "/tmp/Aur/$name/$name"*.tar.xz
-  rm -rf /tmp/Aur
-}
-
 # Install sudo
 pacman -S --noconfirm sudo
 sed -i '/^%wheel ALL=(ALL) ALL/s/^#//' /etc/sudoers
