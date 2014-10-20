@@ -1,18 +1,33 @@
 #!/bin/bash
 
 HOSTNAME="archlinux"
+ROOT_PASSWD="root"
 USER="silnar"
+USER_PASSWD="silnar"
+
+SETUP_PARTITIONS=true
+MOUNT_PARTITIONS=true
+INSTALL_BASE=true
+CONFIGURE_SYSTEM=true
+
+INSTALL_VIRTUALBOX_MODULES=true
+INSTALL_YAOURT=true
+
+INSTALL_I3_WM=true
+INSTALL_BASIC_APPS=true
 
 # Print each command
 set -x
 
-# Check interet
+# Check internet
 wget -q --tries=10 --timeout=20 --spider http://google.com
 if [[ ! $? -eq 0 ]]; then
   echo "Internet unavailable. Aborting..."
   exit 1
 fi
 
+if [ SETUP_PARTITIONS ] # {{{
+then
 # Create partitions
 parted -s /dev/sda mktable msdos
 parted -s /dev/sda mkpart primary 0% 100m
@@ -23,12 +38,20 @@ PARTITION_ROOT=/dev/sda2
 # Create filesystems
 mkfs.ext2 $PARTITION_BOOT
 mkfs.ext4 $PARTITION_ROOT
+fi
+# }}}
 
+if [ MOUNT_PARTITIONS ] # {{{
+then
 # Set up /mnt
 mount /dev/sda2 /mnt
-mkdir /mnt/boot
+mkdir -p /mnt/boot
 mount /dev/sda1 /mnt/boot
+fi
+# }}}
 
+if [ INSTALL_BASE ] # {{{
+then
 # Rankmirrors to make this faster (though it takes a while)
 mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.orig
 rankmirrors -n 6 /etc/pacman.d/mirrorlist.orig > /etc/pacman.d/mirrorlist
@@ -42,10 +65,13 @@ genfstab -p /mnt >> /mnt/etc/fstab
 
 # Copy ranked mirrorlist over
 cp /etc/pacman.d/mirrorlist* /mnt/etc/pacman.d
+fi
+# }}}
 
-# Chroot
+if [ CONFIGURE_SYSTEM ] # {{{
+then
+# System configuration
 arch-chroot /mnt /bin/bash <<EOF
-
 # Set initial hostname
 echo "$HOSTNAME" > /etc/hostname
 
@@ -53,13 +79,13 @@ echo "$HOSTNAME" > /etc/hostname
 ln -s /usr/share/zoneinfo/Europe/Warsaw /etc/localtime
 
 # Set initial locale
-locale > /etc/locale.conf
-sed -i '/^#en_GB.UTF-8 UTF-8/s/^#//' /etc/locale.conf
-sed -i '/^#en_GB ISO-8859-1/s/^#//' /etc/locale.conf
-sed -i '/^#en_US.UTF-8 UTF-8/s/^#//' /etc/locale.conf
-sed -i '/^#en_US ISO-8859-1/s/^#//' /etc/locale.conf
-sed -i '/^#pl_PL.UTF-8 UTF-8/s/^#//' /etc/locale.conf
-sed -i '/^#pl_PL ISO-8859-2/s/^#//' /etc/locale.conf
+echo LANG=pl_PL.UTF-8 > /etc/locale.conf
+sed -i '/^#en_GB.UTF-8 UTF-8/s/^#//' /etc/locale.gen
+sed -i '/^#en_GB ISO-8859-1/s/^#//' /etc/locale.gen
+sed -i '/^#en_US.UTF-8 UTF-8/s/^#//' /etc/locale.gen
+sed -i '/^#en_US ISO-8859-1/s/^#//' /etc/locale.gen
+sed -i '/^#pl_PL.UTF-8 UTF-8/s/^#//' /etc/locale.gen
+sed -i '/^#pl_PL ISO-8859-2/s/^#//' /etc/locale.gen
 locale-gen
 
 # Set locale
@@ -76,14 +102,14 @@ END
 mkinitcpio -p linux
 
 # Set root password to "root"
-echo root:root | chpasswd
+echo root:$ROOT_PASSWD | chpasswd
 
 # Install syslinux bootloader
 pacman -S syslinux --noconfirm
 syslinux-install_update -i -a -m
 
 # Update syslinux config with correct root disk
-curl -o https://projects.archlinux.org/archiso.git/plain/configs/releng/syslinux/splash.png /boot/syslinux/splash.png
+curl -o /boot/syslinux/splash.png https://projects.archlinux.org/archiso.git/plain/configs/releng/syslinux/splash.png
 cat <<END > /boot/syslinux/syslinux.cfg
 UI vesamenu.c32
 DEFAULT arch
@@ -144,16 +170,49 @@ END
 
 # Create user
 useradd -m -G wheel -s /bin/bash $USER
-echo $USER:$USER | chpasswd
+echo $USER:$USER_PASSWD | chpasswd
 
-# end section sent to chroot
-EOF
-
-arch-chroot /mnt /bin/bash <<EOF
 # Install sudo
 pacman -S --noconfirm sudo
 sed -i '/%wheel ALL=(ALL) ALL/s/^# //' /etc/sudoers
 
+# Install network manager
+pacman -S --noconfirm networkmanager
+systemctl enable NetworkManager
+
+# end section sent to chroot
+EOF
+fi
+# }}}
+
+if [ INSTALL_VIRTUALBOX_MODULES ] # {{{
+then
+arch-chroot /mnt /bin/bash <<EOF
+# Install vbox extensions and kernel modules
+pacman --noconfirm -S virtualbox-guest-utils virtualbox-guest-modules
+
+# Load vbox modules at boot
+cat > /etc/modules-load.d/virtualbox.conf << EOL
+vboxguest
+vboxsf
+vboxvideo
+EOL
+
+# Force load vbox modules now
+while read module
+  do modprobe "$module"
+done < /etc/modules-load.d/virtualbox.conf
+
+# Start vboxservice
+systemctl enable vboxservice
+systemctl start vboxservice
+EOF
+fi
+# }}}
+
+if [ INSTALL_YAOURT ] # {{{
+then
+arch-chroot /mnt /bin/bash <<EOF
 # Install yaourt
 pushd /tmp
 cat <<END | sudo -u $USER bash
@@ -176,7 +235,13 @@ makepkg -s --noconfirm
 END
 pacman -U --noconfirm yaourt/yaourt*.tar.xz
 popd
+EOF
+fi
+# }}}
 
+if [ INSTALL_I3_WM ] # {{{
+then
+arch-chroot /mnt /bin/bash <<EOF
 # Install xorg-server
 pacman -S --noconfirm - <<END
 xorg-server
@@ -211,19 +276,41 @@ i3status
 i3lock
 END
 
+EOF
+fi
+# }}}
+
+if [ INSTALL_BASIC_APPS ] # {{{
+then
+arch-chroot /mnt /bin/bash <<EOF
 # Install basic apps
 pacman -S --noconfirm - <<END
+network-manager-applet
 gvim
+lxappearance
 kdebase-konsole
 kdebase-dolphin
+kde-l10-pl
 firefox
 firefox-i18n-pl
+gst-plugins-good
+gst-libav
 END
 
-
+# TODO
+#ttf-win7-fonts
+#ttf-ms-fonts
 EOF
+fi
+# }}}
 
+if [ MOUNT_PARTITIONS ] # {{{
+then
 # Unmount
 umount -R /mnt
+fi
+# }}}
 
 echo "Done! Unmount the CD, then type 'reboot'."
+
+# vim: fdm=marker
