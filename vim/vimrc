@@ -6,7 +6,6 @@
 " - http://www.vimninjas.com/2012/08/26/10-vim-color-schemes-you-need-to-own/
 " - https://github.com/haya14busa/dotfiles/blob/master/.vimrc
 
-" Packages {{{
 " Startup {{{
 " Note: Skip initialization for vim-tiny or vim-small.
 if !1 | finish | endif
@@ -22,6 +21,18 @@ if !1 | finish | endif
 " endif
 
 "}}}
+
+" NeoBundle {{{
+if ! isdirectory(expand('~/.vim/bundle'))
+  echon "Installing neobundle.vim..."
+  silent call mkdir(expand('~/.vim/bundle'), 'p')
+  silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
+  echo "done."
+  if v:shell_error
+    echoerr "neobundle.vim installation has failed!"
+    finish
+  endif
+endif
 
 if has('vim_starting')
  set nocompatible
