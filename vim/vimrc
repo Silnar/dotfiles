@@ -46,7 +46,7 @@ NeoBundle 'cocopon/iceberg.vim'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tommcdo/vim-exchange'
-NeoBundle 'Gundo'
+NeoBundle 'sjl/gundo.vim'
 NeoBundle 'godlygeek/tabular'
 
 NeoBundle 'Shougo/vimfiler.vim'
@@ -66,6 +66,16 @@ NeoBundleLazy 'taskpaper.vim'
 NeoBundleLazy 'bitc/vim-hdevtools'
 NeoBundleLazy 'ujihisa/neco-ghc'
 NeoBundleLazy 'bitc/lushtags'
+" sjl/gundo.vim" {{{
+if neobundle#tap('gundo.vim')
+    call neobundle#config({
+        \ "autoload": {
+        \   "commands": ['GundoToggle'],
+        \}})
+    nnoremap <Leader>g :<C-u>GundoToggle<CR>
+    call neobundle#untap()
+endif
+"}}}
 
 call neobundle#end()
 
