@@ -52,6 +52,7 @@ NeoBundle 'godlygeek/tabular'
 NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/context_filetype.vim'
+NeoBundle 'Shougo/unite-outline'
 if !has("nvim")
   NeoBundle 'Shougo/neocomplete.vim'
 endif
@@ -59,7 +60,6 @@ NeoBundle 'Shougo/neosnippet'
 NeoBundle 'honza/vim-snippets'
 NeoBundleLazy 'Rip-Rip/clang_complete'
 
-NeoBundle 'Tagbar'
 NeoBundle 'Syntastic'
 NeoBundle 'tComment'
 NeoBundle 'tpope/vim-fugitive'
@@ -222,7 +222,7 @@ nnoremap <silent> [unite]g :<C-u>Unite grep:.<CR>
 nmap <Leader>e :VimFilerExplorer<CR>
 
 " Outline
-nmap <Leader>o :TagbarToggle<CR>
+nmap <Leader>o :Unite outline<CR>
 
 " Run Gundo
 nmap <Leader>u :GundoToggle<CR>
