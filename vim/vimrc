@@ -69,7 +69,7 @@ NeoBundle 'cocopon/iceberg.vim'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tommcdo/vim-exchange'
-NeoBundle 'sjl/gundo.vim'
+NeoBundleLazy 'sjl/gundo.vim'
 NeoBundle 'godlygeek/tabular'
 
 NeoBundle 'Shougo/vimfiler.vim'
@@ -93,16 +93,6 @@ NeoBundleLazy 'bitc/vim-hdevtools'
 NeoBundleLazy 'ujihisa/neco-ghc'
 NeoBundleLazy 'bitc/lushtags'
 NeoBundleLazy 'idris-hackers/idris-vim'
-" sjl/gundo.vim" {{{
-if neobundle#tap('gundo.vim')
-    call neobundle#config({
-        \ "autoload": {
-        \   "commands": ['GundoToggle'],
-        \}})
-    nnoremap <Leader>g :<C-u>GundoToggle<CR>
-    call neobundle#untap()
-endif
-"}}}
 
 call neobundle#end()
 
@@ -318,6 +308,17 @@ if neobundle#tap('vimproc')
     \   'mac'     : 'make -f make_mac.mak',
     \   'unix'    : 'make -f make_unix.mak',
     \   },
+    \ })
+  call neobundle#untap()
+endif
+"}}}
+
+" sjl/gundo.vim" {{{
+if neobundle#tap('gundo.vim')
+  call neobundle#config({
+    \ "autoload": {
+    \   "commands": ['GundoToggle'],
+    \   }
     \ })
   call neobundle#untap()
 endif
