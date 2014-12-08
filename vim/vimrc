@@ -7,8 +7,21 @@
 " - https://github.com/haya14busa/dotfiles/blob/master/.vimrc
 
 " Packages {{{
+" Startup {{{
 " Note: Skip initialization for vim-tiny or vim-small.
 if !1 | finish | endif
+
+" Echo startup time on starup
+" if has('vim_starting') && has('reltime')
+"   " Shell: vim --startuptime filename -q; vim filename
+"   " Shell: vim --cmd 'profile start profile.txt' --cmd 'profile file $HOME/.vimrc' +q && vim profile.txt
+"
+"   let s:startuptime = reltime()
+"   autocmd VimEnter * let s:startuptime = reltime(s:startuptime) | redraw
+"   \ | echomsg 'startuptime: ' . reltimestr(s:startuptime)
+" endif
+
+"}}}
 
 if has('vim_starting')
  set nocompatible
