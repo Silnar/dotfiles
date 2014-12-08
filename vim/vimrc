@@ -51,13 +51,14 @@ NeoBundle 'godlygeek/tabular'
 
 NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/context_filetype.vim'
 NeoBundle 'Shougo/unite-outline'
 if !has("nvim")
   NeoBundle 'Shougo/neocomplete.vim'
 endif
 NeoBundle 'Shougo/neosnippet'
-NeoBundle 'honza/vim-snippets'
+NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'Shougo/context_filetype.vim'
+" NeoBundle 'honza/vim-snippets'
 NeoBundleLazy 'Rip-Rip/clang_complete'
 
 NeoBundle 'Syntastic'
