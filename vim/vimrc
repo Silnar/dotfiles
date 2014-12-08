@@ -45,7 +45,6 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Recommended to install
-" After install, turn shell ~/.vim/bundle/vimproc, (n,g)make -f your_machines_makefile
 NeoBundle 'Shougo/vimproc'
 
 
@@ -307,6 +306,24 @@ autocmd Filetype taskpaper setlocal ts=2 sts=2 sw=2 ai
 " Remove trailing whitespaces on write
 autocmd BufWritePre * :%s/\s\+$//e
 " }}}
+
+" Plugin settings {{{
+
+" shougo/vimproc "{{{
+if neobundle#tap('vimproc')
+  call neobundle#config({
+    \ 'build' : {
+    \   'windows' : 'make -f make_mingw32.mak',
+    \   'cygwin'  : 'make -f make_cygwin.mak',
+    \   'mac'     : 'make -f make_mac.mak',
+    \   'unix'    : 'make -f make_unix.mak',
+    \   },
+    \ })
+  call neobundle#untap()
+endif
+"}}}
+
+"}}}
 
 " VimFiler {{{
 let g:vimfiler_as_default_explorer = 1
