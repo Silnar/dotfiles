@@ -107,8 +107,6 @@ call neobundle#end()
 
 filetype plugin indent on
 
-NeoBundleCheck
-
 au FileType c,cpp,objc,objcpp NeoBundleSource clang_complete
 au FileType haskell NeoBundleSource vim-hdevtools neco-ghc lushtags
 au FileType taskpaper NeoBundleSource taskpaper.vim
@@ -492,5 +490,15 @@ let g:clang_complete_auto = 0
 let g:clang_auto_select = 0
 "let g:clang_use_library = 1
 " }}}
+
+" Finally {{{
+NeoBundleCheck
+
+if !has('vim_starting')
+  call neobundle#call_hook('on_source')
+endif
+
+set secure
+"}}}
 
 " vim:foldmethod=marker
