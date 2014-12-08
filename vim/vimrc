@@ -69,6 +69,7 @@ NeoBundleLazy 'taskpaper.vim'
 NeoBundleLazy 'bitc/vim-hdevtools'
 NeoBundleLazy 'ujihisa/neco-ghc'
 NeoBundleLazy 'bitc/lushtags'
+NeoBundleLazy 'idris-hackers/idris-vim'
 " sjl/gundo.vim" {{{
 if neobundle#tap('gundo.vim')
     call neobundle#config({
@@ -89,6 +90,7 @@ NeoBundleCheck
 au FileType c,cpp,objc,objcpp NeoBundleSource clang_complete
 au FileType haskell NeoBundleSource vim-hdevtools neco-ghc lushtags
 au FileType taskpaper NeoBundleSource taskpaper.vim
+au BufReadPre *.idr NeoBundleSource idris-vim
 " }}}
 
 " Vim options {{{
