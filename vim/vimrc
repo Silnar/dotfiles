@@ -39,60 +39,69 @@ if has('vim_starting')
   set runtimepath& runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
+function! s:load_bundles() "{{{
+  " Let NeoBundle manage NeoBundle
+  NeoBundleFetch 'Shougo/neobundle.vim'
+
+  " Recommended to install
+  NeoBundle 'Shougo/vimproc'
+
+
+  NeoBundle 'morhetz/gruvbox'
+  " NeoBundle 'zeis/vim-kolor'
+  " NeoBundle 'Zenburn'
+  " NeoBundle 'synic.vim'
+  NeoBundle 'github-theme'
+  " NeoBundle 'altercation/vim-colors-solarized'
+  " NeoBundle 'twilight'
+  " NeoBundle 'Wombat'
+  " NeoBundle 'noctu.vim'
+  " NeoBundle 'vylight'
+  " NeoBundle 'vydark'
+  NeoBundle 'blerins/flattown'
+  NeoBundle 'vim-scripts/less.vim'
+  NeoBundle 'vim-scripts/strange'
+  " NeoBundle 'gosukiwi/vim-atom-dark'
+  " NeoBundle 'lsdr/monokai'
+  NeoBundle 'cocopon/iceberg.vim'
+
+  NeoBundle 'tpope/vim-unimpaired'
+  NeoBundle 'tpope/vim-surround'
+  NeoBundle 'tommcdo/vim-exchange'
+  NeoBundleLazy 'sjl/gundo.vim'
+  NeoBundle 'godlygeek/tabular'
+
+  NeoBundle 'Shougo/vimfiler.vim'
+  NeoBundle 'Shougo/unite.vim'
+  NeoBundle 'Shougo/unite-outline'
+  if !has("nvim")
+    NeoBundle 'Shougo/neocomplete.vim'
+  endif
+  NeoBundle 'Shougo/neosnippet'
+  NeoBundle 'Shougo/neosnippet-snippets'
+  NeoBundle 'Shougo/context_filetype.vim'
+  " NeoBundle 'honza/vim-snippets'
+  NeoBundleLazy 'Rip-Rip/clang_complete'
+
+  NeoBundle 'Syntastic'
+  NeoBundle 'tComment'
+  NeoBundle 'tpope/vim-fugitive'
+
+  NeoBundleLazy 'taskpaper.vim'
+  NeoBundleLazy 'bitc/vim-hdevtools'
+  NeoBundleLazy 'ujihisa/neco-ghc'
+  NeoBundleLazy 'bitc/lushtags'
+  NeoBundleLazy 'idris-hackers/idris-vim'
+endfunction "}}}
+
 call neobundle#begin(expand('~/.vim/bundle/'))
 
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-" Recommended to install
-NeoBundle 'Shougo/vimproc'
-
-
-NeoBundle 'morhetz/gruvbox'
-" NeoBundle 'zeis/vim-kolor'
-" NeoBundle 'Zenburn'
-" NeoBundle 'synic.vim'
-NeoBundle 'github-theme'
-" NeoBundle 'altercation/vim-colors-solarized'
-" NeoBundle 'twilight'
-" NeoBundle 'Wombat'
-" NeoBundle 'noctu.vim'
-" NeoBundle 'vylight'
-" NeoBundle 'vydark'
-NeoBundle 'blerins/flattown'
-NeoBundle 'vim-scripts/less.vim'
-NeoBundle 'vim-scripts/strange'
-" NeoBundle 'gosukiwi/vim-atom-dark'
-" NeoBundle 'lsdr/monokai'
-NeoBundle 'cocopon/iceberg.vim'
-
-NeoBundle 'tpope/vim-unimpaired'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tommcdo/vim-exchange'
-NeoBundleLazy 'sjl/gundo.vim'
-NeoBundle 'godlygeek/tabular'
-
-NeoBundle 'Shougo/vimfiler.vim'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/unite-outline'
-if !has("nvim")
-  NeoBundle 'Shougo/neocomplete.vim'
+if neobundle#has_fresh_cache()
+  NeoBundleLoadCache
+else
+  call s:load_bundles()
+  NeoBundleSaveCache
 endif
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/context_filetype.vim'
-" NeoBundle 'honza/vim-snippets'
-NeoBundleLazy 'Rip-Rip/clang_complete'
-
-NeoBundle 'Syntastic'
-NeoBundle 'tComment'
-NeoBundle 'tpope/vim-fugitive'
-
-NeoBundleLazy 'taskpaper.vim'
-NeoBundleLazy 'bitc/vim-hdevtools'
-NeoBundleLazy 'ujihisa/neco-ghc'
-NeoBundleLazy 'bitc/lushtags'
-NeoBundleLazy 'idris-hackers/idris-vim'
 
 call neobundle#end()
 
