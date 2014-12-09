@@ -279,7 +279,6 @@ set ttyfast
 
 " Colorscheme
 colorscheme gruvbox
-set background=dark
 
 " Highlight current line
 set cursorline
