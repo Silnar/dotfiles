@@ -343,9 +343,6 @@ set foldtext=NeatFoldText()
 " }}}
 
 " Global mappings {{{
-" Explore
-nmap <Leader>e :VimFilerExplorer<CR>
-
 " Run Gundo
 nmap <Leader>u :GundoToggle<CR>
 
@@ -530,6 +527,8 @@ if neobundle#tap('vimfiler.vim')
       let g:vimfiler_file_icon = '-'
       let g:vimfiler_marked_file_icon = '*'
     endfunction "}}}
+
+  nmap <Leader>e :VimFilerExplorer<CR>
 
   call neobundle#untap()
 endif
