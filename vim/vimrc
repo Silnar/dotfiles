@@ -79,11 +79,21 @@ function! s:load_bundles() "{{{
   NeoBundleLazy 'Shougo/vimfiler.vim'
   NeoBundle 'Shougo/unite.vim'
   NeoBundle 'Shougo/unite-outline'
-  if has("lua") && v:version >= 703
-    NeoBundleLazy 'Shougo/neocomplete.vim'
-  else
-    NeoBundleLazy 'Shougo/neocomplcache.vim'
-  endif
+
+  NeoBundleLazy 'Shougo/neocomplete.vim', {
+  \  'disabled' : !(has('lua') && v:version >= 703),
+  \  'autoload' : {
+  \    'insert' : 1,
+  \  },
+  \}
+
+  NeoBundleLazy 'Shougo/neocomplcache.vim', {
+  \  'disabled' : has('lua') && v:version >= 703,
+  \  'autoload' : {
+  \    'insert' : 1,
+  \  },
+  \}
+
   NeoBundleLazy 'Shougo/neosnippet.vim', {
   \  'depends' : [
   \    'Shougo/neosnippet-snippets',
@@ -482,12 +492,6 @@ endif
 
 " Shougo/neocomplete.vim"{{{
 if neobundle#tap('neocomplete.vim')
-    call neobundle#config({
-        \   'depends' : ['Shougo/neosnippet'],
-        \   'autoload' : {
-        \     'insert' : 1,
-        \   }
-        \ })
     function! neobundle#tapped.hooks.on_source(bundle)
         " Use smartcase.
         let g:neocomplete#enable_smart_case = 1
@@ -547,11 +551,6 @@ endif
 
 " Shougo/neocomplcache.vim"{{{
 if neobundle#tap('neocomplcache.vim')
-    call neobundle#config({
-        \   'autoload' : {
-        \     'insert' : 1,
-        \   }
-        \ })
     function! neobundle#tapped.hooks.on_source(bundle)
         let g:neocomplcache_enable_smart_case = 1
     endfunction
