@@ -301,7 +301,7 @@ endif
 set ttyfast
 
 " Colorscheme
-colorscheme gruvbox
+colorscheme mrkn256
 
 " Highlight current line
 set cursorline
