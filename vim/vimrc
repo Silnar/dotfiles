@@ -110,7 +110,6 @@ call neobundle#end()
 
 filetype plugin indent on
 
-au FileType c,cpp,objc,objcpp NeoBundleSource clang_complete
 au FileType haskell NeoBundleSource vim-hdevtools neco-ghc lushtags
 au FileType taskpaper NeoBundleSource taskpaper.vim
 " }}}
@@ -545,6 +544,34 @@ if neobundle#tap('gundo.vim')
 endif
 "}}}
 
+" Rip-Rip/clang_complete {{{
+if neobundle#tap('clang_complete')
+  call neobundle#config({
+    \ "autoload": {
+    \   "filetypes": ['c', 'cpp', 'objc', 'objcpp'],
+    \   }
+    \ })
+
+  if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+  endif
+  let g:neocomplete#force_overwrite_completefunc = 1
+  let g:neocomplete#force_omni_input_patterns.c =
+        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+  let g:neocomplete#force_omni_input_patterns.cpp =
+        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+  let g:neocomplete#force_omni_input_patterns.objc =
+        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+  let g:neocomplete#force_omni_input_patterns.objcpp =
+        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+  let g:clang_complete_auto = 0
+  let g:clang_auto_select = 0
+  "let g:clang_use_library = 1
+
+  call neobundle#untap()
+endif
+" }}}
+
 " fatih/vim-go {{{
 if neobundle#tap('vim-go')
   call neobundle#config({
@@ -591,24 +618,6 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 if has('conceal')
   set conceallevel=2 concealcursor=i
 endif
-" }}}
-
-" Clang Complete {{{
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_overwrite_completefunc = 1
-let g:neocomplete#force_omni_input_patterns.c =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#force_omni_input_patterns.cpp =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:neocomplete#force_omni_input_patterns.objc =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#force_omni_input_patterns.objcpp =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:clang_complete_auto = 0
-let g:clang_auto_select = 0
-"let g:clang_use_library = 1
 " }}}
 
 " Finally {{{
