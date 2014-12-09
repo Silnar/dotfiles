@@ -113,7 +113,6 @@ filetype plugin indent on
 au FileType c,cpp,objc,objcpp NeoBundleSource clang_complete
 au FileType haskell NeoBundleSource vim-hdevtools neco-ghc lushtags
 au FileType taskpaper NeoBundleSource taskpaper.vim
-au BufReadPre *.idr NeoBundleSource idris-vim
 " }}}
 
 " Vim options {{{
@@ -556,6 +555,17 @@ if neobundle#tap('vim-go')
   call neobundle#untap()
 endif
 "}}}
+
+" idris-hackers/idris-vim {{{
+if neobundle#tap('idris-vim')
+  call neobundle#config({
+    \ "autoload": {
+    \   "filetypes": ['idris'],
+    \   }
+    \ })
+  call neobundle#untap()
+endif
+" }}}
 
 "}}}
 
