@@ -44,6 +44,7 @@ endif
 
 " Define bundles {{{
 function! s:load_bundles()
+  " Libraries {{{
   NeoBundleFetch 'Shougo/neobundle.vim'
 
   NeoBundle 'Shougo/vimproc', {
@@ -54,7 +55,9 @@ function! s:load_bundles()
   \    'unix'    : 'make -f make_unix.mak',
   \  },
   \}
+  " }}}
 
+  " Colorschemes {{{
   NeoBundle 'morhetz/gruvbox'
   " NeoBundle 'zeis/vim-kolor'
   " NeoBundle 'Zenburn'
@@ -72,9 +75,13 @@ function! s:load_bundles()
   " NeoBundle 'gosukiwi/vim-atom-dark'
   " NeoBundle 'lsdr/monokai'
   NeoBundle 'cocopon/iceberg.vim'
+  " }}}
 
+  " Basic functionality extensions {{{
   NeoBundle 'tpope/vim-unimpaired'
+
   NeoBundle 'tpope/vim-surround'
+
   NeoBundle 'tommcdo/vim-exchange'
 
   NeoBundleLazy 'sjl/gundo.vim', {
@@ -82,8 +89,6 @@ function! s:load_bundles()
   \    "commands": ['GundoToggle'],
   \  }
   \}
-
-  NeoBundle 'godlygeek/tabular'
 
   NeoBundleLazy 'Shougo/vimfiler.vim', {
   \   'autoload' : {
@@ -105,10 +110,17 @@ function! s:load_bundles()
   \    'explorer' : 1,
   \   }
   \}
+  " }}}
 
+  " Utils {{{
   NeoBundle 'Shougo/unite.vim'
+
   NeoBundle 'Shougo/unite-outline'
 
+  NeoBundle 'godlygeek/tabular'
+  " }}}
+
+  " Writing {{{
   NeoBundleLazy 'Shougo/neocomplete.vim', {
   \  'disabled' : !(has('lua') && v:version >= 703),
   \  'autoload' : {
@@ -138,29 +150,33 @@ function! s:load_bundles()
   \}
   " 'honza/vim-snippets',
 
+  " }}}
+
+  " Programming utils {{{
+  NeoBundle 'Syntastic'
+
+  NeoBundle 'tComment'
+
+  NeoBundle 'tpope/vim-fugitive'
+  " }}}
+
+  " C/C++ {{{
   NeoBundleLazy 'Rip-Rip/clang_complete', {
   \  "autoload": {
   \    "filetypes": ['c', 'cpp', 'objc', 'objcpp'],
   \  }
   \}
+  " }}}
 
+  " Go {{{
   NeoBundleLazy 'fatih/vim-go', {
   \  "autoload": {
   \    "filetypes": ['go'],
   \  }
   \}
+  " }}}
 
-
-  NeoBundle 'Syntastic'
-  NeoBundle 'tComment'
-  NeoBundle 'tpope/vim-fugitive'
-
-  NeoBundleLazy 'taskpaper.vim', {
-  \  "autoload": {
-  \    "filetypes": ['taskpaper'],
-  \  }
-  \}
-
+  " Haskell {{{
   NeoBundleLazy 'bitc/vim-hdevtools', {
   \  "autoload": {
   \    "filetypes": ['haskell'],
@@ -176,12 +192,23 @@ function! s:load_bundles()
   \    "filetypes": ['haskell'],
   \  }
   \}
+  " }}}
+
+  " Idris {{{
   NeoBundleLazy 'idris-hackers/idris-vim', {
   \  "autoload": {
   \    "filetypes": ['idris'],
   \  }
   \}
+  " }}}
 
+  " Taskpaper {{{
+  NeoBundleLazy 'taskpaper.vim', {
+  \  "autoload": {
+  \    "filetypes": ['taskpaper'],
+  \  }
+  \}
+  " }}}
 endfunction
 "}}}
 
