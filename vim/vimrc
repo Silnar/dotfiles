@@ -122,7 +122,10 @@ function! s:load_bundles()
 
   NeoBundleLazy 'Shougo/unite-outline'
 
-  NeoBundle 'godlygeek/tabular'
+  NeoBundleLazy 'godlygeek/tabular', {
+  \  'commands' : [
+  \    { 'name' : 'Tabularize' }],
+  \}
   " }}}
 
   " Writing {{{
