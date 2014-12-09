@@ -343,9 +343,6 @@ set foldtext=NeatFoldText()
 " }}}
 
 " Global mappings {{{
-" Run Gundo
-nmap <Leader>u :GundoToggle<CR>
-
 " Open new tab
 nmap <Leader>t :tabnew<CR>
 
@@ -611,6 +608,14 @@ endif
 "
 " call unite#custom#action('cdable', 'vimfilerexplorer', s:vimfilerexplorer)
 " }}}
+
+" sjl/gundo.vim {{{
+if neobundle#tap('gundo.vim')
+  nmap <Leader>u :GundoToggle<CR>
+
+  call neobundle#untap()
+endif
+"}}}
 
 " TComment {{{
 if neobundle#tap('tComment')
