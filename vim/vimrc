@@ -79,10 +79,21 @@ function! s:load_bundles() "{{{
   else
     NeoBundleLazy 'Shougo/neocomplcache.vim'
   endif
-  NeoBundle 'Shougo/neosnippet'
-  NeoBundle 'Shougo/neosnippet-snippets'
-  NeoBundle 'Shougo/context_filetype.vim'
-  " NeoBundle 'honza/vim-snippets'
+  NeoBundleLazy 'Shougo/neosnippet.vim', {
+  \  'depends' : [
+  \    'Shougo/neosnippet-snippets',
+  \    'Shougo/context_filetype.vim',
+  \  ],
+  \  'insert' : 1,
+  \  'filetypes' : 'snippet',
+  \  'unite_sources' : [
+  \    'neosnippet',
+  \    'neosnippet/user',
+  \    'neosnippet/runtime',
+  \  ],
+  \}
+  " 'honza/vim-snippets',
+
   NeoBundleLazy 'Rip-Rip/clang_complete'
   NeoBundleLazy 'fatih/vim-go'
 
@@ -441,9 +452,47 @@ endif
 " call unite#custom#action('cdable', 'vimfilerexplorer', s:vimfilerexplorer)
 " }}}
 
+" Shougo/neosnippet.vim "{{{
+if neobundle#tap('neosnippet.vim')
+    function! neobundle#tapped.hooks.on_source(bundle) "{{{
+        " For snippet_complete marker.
+        if has('conceal')
+            set conceallevel=2 concealcursor=i
+        endif
+
+        " Enable snipMate compatibility feature.
+        " let g:neosnippet#enable_snipmate_compatibility = 1
+
+        " Remove snippets marker automatically
+        " Autocmd InsertLeave * :NeoSnippetClearMarkers
+
+        " Prioratise snippet
+        " call neocomplete#custom#source('neosnippet', 'rank', 400)
+
+        " snoremap <Esc> <Esc>:NeoSnippetClearMarkers<CR>
+    endfunction "}}}
+
+    " Plugin key-mappings.
+    imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+    " SuperTab like snippets behavior.
+    imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+          \ "\<Plug>(neosnippet_expand_or_jump)"
+          \: pumvisible() ? "\<C-n>" : "\<TAB>"
+    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+          \ "\<Plug>(neosnippet_expand_or_jump)"
+          \: "\<TAB>"
+
+  call neobundle#untap()
+endif
+" }}}
+
 " Shougo/neocomplete.vim"{{{
 if neobundle#tap('neocomplete.vim')
     call neobundle#config({
+        \   'depends' : ['Shougo/neosnippet'],
         \   'autoload' : {
         \     'insert' : 1,
         \   }
@@ -594,30 +643,10 @@ if neobundle#tap('idris-vim')
 endif
 " }}}
 
-"}}}
-
 " Neco-GHC {{{
 let g:necoghc_enable_detailed_browse = 1
 " }}}
 
-" Neo Snippet {{{
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-      \ "\<Plug>(neosnippet_expand_or_jump)"
-      \: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-      \ "\<Plug>(neosnippet_expand_or_jump)"
-      \: "\<TAB>"
-
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
 " }}}
 
 " Finally {{{
