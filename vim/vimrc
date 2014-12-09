@@ -84,6 +84,7 @@ function! s:load_bundles() "{{{
   NeoBundle 'Shougo/context_filetype.vim'
   " NeoBundle 'honza/vim-snippets'
   NeoBundleLazy 'Rip-Rip/clang_complete'
+  NeoBundleLazy 'fatih/vim-go'
 
   NeoBundle 'Syntastic'
   NeoBundle 'tComment'
@@ -531,6 +532,17 @@ if neobundle#tap('gundo.vim')
 endif
 "}}}
 
+" fatih/vim-go {{{
+if neobundle#tap('vim-go')
+  call neobundle#config({
+    \ "autoload": {
+    \   "filetypes": ['go'],
+    \   }
+    \ })
+  call neobundle#untap()
+endif
+"}}}
+
 "}}}
 
 " TComment {{{
@@ -542,10 +554,6 @@ let g:tcommentLineC = {
             \ 'commentstring': '// %s',
             \ 'replacements': g:tcomment#replacements_c
             \ }
-" }}}
-
-" Go {{{
-set rtp+=$GOROOT/misc/vim
 " }}}
 
 " Neco-GHC {{{
