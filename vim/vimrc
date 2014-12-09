@@ -22,7 +22,7 @@ if !1 | finish | endif
 
 "}}}
 
-" NeoBundle {{{
+" Install NeoBundle if not available {{{
 if ! isdirectory(expand('~/.vim/bundle'))
   echon "Installing neobundle.vim..."
   silent call mkdir(expand('~/.vim/bundle'), 'p')
@@ -33,14 +33,17 @@ if ! isdirectory(expand('~/.vim/bundle'))
     finish
   endif
 endif
+" }}}
 
+" Load NeoBundle plugin {{{
 if has('vim_starting')
   set nocompatible
   set runtimepath& runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
+" }}}
 
-function! s:load_bundles() "{{{
-  " Let NeoBundle manage NeoBundle
+" Define bundles {{{
+function! s:load_bundles()
   NeoBundleFetch 'Shougo/neobundle.vim'
 
   NeoBundle 'Shougo/vimproc', {
@@ -162,8 +165,10 @@ function! s:load_bundles() "{{{
   \  }
   \}
 
-endfunction "}}}
+endfunction
+"}}}
 
+" Load bundles {{{
 call neobundle#begin(expand('~/.vim/bundle/'))
 
 if neobundle#has_fresh_cache()
@@ -174,12 +179,12 @@ else
 endif
 
 call neobundle#end()
+" }}}
 
 filetype plugin indent on
 
 au FileType haskell NeoBundleSource vim-hdevtools neco-ghc lushtags
 au FileType taskpaper NeoBundleSource taskpaper.vim
-" }}}
 
 " Vim options {{{
 " Syntax highlighting
