@@ -120,7 +120,13 @@ function! s:load_bundles()
   \  'depends' : 'Shougo/neomru.vim',
   \}
 
-  NeoBundleLazy 'Shougo/unite-outline'
+  NeoBundleLazy 'Shougo/unite-outline', {
+  \  'autoload' : {
+  \    'unite_sources' : [
+  \      'outline'
+  \    ],
+  \  }
+  \}
 
   NeoBundleLazy 'godlygeek/tabular', {
   \  'commands' : [
