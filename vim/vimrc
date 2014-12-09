@@ -82,7 +82,27 @@ function! s:load_bundles() "{{{
 
   NeoBundle 'godlygeek/tabular'
 
-  NeoBundleLazy 'Shougo/vimfiler.vim'
+  NeoBundleLazy 'Shougo/vimfiler.vim', {
+  \   'autoload' : {
+  \    'commands' : [
+  \       { 'name' : 'VimFiler',
+  \         'complete' : 'customlist,vimfiler#complete' },
+  \       { 'name' : 'VimFilerTab',
+  \         'complete' : 'customlist,vimfiler#complete' },
+  \       { 'name' : 'VimFilerBufferDir',
+  \         'complete' : 'customlist,vimfiler#complete' },
+  \       { 'name' : 'VimFilerExplorer',
+  \         'complete' : 'customlist,vimfiler#complete' },
+  \       { 'name' : 'Edit',
+  \         'complete' : 'customlist,vimfiler#complete' },
+  \       { 'name' : 'Write',
+  \         'complete' : 'customlist,vimfiler#complete' },
+  \       'Read', 'Source'],
+  \    'mappings' : '<Plug>(vimfiler_',
+  \    'explorer' : 1,
+  \   }
+  \}
+
   NeoBundle 'Shougo/unite.vim'
   NeoBundle 'Shougo/unite-outline'
 
@@ -354,126 +374,6 @@ autocmd BufWritePre * :%s/\s\+$//e
 
 " Plugin settings {{{
 
-" Shougo/VimFiler {{{
-if neobundle#tap('vimfiler.vim')
-    " Config {{{
-    call neobundle#config({
-        \   'autoload' : {
-        \    'commands' : [
-        \       { 'name' : 'VimFiler',
-        \         'complete' : 'customlist,vimfiler#complete' },
-        \       { 'name' : 'VimFilerTab',
-        \         'complete' : 'customlist,vimfiler#complete' },
-        \       { 'name' : 'VimFilerBufferDir',
-        \         'complete' : 'customlist,vimfiler#complete' },
-        \       { 'name' : 'VimFilerExplorer',
-        \         'complete' : 'customlist,vimfiler#complete' },
-        \       { 'name' : 'Edit',
-        \         'complete' : 'customlist,vimfiler#complete' },
-        \       { 'name' : 'Write',
-        \         'complete' : 'customlist,vimfiler#complete' },
-        \       'Read', 'Source'],
-        \    'mappings' : '<Plug>(vimfiler_',
-        \    'explorer' : 1,
-        \   }
-        \ })
-    " }}}
-    function! neobundle#tapped.hooks.on_source(bundle) "{{{
-      let g:vimfiler_as_default_explorer = 1
-
-      " Enable file operation commands.
-      " let g:vimfiler_safe_mode_by_default = 0
-
-      " Like Textmate icons.
-      let g:vimfiler_tree_leaf_icon = ' '
-      let g:vimfiler_tree_opened_icon = '▾'
-      let g:vimfiler_tree_closed_icon = '▸'
-      let g:vimfiler_file_icon = '-'
-      let g:vimfiler_marked_file_icon = '*'
-    endfunction "}}}
-
-  call neobundle#untap()
-endif
-
-" autocmd FileType vimfiler nmap <buffer><silent> <Enter>
-"       \ :<C-u>execute "normal " . vimfiler#mappings#smart_cursor_map(
-"       \  "\<Plug>(vimfiler_cd_file)",
-"       \  "\<Plug>(vimfiler_edit_file)")<CR>
-"
-" autocmd FileType vimfiler nmap <buffer><silent> <2-LeftMouse> :call <SID>vimfiler_on_double_click()<CR>
-" function! s:vimfiler_on_double_click() "{{{
-"   let context = vimfiler#get_context()
-"
-"   if context.explorer
-"     let mapping = vimfiler#mappings#smart_cursor_map(
-"           \ "\<Plug>(vimfiler_expand_tree)",
-"           \ "\<Plug>(vimfiler_edit_file)"
-"           \ )
-"   else
-"     let mapping = vimfiler#mappings#smart_cursor_map(
-"           \ "\<Plug>(vimfiler_cd_file)",
-"           \ "\<Plug>(vimfiler_edit_file)"
-"           \ )
-"   endif
-"
-"   execute "normal " . mapping
-" endfunction"}}}
-"
-" let s:vimfilerexplorer = {
-"       \ 'description' : 'open vimfiler explorer here',
-"       \ }
-" function! s:vimfilerexplorer.func(candidate) "{{{
-"   if !exists(':VimFilerExplorer')
-"     echo 'vimfiler is not installed.'
-"     return
-"   endif
-"
-"   if !s:check_is_directory(a:candidate.action__directory)
-"     return
-"   endif
-"
-"   execute 'VimFilerExplorer' escape(a:candidate.action__directory, '\ ')
-"
-"   if has_key(a:candidate, 'action__path')
-"         \ && a:candidate.action__directory !=# a:candidate.action__path
-"     " Move cursor.
-"     call vimfiler#mappings#search_cursor(a:candidate.action__path)
-"     call s:move_vimfiler_cursor(a:candidate)
-"   endif
-" endfunction"}}}
-"
-" function! s:move_vimfiler_cursor(candidate) "{{{
-"   if &filetype !=# 'vimfiler'
-"     return
-"   endif
-"
-"   if has_key(a:candidate, 'action__path')
-"         \ && a:candidate.action__directory !=# a:candidate.action__path
-"     " Move cursor.
-"     call vimfiler#mappings#search_cursor(a:candidate.action__path)
-"   endif
-" endfunction"}}}
-"
-" function! s:check_is_directory(directory) "{{{
-"   if !isdirectory(a:directory)
-"     let yesno = input(printf(
-"           \ 'Directory path "%s" is not exists. Create? : ', a:directory))
-"     redraw
-"     if yesno !~ '^y\%[es]$'
-"       echo 'Canceled.'
-"       return 0
-"     endif
-"
-"     call mkdir(a:directory, 'p')
-"   endif
-"
-"   return 1
-" endfunction
-" "}}}
-"
-" call unite#custom#action('cdable', 'vimfilerexplorer', s:vimfilerexplorer)
-" }}}
-
 " Shougo/neosnippet.vim "{{{
 if neobundle#tap('neosnippet.vim')
     function! neobundle#tapped.hooks.on_source(bundle) "{{{
@@ -578,6 +478,104 @@ if neobundle#tap('neocomplcache.vim')
     call neobundle#untap()
 endif
 "}}}
+
+" Shougo/VimFiler {{{
+if neobundle#tap('vimfiler.vim')
+    function! neobundle#tapped.hooks.on_source(bundle) "{{{
+      let g:vimfiler_as_default_explorer = 1
+
+      " Enable file operation commands.
+      " let g:vimfiler_safe_mode_by_default = 0
+
+      " Like Textmate icons.
+      let g:vimfiler_tree_leaf_icon = ' '
+      let g:vimfiler_tree_opened_icon = '▾'
+      let g:vimfiler_tree_closed_icon = '▸'
+      let g:vimfiler_file_icon = '-'
+      let g:vimfiler_marked_file_icon = '*'
+    endfunction "}}}
+
+  call neobundle#untap()
+endif
+
+" autocmd FileType vimfiler nmap <buffer><silent> <Enter>
+"       \ :<C-u>execute "normal " . vimfiler#mappings#smart_cursor_map(
+"       \  "\<Plug>(vimfiler_cd_file)",
+"       \  "\<Plug>(vimfiler_edit_file)")<CR>
+"
+" autocmd FileType vimfiler nmap <buffer><silent> <2-LeftMouse> :call <SID>vimfiler_on_double_click()<CR>
+" function! s:vimfiler_on_double_click() "{{{
+"   let context = vimfiler#get_context()
+"
+"   if context.explorer
+"     let mapping = vimfiler#mappings#smart_cursor_map(
+"           \ "\<Plug>(vimfiler_expand_tree)",
+"           \ "\<Plug>(vimfiler_edit_file)"
+"           \ )
+"   else
+"     let mapping = vimfiler#mappings#smart_cursor_map(
+"           \ "\<Plug>(vimfiler_cd_file)",
+"           \ "\<Plug>(vimfiler_edit_file)"
+"           \ )
+"   endif
+"
+"   execute "normal " . mapping
+" endfunction"}}}
+"
+" let s:vimfilerexplorer = {
+"       \ 'description' : 'open vimfiler explorer here',
+"       \ }
+" function! s:vimfilerexplorer.func(candidate) "{{{
+"   if !exists(':VimFilerExplorer')
+"     echo 'vimfiler is not installed.'
+"     return
+"   endif
+"
+"   if !s:check_is_directory(a:candidate.action__directory)
+"     return
+"   endif
+"
+"   execute 'VimFilerExplorer' escape(a:candidate.action__directory, '\ ')
+"
+"   if has_key(a:candidate, 'action__path')
+"         \ && a:candidate.action__directory !=# a:candidate.action__path
+"     " Move cursor.
+"     call vimfiler#mappings#search_cursor(a:candidate.action__path)
+"     call s:move_vimfiler_cursor(a:candidate)
+"   endif
+" endfunction"}}}
+"
+" function! s:move_vimfiler_cursor(candidate) "{{{
+"   if &filetype !=# 'vimfiler'
+"     return
+"   endif
+"
+"   if has_key(a:candidate, 'action__path')
+"         \ && a:candidate.action__directory !=# a:candidate.action__path
+"     " Move cursor.
+"     call vimfiler#mappings#search_cursor(a:candidate.action__path)
+"   endif
+" endfunction"}}}
+"
+" function! s:check_is_directory(directory) "{{{
+"   if !isdirectory(a:directory)
+"     let yesno = input(printf(
+"           \ 'Directory path "%s" is not exists. Create? : ', a:directory))
+"     redraw
+"     if yesno !~ '^y\%[es]$'
+"       echo 'Canceled.'
+"       return 0
+"     endif
+"
+"     call mkdir(a:directory, 'p')
+"   endif
+"
+"   return 1
+" endfunction
+" "}}}
+"
+" call unite#custom#action('cdable', 'vimfilerexplorer', s:vimfilerexplorer)
+" }}}
 
 " TComment {{{
 if neobundle#tap('tComment')
