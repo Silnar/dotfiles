@@ -126,6 +126,8 @@ function! s:load_bundles()
   \  'depends' : 'Shougo/neomru.vim',
   \}
 
+  NeoBundleLazy 'ujihisa/unite-colorscheme'
+
   NeoBundleLazy 'osyo-manga/unite-fold', {
   \  'autoload' : {
   \    'unite_sources' : [
