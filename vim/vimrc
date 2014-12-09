@@ -65,22 +65,29 @@ function! s:load_bundles()
 
   " Colorschemes {{{
   NeoBundle 'morhetz/gruvbox'
-  " NeoBundle 'zeis/vim-kolor'
-  " NeoBundle 'Zenburn'
-  " NeoBundle 'synic.vim'
+  NeoBundle 'zeis/vim-kolor'
+  NeoBundle 'Zenburn'
+  NeoBundle 'synic.vim'
   NeoBundle 'github-theme'
-  " NeoBundle 'altercation/vim-colors-solarized'
-  " NeoBundle 'twilight'
-  " NeoBundle 'Wombat'
-  " NeoBundle 'noctu.vim'
-  " NeoBundle 'vylight'
-  " NeoBundle 'vydark'
+  NeoBundle 'vim-scripts/wombat256.vim'
+  NeoBundle 'jpo/vim-railscasts-theme'
   NeoBundle 'blerins/flattown'
   NeoBundle 'vim-scripts/less.vim'
   NeoBundle 'vim-scripts/strange'
-  " NeoBundle 'gosukiwi/vim-atom-dark'
-  " NeoBundle 'lsdr/monokai'
   NeoBundle 'cocopon/iceberg.vim'
+  NeoBundle 'vim-scripts/rdark'
+  NeoBundle 'djjcast/mirodark'
+  NeoBundle 'sjl/badwolf'
+  NeoBundle 'reedes/vim-colors-pencil'
+  NeoBundle 'jonathanfilip/vim-lucius'
+  NeoBundle 'w0ng/vim-hybrid'
+  NeoBundle 'nanotech/jellybeans.vim'
+  NeoBundle 'tomasr/molokai'
+  NeoBundle 'sickill/vim-monokai'
+  NeoBundle 'mrkn256.vim'
+  NeoBundle 'chriskempson/tomorrow-theme', {
+  \  'rtp': "~/.vim/bundle/tomorrow-theme/vim/",
+  \}
   " }}}
 
   " Basic functionality extensions {{{
