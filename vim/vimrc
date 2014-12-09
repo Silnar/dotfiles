@@ -352,20 +352,6 @@ nmap <Leader>u :GundoToggle<CR>
 " Open new tab
 nmap <Leader>t :tabnew<CR>
 
-" Write file
-nmap <C-S> :w<CR>
-nmap <Leader>w :w<CR>
-
-" Hide search highlight
-nmap <Leader>h :set hlsearch!<CR>
-
-" Show invisibles
-nmap <leader>l :set list!<CR>
-
-" Set background
-nmap <Leader>bd :set background=dark<CR>
-nmap <Leader>bl :set background=light<CR>
-
 " Edit preferences
 nmap <Leader>. :edit ~/.vimrc<CR>
 nmap <Leader>> :source ~/.vimrc<CR>
