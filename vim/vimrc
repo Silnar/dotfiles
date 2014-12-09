@@ -113,9 +113,14 @@ function! s:load_bundles()
   " }}}
 
   " Utils {{{
-  NeoBundle 'Shougo/unite.vim'
+  NeoBundle 'Shougo/unite.vim', {
+  \  'commands' : [
+  \    { 'name' : 'Unite',
+  \      'complete' : 'customlist,unite#complete_source'}],
+  \  'depends' : 'Shougo/neomru.vim',
+  \}
 
-  NeoBundle 'Shougo/unite-outline'
+  NeoBundleLazy 'Shougo/unite-outline'
 
   NeoBundle 'godlygeek/tabular'
   " }}}
