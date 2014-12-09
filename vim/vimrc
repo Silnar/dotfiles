@@ -115,7 +115,12 @@ function! s:load_bundles() "{{{
   \}
   " 'honza/vim-snippets',
 
-  NeoBundleLazy 'Rip-Rip/clang_complete'
+  NeoBundleLazy 'Rip-Rip/clang_complete', {
+  \  "autoload": {
+  \    "filetypes": ['c', 'cpp', 'objc', 'objcpp'],
+  \  }
+  \}
+
   NeoBundleLazy 'fatih/vim-go'
 
   NeoBundle 'Syntastic'
@@ -580,12 +585,6 @@ endif
 
 " Rip-Rip/clang_complete {{{
 if neobundle#tap('clang_complete')
-  call neobundle#config({
-    \ "autoload": {
-    \   "filetypes": ['c', 'cpp', 'objc', 'objcpp'],
-    \   }
-    \ })
-
   if !exists('g:neocomplete#force_omni_input_patterns')
     let g:neocomplete#force_omni_input_patterns = {}
   endif
