@@ -521,6 +521,20 @@ if neobundle#tap('neocomplcache.vim')
 endif
 "}}}
 
+" TComment {{{
+if neobundle#tap('tComment')
+  let g:tcomment#replacements_c = {
+            \     '/*': '#<{(|',
+            \     '*/': '|)}>#',
+            \ }
+  let g:tcommentLineC = {
+            \ 'commentstring': '// %s',
+            \ 'replacements': g:tcomment#replacements_c
+            \ }
+  call neobundle#untap()
+endif
+" }}}
+
 " sjl/gundo.vim" {{{
 if neobundle#tap('gundo.vim')
   call neobundle#config({
@@ -544,17 +558,6 @@ endif
 "}}}
 
 "}}}
-
-" TComment {{{
-let g:tcomment#replacements_c = {
-            \     '/*': '#<{(|',
-            \     '*/': '|)}>#',
-            \ }
-let g:tcommentLineC = {
-            \ 'commentstring': '// %s',
-            \ 'replacements': g:tcomment#replacements_c
-            \ }
-" }}}
 
 " Neco-GHC {{{
 let g:necoghc_enable_detailed_browse = 1
