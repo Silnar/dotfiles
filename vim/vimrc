@@ -175,7 +175,13 @@ function! s:load_bundles()
 
   NeoBundle 'tComment'
 
-  NeoBundle 'tpope/vim-fugitive'
+  NeoBundleLazy 'tpope/vim-fugitive', {
+  \  'autoload' : {
+  \    'commands' : [
+  \      'Gstatus', 'Gcommit', 'Gwrite', 'Gdiff', 'Gblame', 'Git', 'Ggrep'
+  \    ]
+  \  }
+  \}
   " }}}
 
   " C/C++ {{{
