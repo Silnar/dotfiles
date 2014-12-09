@@ -343,22 +343,8 @@ set foldtext=NeatFoldText()
 " }}}
 
 " Global mappings {{{
-" Unite
-nnoremap    [unite]   <Nop>
-nmap    <Leader>f [unite]
-
-nnoremap <silent> [unite]f :<C-u>Unite -default-action=lcd bookmark<CR>
-nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
-nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
-nnoremap <silent> [unite]p :<C-u>Unite -start-insert file_rec/async:!<CR>
-nnoremap <silent> [unite]r :<C-u>Unite -start-insert file_rec/async<CR>
-nnoremap <silent> [unite]g :<C-u>Unite grep:.<CR>
-
 " Explore
 nmap <Leader>e :VimFilerExplorer<CR>
-
-" Outline
-nmap <Leader>o :Unite outline<CR>
 
 " Run Gundo
 nmap <Leader>u :GundoToggle<CR>
@@ -419,6 +405,24 @@ autocmd BufWritePre * :%s/\s\+$//e
 " }}}
 
 " Plugin settings {{{
+
+" Shougo/unite.vim {{{
+if neobundle#tap('unite.vim')
+  nmap <Leader>o :Unite outline<CR>
+
+  nnoremap    [unite]   <Nop>
+  nmap    <Leader>f [unite]
+
+  nnoremap <silent> [unite]f :<C-u>Unite -default-action=lcd bookmark<CR>
+  nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
+  nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
+  nnoremap <silent> [unite]p :<C-u>Unite -start-insert file_rec/async:!<CR>
+  nnoremap <silent> [unite]r :<C-u>Unite -start-insert file_rec/async<CR>
+  nnoremap <silent> [unite]g :<C-u>Unite grep:.<CR>
+
+  call neobundle#untap()
+endif
+" }}}
 
 " Shougo/neosnippet.vim "{{{
 if neobundle#tap('neosnippet.vim')
