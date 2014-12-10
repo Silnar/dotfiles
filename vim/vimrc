@@ -26,7 +26,7 @@ if !1 | finish | endif
 "   \ | echomsg 'startuptime: ' . reltimestr(s:startuptime)
 " endif
 
-"}}}
+" }}}
 
 " Install NeoBundle if not available {{{
 if ! isdirectory(expand('~/.vim/bundle'))
@@ -50,6 +50,7 @@ endif
 
 " Define bundles {{{
 function! s:load_bundles()
+
   " Libraries {{{
   NeoBundleFetch 'Shougo/neobundle.vim'
 
@@ -256,8 +257,9 @@ function! s:load_bundles()
   \  }
   \}
   " }}}
+
 endfunction
-"}}}
+" }}}
 
 " Load bundles {{{
 call neobundle#begin(expand('~/.vim/bundle/'))
@@ -452,7 +454,7 @@ if neobundle#tap('unite.vim')
 endif
 " }}}
 
-" Shougo/neosnippet.vim "{{{
+" Shougo/neosnippet.vim  {{{
 if neobundle#tap('neosnippet.vim')
     function! neobundle#tapped.hooks.on_source(bundle) "{{{
         " For snippet_complete marker.
@@ -489,7 +491,7 @@ if neobundle#tap('neosnippet.vim')
 endif
 " }}}
 
-" Shougo/neocomplete.vim"{{{
+" Shougo/neocomplete.vim {{{
 if neobundle#tap('neocomplete.vim')
     function! neobundle#tapped.hooks.on_source(bundle)
         " Use smartcase.
@@ -546,16 +548,16 @@ if neobundle#tap('neocomplete.vim')
 
     call neobundle#untap()
 endif
-"}}}
+" }}}
 
-" Shougo/neocomplcache.vim"{{{
+" Shougo/neocomplcache.vim {{{
 if neobundle#tap('neocomplcache.vim')
     function! neobundle#tapped.hooks.on_source(bundle)
         let g:neocomplcache_enable_smart_case = 1
     endfunction
     call neobundle#untap()
 endif
-"}}}
+" }}}
 
 " Shougo/VimFiler {{{
 if neobundle#tap('vimfiler.vim')
@@ -663,7 +665,7 @@ if neobundle#tap('gundo.vim')
 
   call neobundle#untap()
 endif
-"}}}
+" }}}
 
 " TComment {{{
 if neobundle#tap('tComment')
@@ -715,6 +717,6 @@ if !has('vim_starting')
 endif
 
 set secure
-"}}}
+" }}}
 
 " vim:foldmethod=marker
