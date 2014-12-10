@@ -98,6 +98,8 @@ function! s:load_bundles()
 
   NeoBundle 'tommcdo/vim-exchange'
 
+  NeoBundle 'itchyny/lightline.vim'
+
   NeoBundle 'osyo-manga/vim-over', {
   \  "autoload": {
   \    "commands": ['OverCommandLine'],
@@ -396,13 +398,13 @@ let &directory = s:swapDir . '//,' . &directory
 set listchars=tab:▸\ ,eol:¬
 
 " Statusline
-set statusline=%n\ %f%<
-set statusline+=\ %m%r%h%w%q
-set statusline+=%=
-set statusline+=%{fugitive#statusline()}
-set statusline+=\ %y
-set statusline+=[%{strlen(&fenc)?&fenc:&enc}]
-set statusline+=[row:%l\ col:%v]
+" set statusline=%n\ %f%<
+" set statusline+=\ %m%r%h%w%q
+" set statusline+=%=
+" set statusline+=%{fugitive#statusline()}
+" set statusline+=\ %y
+" set statusline+=[%{strlen(&fenc)?&fenc:&enc}]
+" set statusline+=[row:%l\ col:%v]
 
 " Folding
 " Based on: http://dhruvasagar.com/2013/03/28/vim-better-foldtext
