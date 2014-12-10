@@ -206,9 +206,33 @@ function! s:load_bundles()
   NeoBundle 'tComment'
 
   NeoBundleLazy 'tpope/vim-fugitive', {
-  \  'autoload' : {
-  \    'commands' : [
-  \      'Gstatus', 'Gcommit', 'Gwrite', 'Gdiff', 'Gblame', 'Git', 'Ggrep'
+  \  'augroup': 'fugitive',
+  \  'autoload': {
+  \    'commands': [
+  \      'Git',
+  \      'Gcd',
+  \      'Glcd',
+  \      'Gstatus',
+  \      'Gcommit',
+  \      'Ggrep',
+  \      'Glgrep',
+  \      'Glog',
+  \      'Gllog',
+  \      'Gedit',
+  \      'Gsplit',
+  \      'Gvsplit',
+  \      'Gtabedit',
+  \      'Gpedit',
+  \      'Gread',
+  \      'Gwrite',
+  \      'Gwq',
+  \      'Gdiff',
+  \      'Gsdiff',
+  \      'Gvdiff',
+  \      'Gmove',
+  \      'Gremove',
+  \      'Gblame',
+  \      'Gbrowse'
   \    ]
   \  }
   \}
@@ -664,6 +688,14 @@ endif
 "
 " call unite#custom#action('cdable', 'vimfilerexplorer', s:vimfilerexplorer)
 " }}}
+
+" tpope/vim-fugitive {{{
+if neobundle#tap('vim-fugitive')
+  function! neobundle#tapped.hooks.on_post_source(bundle)
+    doautoall fugitive BufNewFile
+  endfunction
+endif
+"}}}
 
 " sjl/gundo.vim {{{
 if neobundle#tap('gundo.vim')
