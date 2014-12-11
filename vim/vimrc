@@ -205,7 +205,7 @@ function! s:load_bundles()
   \  }
   \}
 
-  NeoBundle 'tComment'
+  NeoBundle 'tyru/caw.vim'
 
   NeoBundleLazy 'tpope/vim-fugitive', {
   \  'augroup': 'fugitive',
@@ -703,20 +703,6 @@ endif
 if neobundle#tap('gundo.vim')
   nmap <Leader>u :GundoToggle<CR>
 
-  call neobundle#untap()
-endif
-" }}}
-
-" TComment {{{
-if neobundle#tap('tComment')
-  let g:tcomment#replacements_c = {
-            \     '/*': '#<{(|',
-            \     '*/': '|)}>#',
-            \ }
-  let g:tcommentLineC = {
-            \ 'commentstring': '// %s',
-            \ 'replacements': g:tcomment#replacements_c
-            \ }
   call neobundle#untap()
 endif
 " }}}
