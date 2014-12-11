@@ -100,7 +100,7 @@ function! s:load_bundles()
 
   NeoBundle 'itchyny/lightline.vim'
 
-  NeoBundle 'osyo-manga/vim-over', {
+  NeoBundleLazy 'osyo-manga/vim-over', {
   \  "autoload": {
   \    "commands": ['OverCommandLine'],
   \  }
