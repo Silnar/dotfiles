@@ -12,6 +12,20 @@
 " - http://www.vimninjas.com/2012/08/26/10-vim-color-schemes-you-need-to-own/
 " - https://github.com/haya14busa/dotfiles/blob/master/.vimrc
 
+" Custom scripts {{{
+
+function! Get_visual_selection() " {{{
+  " Source: http://stackoverflow.com/a/6271254
+  let [lnum1, col1] = getpos("'<")[1:2]
+  let [lnum2, col2] = getpos("'>")[1:2]
+  let lines = getline(lnum1, lnum2)
+  let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
+  let lines[0] = lines[0][col1 - 1:]
+  return join(lines, "\n")
+endfunction " }}}
+
+" }}}
+
 " Startup {{{
 " Note: Skip initialization for vim-tiny or vim-small.
 if !1 | finish | endif
@@ -437,14 +451,35 @@ nmap <Leader>t :tabnew<CR>
 nmap <Leader>. :edit ~/.vimrc<CR>
 nmap <Leader>> :source ~/.vimrc<CR>
 
-" Substitute word under cursor
-nmap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
-vnoremap <Leader>r "hy:%s/<C-r>h//gc<left><left><left>
-
 " " Item info
 " au FileType haskell nmap <Leader>i :HdevtoolsInfo<CR>
 " au FileType haskell nmap <Leader>t :HdevtoolsType<CR>
 " au FileType haskell nmap <Leader>c :HdevtoolsClear<CR>
+
+" Search and replace {{{
+
+" Replace word under cursor
+if exists(":OverCommandLine")
+  nnoremap <Leader>S :<C-u>OverCommandLine %s/\<<C-R><C-W>\>/<CR>
+else
+  nnoremap <Leader>S :<C-u>%s/\<<C-R><C-W>\>/<CR>
+endif
+
+" Replace selected text
+if exists(":OverCommandLine")
+  vnoremap <Leader>s :<C-u>OverCommandLine %s/<C-R>=Get_visual_selection()<CR>/<CR>
+else
+  vnoremap <Leader>s :<C-u>%s/<C-R>=Get_visual_selection()<CR>/
+endif
+
+" Replace selected text (treat it as one word)
+if exists(":OverCommandLine")
+  vnoremap <Leader>S :<C-u>OverCommandLine %s/\<<C-R>=Get_visual_selection()<CR>\>/<CR>
+else
+  vnoremap <Leader>S :<C-u>%s/\<<C-R>=Get_visual_selection()<CR>\>/<CR>
+endif
+
+" }}}
 
 " }}}
 
