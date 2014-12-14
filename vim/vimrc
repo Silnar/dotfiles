@@ -454,7 +454,7 @@ set foldtext=NeatFoldText()
 let maplocalleader = "\\l"
 
 " Open new tab
-nmap <Leader>t :tabnew<CR>
+nnoremap <silent> <Leader>t :tabnew<CR>
 
 " Edit preferences
 nmap <Leader>. :edit ~/.vimrc<CR>
@@ -517,6 +517,20 @@ autocmd VimRC BufWritePre * :%s/\s\+$//e
 
 " Plugin settings {{{
 
+" tpope/vim-unimpaired {{{
+if neobundle#tap('vim-unimpaired')
+  function! neobundle#tapped.hooks.on_post_source(bundle)
+    " Switch to prev/next tab
+    nmap <silent> [t gT
+    nmap <silent> ]t gt
+
+    " Move tab backward/forward
+    nnoremap <silent> [T :tabmove -1<CR>
+    nnoremap <silent> ]T :tabmove +1<CR>
+  endfunction
+endif
+" }}}
+
 " Shougo/unite.vim {{{
 if neobundle#tap('unite.vim')
   nmap <Leader>o :Unite outline<CR>
@@ -532,6 +546,7 @@ if neobundle#tap('unite.vim')
   nnoremap <silent> [unite]g :<C-u>Unite grep:.<CR>
   nnoremap <silent> [unite]h :<C-u>Unite -start-insert fold<CR>
   nnoremap <silent> [unite]a :<C-u>Unite -start-insert mapping<CR>
+  nnoremap <silent> [unite]t :<C-u>Unite -start-insert tab<CR>
 
   call neobundle#untap()
 endif
