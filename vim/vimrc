@@ -326,6 +326,7 @@ endif
 call neobundle#end()
 " }}}
 
+filetype plugin on
 filetype plugin indent on
 
 " Vim options {{{
