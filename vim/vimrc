@@ -525,6 +525,7 @@ if neobundle#tap('unite.vim')
   nnoremap <silent> [unite]r :<C-u>Unite -start-insert file_rec/async<CR>
   nnoremap <silent> [unite]g :<C-u>Unite grep:.<CR>
   nnoremap <silent> [unite]h :<C-u>Unite -start-insert fold<CR>
+  nnoremap <silent> [unite]a :<C-u>Unite -start-insert mapping<CR>
 
   call neobundle#untap()
 endif
