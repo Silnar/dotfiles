@@ -1,5 +1,9 @@
-
+# Zsh
 zsh/.zcompcache/
 zsh/.zcompdump
 zsh/.zcompdump.zwc
 zsh/.zhistory
+
+# Konsole
+konsole/bookmarks.xml.bak
+konsole/bookmarks.xml.tbcache
