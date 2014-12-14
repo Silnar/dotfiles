@@ -40,6 +40,12 @@ if !1 | finish | endif
 "   \ | echomsg 'startuptime: ' . reltimestr(s:startuptime)
 " endif
 
+" Clear main augroup {{{
+augroup VimRC
+    autocmd!
+augroup END
+" }}}
+
 " }}}
 
 " Install NeoBundle if not available {{{
@@ -502,11 +508,11 @@ cnoremap <M-f>  <S-Right>
 
 " Filetype & Autocommand {{{
 " Tabs
-autocmd Filetype haskell setlocal ts=2 sts=2 sw=2 et ai
-autocmd Filetype taskpaper setlocal ts=2 sts=2 sw=2 ai
+autocmd VimRC Filetype haskell setlocal ts=2 sts=2 sw=2 et ai
+autocmd VimRC Filetype taskpaper setlocal ts=2 sts=2 sw=2 ai
 
 " Remove trailing whitespaces on write
-autocmd BufWritePre * :%s/\s\+$//e
+autocmd VimRC BufWritePre * :%s/\s\+$//e
 " }}}
 
 " Plugin settings {{{
