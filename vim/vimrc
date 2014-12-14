@@ -445,6 +445,8 @@ set foldtext=NeatFoldText()
 " }}}
 
 " Global mappings {{{
+let maplocalleader = "\\l"
+
 " Open new tab
 nmap <Leader>t :tabnew<CR>
 
