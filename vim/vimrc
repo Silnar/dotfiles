@@ -238,6 +238,12 @@ function! s:load_bundles()
   \    ]
   \  }
   \}
+
+  NeoBundleLazy 'aklt/plantuml-syntax', {
+  \  "autoload": {
+  \    "filetypes": ['plantuml'],
+  \  }
+  \}
   " }}}
 
   " C/C++ {{{
@@ -702,6 +708,17 @@ endif
 " sjl/gundo.vim {{{
 if neobundle#tap('gundo.vim')
   nmap <Leader>u :GundoToggle<CR>
+
+  call neobundle#untap()
+endif
+" }}}
+
+" aklt/plantuml-syntax {{{
+if neobundle#tap('plantuml-syntax')
+  function! neobundle#tapped.hooks.on_post_source(bundle)
+    " Force setting makeprg
+    doautocmd FileType
+  endfunction
 
   call neobundle#untap()
 endif
