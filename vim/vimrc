@@ -308,6 +308,14 @@ function! s:load_bundles()
   \}
   " }}}
 
+  " LaTeX {{{
+  NeoBundleLazy 'vim-latex/vim-latex', {
+        \  "autoload": {
+        \    "filetypes": ['tex'],
+        \  }
+        \}
+  " }}}
+
   " Taskpaper {{{
   NeoBundleLazy 'taskpaper.vim', {
   \  "autoload": {
@@ -808,6 +816,16 @@ endif
 
 " Neco-GHC {{{
 let g:necoghc_enable_detailed_browse = 1
+" }}}
+
+" vim-latex/vim-latex {{{
+" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex':
+let g:tex_flavor='latex'
+
+let g:Tex_DefaultTargetFormat='pdf'
+let g:Tex_ViewRule_pdf='okular'
 " }}}
 
 " }}}
