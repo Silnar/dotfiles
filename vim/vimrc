@@ -268,7 +268,13 @@ function! s:load_bundles()
   " }}}
 
   " C/C++ {{{
-  NeoBundleLazy 'Rip-Rip/clang_complete', {
+  " NeoBundleLazy 'Rip-Rip/clang_complete', {
+  " \  "autoload": {
+  " \    "filetypes": ['c', 'cpp', 'objc', 'objcpp'],
+  " \  }
+  " \}
+
+  NeoBundleLazy 'osyo-manga/vim-marching', {
   \  "autoload": {
   \    "filetypes": ['c', 'cpp', 'objc', 'objcpp'],
   \  }
@@ -795,21 +801,45 @@ endif
 
 " Rip-Rip/clang_complete {{{
 if neobundle#tap('clang_complete')
+	if !exists('g:neocomplete#force_omni_input_patterns')
+	  let g:neocomplete#force_omni_input_patterns = {}
+	endif
+	let g:neocomplete#force_omni_input_patterns.c =
+	      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+	let g:neocomplete#force_omni_input_patterns.cpp =
+	      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+	let g:neocomplete#force_omni_input_patterns.objc =
+	      \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
+	let g:neocomplete#force_omni_input_patterns.objcpp =
+	      \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+	let g:clang_complete_auto = 0
+	let g:clang_auto_select = 0
+	"let g:clang_use_library = 1
+
+  call neobundle#untap()
+endif
+" }}}
+
+" osyo-manga/vim-marching {{{
+if neobundle#tap('vim-marching')
+  let g:marching_enable_neocomplete = 1
+
   if !exists('g:neocomplete#force_omni_input_patterns')
     let g:neocomplete#force_omni_input_patterns = {}
   endif
-  let g:neocomplete#force_overwrite_completefunc = 1
-  let g:neocomplete#force_omni_input_patterns.c =
-        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-  let g:neocomplete#force_omni_input_patterns.cpp =
-        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-  let g:neocomplete#force_omni_input_patterns.objc =
-        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-  let g:neocomplete#force_omni_input_patterns.objcpp =
-        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-  let g:clang_complete_auto = 0
-  let g:clang_auto_select = 0
-  "let g:clang_use_library = 1
+
+	let g:neocomplete#force_omni_input_patterns.c =
+	      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+	let g:neocomplete#force_omni_input_patterns.cpp =
+	      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+	let g:neocomplete#force_omni_input_patterns.objc =
+	      \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
+	let g:neocomplete#force_omni_input_patterns.objcpp =
+	      \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+
+  " set updatetime=200
+  imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
+  imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
 
   call neobundle#untap()
 endif
