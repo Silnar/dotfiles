@@ -377,7 +377,9 @@ if has("mouse")
 endif
 
 " Assume fast terminal connection
-set ttyfast
+if !has("nvim")
+  set ttyfast
+endif
 
 " Colorscheme
 colorscheme mrkn256
