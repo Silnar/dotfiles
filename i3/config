@@ -11,7 +11,7 @@
 
 # Set keyboard
 # exec --no-startup-id setxkbmap pl -option ctrl:swapcaps
-exec --no-startup-id setxkbmap pl,ru -option '' -option ctrl:nocaps -option 'grp:alt_caps_toggle'
+exec --no-startup-id setxkbmap -layout pl,ru,us -variant ,,dvp -option '' -option ctrl:nocaps -option 'grp:sclk_toggle'
 exec --no-startup-id sh ~/.wallpaper.sh
 exec --no-startup-id nm-applet
 exec --no-startup-id mpd ~/.config/mpd/mpd.conf
