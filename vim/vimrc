@@ -218,6 +218,8 @@ function! s:load_bundles()
 
   NeoBundle 'honza/vim-snippets'
 
+  NeoBundle 'bkad/CamelCaseMotion'
+
   " }}}
 
   " Programming utils {{{
