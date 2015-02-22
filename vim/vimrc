@@ -193,6 +193,11 @@ function! s:load_bundles()
   \  'commands' : [
   \    { 'name' : 'Tabularize' }],
   \}
+
+  NeoBundleLazy 'Shougo/vimshell.vim', {
+  \  'commands' : [
+  \    { 'name' : 'VimShell' }],
+  \}
   " }}}
 
   " Writing {{{
