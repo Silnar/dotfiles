@@ -116,6 +116,8 @@ function! s:load_bundles()
 
   NeoBundle 'tpope/vim-surround'
 
+  NeoBundle 'bkad/CamelCaseMotion'
+
   NeoBundle 'tommcdo/vim-exchange'
 
   NeoBundle 'itchyny/lightline.vim'
@@ -163,7 +165,7 @@ function! s:load_bundles()
   \  'depends' : 'Shougo/neomru.vim',
   \}
 
-  NeoBundleLazy 'ujihisa/unite-colorscheme'
+  NeoBundle 'ujihisa/unite-colorscheme'
 
   NeoBundleLazy 'osyo-manga/unite-fold', {
   \  'autoload' : {
@@ -230,9 +232,6 @@ function! s:load_bundles()
   \}
 
   NeoBundle 'honza/vim-snippets'
-
-  NeoBundle 'bkad/CamelCaseMotion'
-
   " }}}
 
   " Programming utils {{{
