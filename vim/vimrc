@@ -181,6 +181,14 @@ function! s:load_bundles()
   \  }
   \}
 
+  NeoBundleLazy 'ryotakato/unite-outline-objc', {
+  \  'autoload' : {
+  \    'unite_sources' : [
+  \      'outline'
+  \    ],
+  \  }
+  \}
+
   NeoBundleLazy 'godlygeek/tabular', {
   \  'commands' : [
   \    { 'name' : 'Tabularize' }],
