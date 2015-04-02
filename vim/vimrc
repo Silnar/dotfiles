@@ -483,62 +483,6 @@ set fillchars=fold:\  " space
 set foldtext=NeatFoldText()
 " }}}
 
-" Global mappings {{{
-let maplocalleader = "\\l"
-
-" Open new tab
-nnoremap <silent> <Leader>t :tabnew<CR>
-
-" Edit preferences
-nmap <Leader>. :edit ~/.vimrc<CR>
-nmap <Leader>> :source ~/.vimrc<CR>
-
-" " Item info
-" au FileType haskell nmap <Leader>i :HdevtoolsInfo<CR>
-" au FileType haskell nmap <Leader>t :HdevtoolsType<CR>
-" au FileType haskell nmap <Leader>c :HdevtoolsClear<CR>
-
-" Search and replace {{{
-
-" Replace word under cursor
-if exists(":OverCommandLine")
-  nnoremap <Leader>S :<C-u>OverCommandLine %s/\<<C-R><C-W>\>/<CR>
-else
-  nnoremap <Leader>S :<C-u>%s/\<<C-R><C-W>\>/<CR>
-endif
-
-" Replace selected text
-if exists(":OverCommandLine")
-  vnoremap <Leader>s :<C-u>OverCommandLine %s/<C-R>=Get_visual_selection()<CR>/<CR>
-else
-  vnoremap <Leader>s :<C-u>%s/<C-R>=Get_visual_selection()<CR>/
-endif
-
-" Replace selected text (treat it as one word)
-if exists(":OverCommandLine")
-  vnoremap <Leader>S :<C-u>OverCommandLine %s/\<<C-R>=Get_visual_selection()<CR>\>/<CR>
-else
-  vnoremap <Leader>S :<C-u>%s/\<<C-R>=Get_visual_selection()<CR>\>/<CR>
-endif
-
-" }}}
-
-" }}}
-
-" Commandline mappings {{{
-cnoremap <C-a>  <Home>
-cnoremap <C-b>  <Left>
-cnoremap <C-f>  <Right>
-" cnoremap <C-d>  <Delete>
-cnoremap <M-b>  <S-Left>
-cnoremap <M-f>  <S-Right>
-" cnoremap <M-d>  <S-right><Delete>
-" cnoremap <Esc>b <S-Left>
-" cnoremap <Esc>f <S-Right>
-" cnoremap <Esc>d <S-right><Delete>
-" cnoremap <C-g>  <C-c>
-" }}}
-
 " Filetype & Autocommand {{{
 " Tabs
 autocmd VimRC Filetype haskell setlocal ts=2 sts=2 sw=2 et ai
@@ -561,27 +505,6 @@ if neobundle#tap('vim-unimpaired')
     nnoremap <silent> [T :tabmove -1<CR>
     nnoremap <silent> ]T :tabmove +1<CR>
   endfunction
-endif
-" }}}
-
-" Shougo/unite.vim {{{
-if neobundle#tap('unite.vim')
-  nmap <Leader>o :Unite outline<CR>
-
-  nnoremap    [unite]   <Nop>
-  nmap    <Leader>f [unite]
-
-  nnoremap <silent> [unite]f :<C-u>Unite -default-action=lcd bookmark<CR>
-  nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
-  nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
-  nnoremap <silent> [unite]p :<C-u>Unite -start-insert file_rec/async:!<CR>
-  nnoremap <silent> [unite]r :<C-u>Unite -start-insert file_rec/async<CR>
-  nnoremap <silent> [unite]g :<C-u>Unite grep:.<CR>
-  nnoremap <silent> [unite]h :<C-u>Unite -start-insert fold<CR>
-  nnoremap <silent> [unite]a :<C-u>Unite -start-insert mapping<CR>
-  nnoremap <silent> [unite]t :<C-u>Unite -start-insert tab<CR>
-
-  call neobundle#untap()
 endif
 " }}}
 
@@ -706,8 +629,6 @@ if neobundle#tap('vimfiler.vim')
       let g:vimfiler_marked_file_icon = '*'
     endfunction "}}}
 
-  nmap <Leader>e :VimFilerExplorer<CR>
-
   call neobundle#untap()
 endif
 
@@ -798,14 +719,6 @@ if neobundle#tap('vim-fugitive')
 endif
 "}}}
 
-" sjl/gundo.vim {{{
-if neobundle#tap('gundo.vim')
-  nmap <Leader>u :GundoToggle<CR>
-
-  call neobundle#untap()
-endif
-" }}}
-
 " aklt/plantuml-syntax {{{
 if neobundle#tap('plantuml-syntax')
   function! neobundle#tapped.hooks.on_post_source(bundle)
@@ -875,6 +788,95 @@ let g:tex_flavor='latex'
 
 let g:Tex_DefaultTargetFormat='pdf'
 let g:Tex_ViewRule_pdf='okular'
+" }}}
+
+" }}}
+
+" Mappings {{{
+function! Define_Unite_Mapping(mapping, source)
+  execute "nmap <silent>"
+        \ "<Leader>f" . a:mapping
+        \ ":<C-u>Unite"
+        \   a:source
+        \   "<CR>"
+  execute "nmap <silent>"
+        \ "<Leader>f" . toupper(a:mapping)
+        \ ":<C-u>Unite"
+        \   "-start-insert"
+        \   a:source
+        \   "<CR>"
+  execute "vmap <silent>"
+        \ "<Leader>f" . a:mapping
+        \ ":<C-u>Unite"
+        \   "-input=<C-R>=escape(Get_visual_selection(), ' ')<CR>"
+        \   a:source
+        \   "<CR>"
+  execute "vmap <silent>"
+        \ "<Leader>f" . toupper(a:mapping)
+        \ ":<C-u>Unite"
+        \   "-input=<C-R>=escape(Get_visual_selection(), ' ')<CR>"
+        \   "-start-insert"
+        \   a:source
+        \   "<CR>"
+endfunction
+
+let maplocalleader = "\\l"
+
+nmap <silent> <Leader>t :tabnew<CR>
+nmap <silent> <Leader>e :<C-u>VimFiler -toggle<CR>
+nmap <silent> <Leader>E :<C-u>VimFilerExplorer -toggle<CR>
+nmap <silent> <Leader>u :<C-u>GundoToggle<CR>
+nmap <silent> <Leader>. :edit ~/.vimrc<CR>
+nmap <silent> <Leader>> :source ~/.vimrc<CR>
+
+call Define_Unite_Mapping("b", "bookmark")
+call Define_Unite_Mapping("f", "file_rec/async:!")
+call Define_Unite_Mapping("r", "file_mru")
+call Define_Unite_Mapping("o", "outline")
+call Define_Unite_Mapping("z", "fold")
+call Define_Unite_Mapping("j", "jump")
+call Define_Unite_Mapping("b", "buffer")
+call Define_Unite_Mapping("t", "tab")
+call Define_Unite_Mapping("w", "window")
+call Define_Unite_Mapping("c", "command")
+call Define_Unite_Mapping("m", "mapping")
+call Define_Unite_Mapping("n", "function")
+
+" " Item info
+" au FileType haskell nmap <Leader>i :HdevtoolsInfo<CR>
+" au FileType haskell nmap <Leader>t :HdevtoolsType<CR>
+" au FileType haskell nmap <Leader>c :HdevtoolsClear<CR>
+
+" Search and replace {{{
+
+" Replace word under cursor
+if exists(":OverCommandLine")
+  nnoremap <Leader>S :<C-u>OverCommandLine %s/\<<C-R><C-W>\>/<CR>
+else
+  nnoremap <Leader>S :<C-u>%s/\<<C-R><C-W>\>/<CR>
+endif
+
+" Replace selected text
+if exists(":OverCommandLine")
+  vnoremap <Leader>s :<C-u>OverCommandLine %s/<C-R>=Get_visual_selection()<CR>/<CR>
+else
+  vnoremap <Leader>s :<C-u>%s/<C-R>=Get_visual_selection()<CR>/
+endif
+
+" Replace selected text (treat it as one word)
+if exists(":OverCommandLine")
+  vnoremap <Leader>S :<C-u>OverCommandLine %s/\<<C-R>=Get_visual_selection()<CR>\>/<CR>
+else
+  vnoremap <Leader>S :<C-u>%s/\<<C-R>=Get_visual_selection()<CR>\>/<CR>
+endif
+" }}}
+
+" Commandline mappings {{{
+cmap <C-a> <Home>
+cmap <C-h> <Left>
+cmap <C-l> <Right>
+cmap <C-j> <Up>
+cmap <C-k> <Down>
 " }}}
 
 " }}}
