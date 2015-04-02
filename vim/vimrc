@@ -109,6 +109,7 @@ function! s:load_bundles()
   NeoBundle 'chriskempson/tomorrow-theme', {
   \  'rtp': "~/.vim/bundle/tomorrow-theme/vim/",
   \}
+  NeoBundle 'chriskempson/base16-vim'
   " }}}
 
   " Basic functionality extensions {{{
