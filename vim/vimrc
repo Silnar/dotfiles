@@ -517,6 +517,35 @@ if neobundle#tap('vim-multiple-cursors')
 endif
 " }}}
 
+" unite.vim {{{
+if neobundle#tap('unite.vim')
+	let g:unite_source_grep_max_candidates = 200
+
+	if executable('ag')
+	  " Use ag in unite grep source.
+	  let g:unite_source_grep_command = 'ag'
+	  let g:unite_source_grep_default_opts =
+	  \ '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
+	  \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+	  let g:unite_source_grep_recursive_opt = ''
+	elseif executable('pt')
+	  " Use pt in unite grep source.
+	  " https://github.com/monochromegane/the_platinum_searcher
+	  let g:unite_source_grep_command = 'pt'
+	  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+	  let g:unite_source_grep_recursive_opt = ''
+	elseif executable('ack-grep')
+	  " Use ack in unite grep source.
+	  let g:unite_source_grep_command = 'ack-grep'
+	  let g:unite_source_grep_default_opts =
+	  \ '-i --no-heading --no-color -k -H'
+	  let g:unite_source_grep_recursive_opt = ''
+	endif
+
+  call neobundle#untap()
+endif
+" }}}
+
 " tpope/vim-unimpaired {{{
 if neobundle#tap('vim-unimpaired')
   function! neobundle#tapped.hooks.on_post_source(bundle)
@@ -822,30 +851,53 @@ let g:Tex_ViewRule_pdf='okular'
 " }}}
 
 " Mappings {{{
-function! Define_Unite_Mapping(mapping, source)
+nnoremap [find] <nop>
+nmap     <Leader>f [find]
+
+function! Define_Unite_Mapping(mapping, source, params, inputDest)
+  let params = map(a:params, "escape(v:val, ' ')")
+  if a:inputDest == 'input'
+    let inputParam = "-input=<C-R>=escape(Get_visual_selection(), ' ')<CR>"
+    let sourceParams = join([''] + params, ':')
+  elseif match(a:inputDest, "^param:") != -1
+    let paramIdx = split(a:inputDest, ':')[1]
+    let inputParam = ""
+    let paramsCpy = copy(params)
+    let paramsCpy[paramIdx] = "<C-R>=escape(Get_visual_selection(), ' ')<CR>"
+    let sourceParams = join([''] + paramsCpy, ':')
+  endif
+
   execute "nmap <silent>"
         \ "<Leader>f" . a:mapping
         \ ":<C-u>Unite"
-        \   a:source
+        \   "-buffer-name=" . a:source
+        \   "-no-split"
+        \   a:source . join([''] + params, ':')
         \   "<CR>"
   execute "nmap <silent>"
-        \ "<Leader>f" . toupper(a:mapping)
+        \ "<Leader>F" . a:mapping
         \ ":<C-u>Unite"
+        \   "-buffer-name=" . a:source
+        \   "-no-split"
         \   "-start-insert"
-        \   a:source
+        \   a:source . join([''] + params, ':')
         \   "<CR>"
   execute "vmap <silent>"
         \ "<Leader>f" . a:mapping
         \ ":<C-u>Unite"
-        \   "-input=<C-R>=escape(Get_visual_selection(), ' ')<CR>"
-        \   a:source
+        \   "-buffer-name=" . a:source
+        \   "-no-split"
+        \   inputParam
+        \   a:source . sourceParams
         \   "<CR>"
   execute "vmap <silent>"
-        \ "<Leader>f" . toupper(a:mapping)
+        \ "<Leader>F" . a:mapping
         \ ":<C-u>Unite"
-        \   "-input=<C-R>=escape(Get_visual_selection(), ' ')<CR>"
+        \   "-buffer-name=" . a:source
+        \   "-no-split"
         \   "-start-insert"
-        \   a:source
+        \   inputParam
+        \   a:source . sourceParams
         \   "<CR>"
 endfunction
 
@@ -858,18 +910,22 @@ nmap <silent> <Leader>u :<C-u>GundoToggle<CR>
 nmap <silent> <Leader>. :edit ~/.vimrc<CR>
 nmap <silent> <Leader>> :source ~/.vimrc<CR>
 
-call Define_Unite_Mapping("b", "bookmark")
-call Define_Unite_Mapping("f", "file_rec/async:!")
-call Define_Unite_Mapping("r", "file_mru")
-call Define_Unite_Mapping("o", "outline")
-call Define_Unite_Mapping("z", "fold")
-call Define_Unite_Mapping("j", "jump")
-call Define_Unite_Mapping("b", "buffer")
-call Define_Unite_Mapping("t", "tab")
-call Define_Unite_Mapping("w", "window")
-call Define_Unite_Mapping("c", "command")
-call Define_Unite_Mapping("m", "mapping")
-call Define_Unite_Mapping("n", "function")
+call Define_Unite_Mapping("b", "bookmark", [], "input")
+call Define_Unite_Mapping("f", "file_rec/async:!", [], "input")
+call Define_Unite_Mapping("g", "file_rec/git", [], "input")
+call Define_Unite_Mapping("u", "file_mru", [], "input")
+call Define_Unite_Mapping("o", "outline", [], "input")
+call Define_Unite_Mapping("s", "neosnippet", [], "input")
+call Define_Unite_Mapping("z", "fold", [], "input")
+call Define_Unite_Mapping("j", "jump", [], "input")
+call Define_Unite_Mapping("b", "buffer", [], "input")
+call Define_Unite_Mapping("t", "tab", [], "input")
+call Define_Unite_Mapping("w", "window", [], "input")
+call Define_Unite_Mapping("c", "command", [], "input")
+call Define_Unite_Mapping("m", "mapping", [], "input")
+call Define_Unite_Mapping("n", "function", [], "input")
+call Define_Unite_Mapping("r", "register", [], "input")
+call Define_Unite_Mapping("/", "grep", ['.', '', ''], "param:2")
 
 " " Item info
 " au FileType haskell nmap <Leader>i :HdevtoolsInfo<CR>
