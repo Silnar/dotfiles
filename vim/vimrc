@@ -528,8 +528,12 @@ if neobundle#tap('vim-unimpaired')
     nnoremap <silent> [T :tabmove -1<CR>
     nnoremap <silent> ]T :tabmove +1<CR>
   endfunction
+
+  call neobundle#untap()
 endif
 " }}}
+
+
 
 " Shougo/neosnippet.vim  {{{
 if neobundle#tap('neosnippet.vim')
