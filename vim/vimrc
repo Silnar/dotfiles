@@ -204,6 +204,9 @@ function! s:load_bundles()
   " }}}
 
   " Writing {{{
+
+  NeoBundle 'terryma/vim-multiple-cursors'
+
   NeoBundleLazy 'Shougo/neocomplete.vim', {
   \  'disabled' : !(has('lua') && v:version >= 703),
   \  'autoload' : {
@@ -494,6 +497,25 @@ autocmd VimRC BufWritePre * :%s/\s\+$//e
 " }}}
 
 " Plugin settings {{{
+
+" vim-multiple-cursors {{{
+if neobundle#tap('vim-multiple-cursors')
+  " Called once right before you start selecting multiple cursors
+  function! Multiple_cursors_before()
+    if exists(':NeoCompleteLock')==2
+      exe 'NeoCompleteLock'
+    endif
+  endfunction
+
+  " Called once only when the multiple selection is canceled (default <Esc>)
+  function! Multiple_cursors_after()
+    if exists(':NeoCompleteUnlock')==2
+      exe 'NeoCompleteUnlock'
+    endif
+  endfunction
+  call neobundle#untap()
+endif
+" }}}
 
 " tpope/vim-unimpaired {{{
 if neobundle#tap('vim-unimpaired')
