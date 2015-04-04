@@ -591,8 +591,6 @@ if neobundle#tap('vim-unimpaired')
 endif
 " }}}
 
-
-
 " Shougo/neosnippet.vim  {{{
 if neobundle#tap('neosnippet.vim')
   function! neobundle#tapped.hooks.on_source(bundle) "{{{
@@ -714,8 +712,8 @@ if neobundle#tap('vimfiler.vim')
     let g:vimfiler_tree_closed_icon = '▸'
     let g:vimfiler_file_icon = '-'
     let g:vimfiler_marked_file_icon = '*'
-  endfunction "}}}
 
+  endfunction "}}}
   call neobundle#untap()
 endif
 
@@ -883,9 +881,6 @@ let g:Tex_ViewRule_pdf='okular'
 " }}}
 
 " Mappings {{{
-nnoremap [find] <nop>
-nmap     <Leader>f [find]
-
 function! Define_Unite_Mapping(mapping, source, params, inputDest)
   let params = map(a:params, "escape(v:val, ' ')")
   if a:inputDest == 'input'
