@@ -183,6 +183,15 @@ NeoBundleLazy 'osyo-manga/unite-fold', {
       \  }
       \}
 
+NeoBundleLazy 'osyo-manga/unite-quickfix', {
+      \  'autoload' : {
+      \    'unite_sources' : [
+      \      'quickfix',
+      \      'location_list'
+      \    ],
+      \  }
+      \}
+
 NeoBundleLazy 'Shougo/unite-outline', {
       \  'autoload' : {
       \    'unite_sources' : [
@@ -942,6 +951,8 @@ call Define_Unite_Mapping("s", "neosnippet", [], "input")
 call Define_Unite_Mapping("z", "fold", [], "input")
 call Define_Unite_Mapping("j", "jump", [], "input")
 call Define_Unite_Mapping("b", "buffer", [], "input")
+call Define_Unite_Mapping("q", "quickfix", [], "input")
+call Define_Unite_Mapping("l", "location_list", [], "input")
 call Define_Unite_Mapping("t", "tab", [], "input")
 call Define_Unite_Mapping("w", "window", [], "input")
 call Define_Unite_Mapping("c", "command", [], "input")
