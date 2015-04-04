@@ -1,0 +1,7 @@
+snippet ntapg
+  " ${1:user}/${2:package} {{{
+  if neobundle#tap("$2")
+    ${0}
+    call neobundle#untap()
+  endif
+  " }}}
