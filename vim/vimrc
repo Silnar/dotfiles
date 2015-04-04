@@ -167,7 +167,13 @@ NeoBundleLazy 'Shougo/unite.vim', {
       \  'depends' : 'Shougo/neomru.vim',
       \}
 
-NeoBundle 'ujihisa/unite-colorscheme'
+NeoBundleLazy 'ujihisa/unite-colorscheme', {
+      \  'autoload' : {
+      \    'unite_sources' : [
+      \      'colorscheme'
+      \    ],
+      \  }
+      \}
 
 NeoBundleLazy 'osyo-manga/unite-fold', {
       \  'autoload' : {
