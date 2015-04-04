@@ -888,7 +888,6 @@ function! Define_Unite_Mapping(mapping, source, params, inputDest)
         \ "<Leader>f" . a:mapping
         \ ":<C-u>Unite"
         \   "-buffer-name=" . a:source
-        \   "-resume"
         \   "-no-split"
         \   a:source . join([''] + params, ':')
         \   "<CR>"
@@ -896,7 +895,6 @@ function! Define_Unite_Mapping(mapping, source, params, inputDest)
         \ "<Leader>F" . a:mapping
         \ ":<C-u>Unite"
         \   "-buffer-name=" . a:source
-        \   "-resume"
         \   "-no-split"
         \   "-start-insert"
         \   a:source . join([''] + params, ':')
@@ -905,7 +903,6 @@ function! Define_Unite_Mapping(mapping, source, params, inputDest)
         \ "<Leader>f" . a:mapping
         \ ":<C-u>Unite"
         \   "-buffer-name=" . a:source
-        \   "-resume"
         \   "-no-split"
         \   inputParam
         \   a:source . sourceParams
@@ -914,7 +911,6 @@ function! Define_Unite_Mapping(mapping, source, params, inputDest)
         \ "<Leader>F" . a:mapping
         \ ":<C-u>Unite"
         \   "-buffer-name=" . a:source
-        \   "-resume"
         \   "-no-split"
         \   "-start-insert"
         \   inputParam
