@@ -966,6 +966,16 @@ call Define_Unite_Mapping("/", "grep", ['%', '-i', ''], "param:2")
 call Define_Unite_Mapping("?", "grep", ['%', '-s', ''], "param:2")
 call Define_Unite_Mapping(".", "grep", ['.', '-i', ''], "param:2")
 call Define_Unite_Mapping(">", "grep", ['.', '-s', ''], "param:2")
+nmap <silent> <Leader>f<Space> :<C-u>Unite -no-split
+      \ file_rec/async:! file_mru buffer bookmark outline fold<CR>
+nmap <silent> <Leader>F<Space> :<C-u>Unite -no-split -start-insert
+      \ file_rec/async:! file_mru buffer bookmark outline fold<CR>
+vmap <silent> <Leader>f<Space> :<C-u>Unite -no-split
+      \ -input=<C-R>=escape(Get_visual_selection(), ' ')<CR>
+      \ file_rec/async:! file_mru buffer bookmark outline fold<CR>
+vmap <silent> <Leader>F<Space> :<C-u>Unite -no-split -start-insert
+      \ -input=<C-R>=escape(Get_visual_selection(), ' ')<CR>
+      \ file_rec/async:! file_mru buffer bookmark outline fold<CR>
 
 " " Item info
 " au FileType haskell nmap <Leader>i :HdevtoolsInfo<CR>
