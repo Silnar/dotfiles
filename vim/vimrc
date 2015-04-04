@@ -942,7 +942,10 @@ call Define_Unite_Mapping("c", "command", [], "input")
 call Define_Unite_Mapping("m", "mapping", [], "input")
 call Define_Unite_Mapping("n", "function", [], "input")
 call Define_Unite_Mapping("r", "register", [], "input")
-call Define_Unite_Mapping("/", "grep", ['.', '', ''], "param:2")
+call Define_Unite_Mapping("/", "grep", ['%', '-i', ''], "param:2")
+call Define_Unite_Mapping("?", "grep", ['%', '-s', ''], "param:2")
+call Define_Unite_Mapping("d", "grep", ['.', '-i', ''], "param:2")
+call Define_Unite_Mapping("d", "grep", ['.', '-s', ''], "param:2")
 
 " " Item info
 " au FileType haskell nmap <Leader>i :HdevtoolsInfo<CR>
