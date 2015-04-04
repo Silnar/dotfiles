@@ -937,6 +937,7 @@ nmap <silent> <Leader>u :<C-u>GundoToggle<CR>
 nmap <silent> <Leader>. :edit ~/.vimrc<CR>
 nmap <silent> <Leader>> :source ~/.vimrc<CR>
 
+nmap <silent> <Leader>f\ :<C-u>UniteResume<CR>
 call Define_Unite_Mapping("b", "bookmark", [], "input")
 call Define_Unite_Mapping("f", "file_rec/async:!", [], "input")
 call Define_Unite_Mapping("g", "file_rec/git", [], "input")
@@ -956,8 +957,8 @@ call Define_Unite_Mapping("n", "function", [], "input")
 call Define_Unite_Mapping("r", "register", [], "input")
 call Define_Unite_Mapping("/", "grep", ['%', '-i', ''], "param:2")
 call Define_Unite_Mapping("?", "grep", ['%', '-s', ''], "param:2")
-call Define_Unite_Mapping("d", "grep", ['.', '-i', ''], "param:2")
-call Define_Unite_Mapping("d", "grep", ['.', '-s', ''], "param:2")
+call Define_Unite_Mapping(".", "grep", ['.', '-i', ''], "param:2")
+call Define_Unite_Mapping(">", "grep", ['.', '-s', ''], "param:2")
 
 " " Item info
 " au FileType haskell nmap <Leader>i :HdevtoolsInfo<CR>
