@@ -192,6 +192,19 @@ function! s:load_bundles()
   \  }
   \}
 
+  NeoBundleLazy 'hewes/unite-gtags', {
+        \  'autoload': {
+        \    'unite_sources' : [
+        \      'gtags/context',
+        \      'gtags/ref',
+        \      'gtags/def',
+        \      'gtags/grep',
+        \      'gtags/completion',
+        \      'gtags/file'
+        \    ],
+        \  }
+        \}
+
   NeoBundleLazy 'godlygeek/tabular', {
   \  'commands' : [
   \    { 'name' : 'Tabularize' }],
