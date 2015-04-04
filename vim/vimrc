@@ -208,6 +208,15 @@ NeoBundleLazy 'ryotakato/unite-outline-objc', {
       \  }
       \}
 
+NeoBundleLazy 'vim-scripts/gtags.vim', {
+      \  'autoload': {
+      \    'commands' : [
+      \      { 'name' : 'Gtags' },
+      \      { 'name' : 'GtagsCursor' }
+      \    ],
+      \  }
+      \}
+
 NeoBundleLazy 'hewes/unite-gtags', {
       \  'autoload': {
       \    'unite_sources' : [
