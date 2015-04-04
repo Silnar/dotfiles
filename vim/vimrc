@@ -230,10 +230,7 @@ NeoBundleLazy 'hewes/unite-gtags', {
       \  }
       \}
 
-NeoBundleLazy 'thinca/vim-qfreplace', {
-      \  'commands' : [
-      \    { 'name' : 'Qfreplace' }],
-      \}
+NeoBundle 'thinca/vim-qfreplace'
 
 NeoBundleLazy 'godlygeek/tabular', {
       \  'commands' : [
