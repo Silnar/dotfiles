@@ -241,6 +241,10 @@ NeoBundleLazy 'Shougo/vimshell.vim', {
       \  'commands' : [
       \    { 'name' : 'VimShell' }],
       \}
+
+NeoBundle 'vim-scripts/ingo-library'
+NeoBundle 'vim-scripts/TextTransform'
+
 " }}}
 
 " Writing {{{
@@ -894,52 +898,78 @@ let g:Tex_ViewRule_pdf='okular'
 " }}}
 
 " Mappings {{{
-function! Define_Unite_Mapping(mapping, source, params, inputDest)
-  let params = map(a:params, "escape(v:val, ' ')")
-  if a:inputDest == 'input'
-    let inputParam = "-input=<C-R>=escape(Get_visual_selection(), ' ')<CR>"
-    let sourceParams = join([''] + params, ':')
-  elseif match(a:inputDest, "^param:") != -1
-    let paramIdx = split(a:inputDest, ':')[1]
-    let inputParam = ""
-    let paramsCpy = copy(params)
-    let paramsCpy[paramIdx] = "<C-R>=escape(Get_visual_selection(), ' ')<CR>"
-    let sourceParams = join([''] + paramsCpy, ':')
+
+" Helpers {{{
+" Example:
+" RunUnite("Buffer", [['buffer']], 1, "search_string", "input"]
+" RunUnite("Grep", [['grep', '.', '', '']], 0, "search_string", "param:0:3"]
+function! RunUnite(bufname, sources, start_insert, text, text_dst)
+  let input = ""
+  let sources = a:sources
+
+  if a:text_dst == 'input'
+    let input = a:text
+  elseif match(a:text_dst, "^param:") != -1
+    let [_, srcIdx, paramIdx] = split(a:text_dst, ':')
+    let sources[srcIdx][paramIdx] = a:text
   endif
 
-  execute "nmap <silent>"
-        \ "<Leader>f" . a:mapping
-        \ ":<C-u>Unite"
-        \   "-buffer-name=" . a:source
-        \   "-no-split"
-        \   a:source . join([''] + params, ':')
-        \   "<CR>"
-  execute "nmap <silent>"
-        \ "<Leader>F" . a:mapping
-        \ ":<C-u>Unite"
-        \   "-buffer-name=" . a:source
-        \   "-no-split"
-        \   "-start-insert"
-        \   a:source . join([''] + params, ':')
-        \   "<CR>"
-  execute "vmap <silent>"
-        \ "<Leader>f" . a:mapping
-        \ ":<C-u>Unite"
-        \   "-buffer-name=" . a:source
-        \   "-no-split"
-        \   inputParam
-        \   a:source . sourceParams
-        \   "<CR>"
-  execute "vmap <silent>"
-        \ "<Leader>F" . a:mapping
-        \ ":<C-u>Unite"
-        \   "-buffer-name=" . a:source
-        \   "-no-split"
-        \   "-start-insert"
-        \   inputParam
-        \   a:source . sourceParams
-        \   "<CR>"
+  if a:start_insert
+    let start_insert_arg = "-start-insert"
+  else
+    let start_insert_arg = ""
+  endif
+
+  let srcs = []
+  for src in sources
+    let escaped_src = map(src, "escape(v:val, ' ')")
+    call add(srcs, join(escaped_src, ':'))
+  endfor
+  let src_arg = join(srcs, ' ')
+  echo src_arg
+
+  if len(input) > 0
+    let input_arg = "-input=" . escape(input, ' ')
+  else
+    let input_arg = ""
+  endif
+
+  execute "Unite"
+        \ "-buffer-name=" . a:bufname
+        \ "-wipe"
+        \ "-no-split"
+        \ start_insert_arg
+        \ input_arg
+        \ src_arg
 endfunction
+
+function! UniteDefineTargetFunction(bufname, sources, start_insert, text_dst)
+  if a:start_insert
+    let fn_name = "Find" . a:bufname . "I"
+  else
+    let fn_name = "Find" . a:bufname
+  endif
+
+  execute "function! " . fn_name . "(text)\n"
+        \ "let bufname = '" . a:bufname . "'\n"
+        \ "let sources = " . string(a:sources) . "\n"
+        \ "let start_insert = " . a:start_insert . "\n"
+        \ "let text_dst = '" . a:text_dst . "'\n"
+        \ "call RunUnite(bufname, sources, start_insert, a:text, text_dst)\n"
+        \ "endfunction"
+  return fn_name
+endfunction
+
+function! Define_Unite_Mapping(bufname, mapping_char, sources, text_dst)
+  let fn_name_normal = UniteDefineTargetFunction(a:bufname, a:sources, 0, a:text_dst)
+  execute "nnoremap <silent> <Leader>f" . a:mapping_char . " :<C-u>call " . fn_name_normal . "('')<CR>"
+  call TextTransform#MakeMappings('<silent>', ",f" . a:mapping_char, fn_name_normal)
+
+  let fn_name_start_insert = UniteDefineTargetFunction(a:bufname, a:sources, 1, a:text_dst)
+  execute "nnoremap <silent> <Leader>F" . a:mapping_char . " :<C-u>call " . fn_name_start_insert . "('')<CR>"
+  call TextTransform#MakeMappings('<silent>', ",F" . a:mapping_char, fn_name_start_insert)
+endfunction
+" }}}
 
 let maplocalleader = "\\l"
 
@@ -950,40 +980,33 @@ nmap <silent> <Leader>u :<C-u>GundoToggle<CR>
 nmap <silent> <Leader>. :edit ~/.vimrc<CR>
 nmap <silent> <Leader>> :source ~/.vimrc<CR>
 
-nmap <silent> <Leader>f\ :<C-u>UniteResume<CR>
-call Define_Unite_Mapping("b", "bookmark", [], "input")
-call Define_Unite_Mapping("f", "file_rec/async:!", [], "input")
-call Define_Unite_Mapping("g", "file_rec/git", [], "input")
-call Define_Unite_Mapping("u", "file_mru", [], "input")
-call Define_Unite_Mapping("o", "outline", [], "input")
-call Define_Unite_Mapping("s", "neosnippet", [], "input")
-call Define_Unite_Mapping("z", "fold", [], "input")
-call Define_Unite_Mapping("j", "jump", [], "input")
-call Define_Unite_Mapping("b", "buffer", [], "input")
-call Define_Unite_Mapping("q", "quickfix", [], "input")
-call Define_Unite_Mapping("l", "location_list", [], "input")
-call Define_Unite_Mapping("t", "tab", [], "input")
-call Define_Unite_Mapping("w", "window", [], "input")
-call Define_Unite_Mapping("c", "command", [], "input")
-call Define_Unite_Mapping("m", "mapping", [], "input")
-call Define_Unite_Mapping("n", "function", [], "input")
-call Define_Unite_Mapping("r", "register", [], "input")
-call Define_Unite_Mapping("/", "grep", ['%', '-i', ''], "param:2")
-call Define_Unite_Mapping("?", "grep", ['%', '-s', ''], "param:2")
-call Define_Unite_Mapping(".", "grep", ['.', '-i', ''], "param:2")
-call Define_Unite_Mapping(">", "grep", ['.', '-s', ''], "param:2")
-nmap <silent> <Leader>f<Space> :<C-u>Unite -no-split
-      \ file_rec/async:! file_mru buffer bookmark outline fold<CR>
-nmap <silent> <Leader>F<Space> :<C-u>Unite -no-split -start-insert
-      \ file_rec/async:! file_mru buffer bookmark outline fold<CR>
-vmap <silent> <Leader>f<Space> :<C-u>Unite -no-split
-      \ -input=<C-R>=escape(Get_visual_selection(), ' ')<CR>
-      \ file_rec/async:! file_mru buffer bookmark outline fold<CR>
-vmap <silent> <Leader>F<Space> :<C-u>Unite -no-split -start-insert
-      \ -input=<C-R>=escape(Get_visual_selection(), ' ')<CR>
-      \ file_rec/async:! file_mru buffer bookmark outline fold<CR>
+" nmap <silent> <Leader>f\ :<C-u>UniteResume<CR>
+" call Define_Unite_Mapping("Bookmark", "b", [['bookmark']], "input")
+call Define_Unite_Mapping("File", "f", [['file_rec/async', '!']], "input")
+call Define_Unite_Mapping("FileGit", "g", [['file_rec/git']], "input")
+call Define_Unite_Mapping("FileMru", "u", [['file_mru']], "input")
+call Define_Unite_Mapping("Outline", "o", [['outline']], "input")
+call Define_Unite_Mapping("Snippet", "s", [['neosnippet']], "input")
+call Define_Unite_Mapping("Fold", "z", [['fold']], "input")
+call Define_Unite_Mapping("Jump", "j", [['jump']], "input")
+call Define_Unite_Mapping("Buffer", "b", [['buffer']], "input")
+call Define_Unite_Mapping("QuickFix", "q", [['quickfix']], "input")
+call Define_Unite_Mapping("LocationList", "l", [['location_list']], "input")
+call Define_Unite_Mapping("Tab", "t", [['tab']], "input")
+call Define_Unite_Mapping("Window", "w", [['window']], "input")
+call Define_Unite_Mapping("Command", "c", [['command']], "input")
+call Define_Unite_Mapping("Mapping", "m", [['mapping']], "input")
+call Define_Unite_Mapping("Function", "n", [['function']], "input")
+call Define_Unite_Mapping("Register", "r", [['register']], "input")
+call Define_Unite_Mapping("GrepLocal", "/", [['grep', '%', '-i', '']], "param:0:3")
+call Define_Unite_Mapping("GrepLocalS", "?", [['grep', '%', '-s', '']], "param:0:3")
+call Define_Unite_Mapping("GrepProject", ".", [['grep', '.', '-i', '']], "param:0:3")
+call Define_Unite_Mapping("GrepProjectS", ">", [['grep', '.', '-s', '']], "param:0:3")
+call Define_Unite_Mapping("Anything", "<Space>",
+      \ [['file_rec/async', '!'], ['file_mru'], ['buffer'], ['bookmark'], ['outline'], ['fold']], "input")
 
-" " Item info
+
+" " Item info"
 " au FileType haskell nmap <Leader>i :HdevtoolsInfo<CR>
 " au FileType haskell nmap <Leader>t :HdevtoolsType<CR>
 " au FileType haskell nmap <Leader>c :HdevtoolsClear<CR>
