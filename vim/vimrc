@@ -332,11 +332,13 @@ NeoBundleLazy 'aklt/plantuml-syntax', {
 " }}}
 
 " C/C++ {{{
-" NeoBundleLazy 'Rip-Rip/clang_complete', {
-" \  "autoload": {
-" \    "filetypes": ['c', 'cpp', 'objc', 'objcpp'],
-" \  }
-" \}
+if !has("neovim")
+  NeoBundleLazy 'Rip-Rip/clang_complete', {
+        \  "autoload": {
+        \    "filetypes": ['c', 'cpp', 'objc', 'objcpp'],
+        \  }
+        \}
+endif
 
 NeoBundleLazy 'osyo-manga/vim-marching', {
       \  "autoload": {
