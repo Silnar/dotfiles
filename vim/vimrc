@@ -324,6 +324,8 @@ NeoBundleLazy 'tpope/vim-fugitive', {
       \  }
       \}
 
+NeoBundle 'derekwyatt/vim-fswitch'
+
 NeoBundleLazy 'aklt/plantuml-syntax', {
       \  "autoload": {
       \    "filetypes": ['plantuml'],
@@ -981,6 +983,7 @@ nmap <silent> <Leader>E :<C-u>VimFilerExplorer -toggle<CR>
 nmap <silent> <Leader>u :<C-u>GundoToggle<CR>
 nmap <silent> <Leader>. :edit ~/.vimrc<CR>
 nmap <silent> <Leader>> :source ~/.vimrc<CR>
+nmap <silent> go :<C-u>FSHere<CR>
 
 " nmap <silent> <Leader>f\ :<C-u>UniteResume<CR>
 " call Define_Unite_Mapping("Bookmark", "b", [['bookmark']], "input")
