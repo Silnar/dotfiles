@@ -986,7 +986,8 @@ nmap <silent> <Leader>> :source ~/.vimrc<CR>
 nmap <silent> go :<C-u>FSHere<CR>
 
 " nmap <silent> <Leader>f\ :<C-u>UniteResume<CR>
-" call Define_Unite_Mapping("Bookmark", "b", [['bookmark']], "input")
+call Define_Unite_Mapping("Bookmark", "k", [['bookmark']], "input")
+call Define_Unite_Mapping("Colorscheme", "h", [['colorscheme']], "input")
 call Define_Unite_Mapping("File", "f", [['file_rec/async', '!']], "input")
 call Define_Unite_Mapping("FileGit", "g", [['file_rec/git']], "input")
 call Define_Unite_Mapping("FileMru", "u", [['file_mru']], "input")
