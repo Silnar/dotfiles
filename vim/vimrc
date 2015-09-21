@@ -911,8 +911,8 @@ if neobundle#tap('vim-marching')
         \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
 
   " set updatetime=200
-  imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
-  imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
+  " imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
+  " imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
 
   call neobundle#untap()
 endif
