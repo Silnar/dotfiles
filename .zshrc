@@ -17,6 +17,8 @@ setopt CHECK_JOBS
 
 alias dotfiles='git --work-tree=$HOME --git-dir=$HOME/.dotfiles'
 
+alias lsl='ls -al'
+
 alias a='fasd -a'        # any
 alias s='fasd -si'       # show / search / select
 alias d='fasd -d'        # directory
