@@ -440,9 +440,7 @@ endfunction
 " Load bundles {{{
 call neobundle#begin(expand('~/.vim/bundle/'))
 
-if neobundle#has_fresh_cache()
-  NeoBundleLoadCache
-else
+if neobundle#load_cache()
   call s:load_bundles()
   NeoBundleSaveCache
 endif
