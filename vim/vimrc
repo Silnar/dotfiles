@@ -126,6 +126,13 @@ NeoBundle 'chriskempson/tomorrow-theme', {
       \  'rtp': "~/.vim/bundle/tomorrow-theme/vim/",
       \}
 NeoBundle 'chriskempson/base16-vim'
+NeoBundle 'tango2'
+NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'freeo/vim-kalisi'
+NeoBundle 'abra/vim-abra'
+NeoBundle 'Wombat'
+NeoBundle 'altercation/vim-colors-solarized'
+
 " }}}
 
 " Basic functionality extensions {{{
