@@ -395,6 +395,14 @@ NeoBundleLazy 'bitc/lushtags', {
       \}
 " }}}
 
+" Nim {{{
+NeoBundleLazy 'zah/nimrod.vim', {
+      \  "autoload": {
+      \    "filetypes": ['nim'],
+      \  }
+      \}
+" }}}
+
 " Idris {{{
 NeoBundleLazy 'idris-hackers/idris-vim', {
       \  "autoload": {
@@ -446,7 +454,7 @@ syntax on
 set omnifunc=syntaxcomplete#Complete
 
 " Gui options
-set guioptions=
+set guioptions=c
 
 if has("gui_running")
   if has("gui_macvim")
