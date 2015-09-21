@@ -260,6 +260,11 @@ NeoBundleLazy 'Shougo/vimshell.vim', {
 NeoBundle 'vim-scripts/ingo-library'
 NeoBundle 'vim-scripts/TextTransform'
 
+NeoBundleLazy 'gerw/vim-HiLinkTrace', {
+      \  'commands' : [{ 'name' : 'HLT' }],
+      \  'mappings' : ['\hlt'],
+      \ }
+
 " }}}
 
 " Writing {{{
