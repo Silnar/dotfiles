@@ -413,6 +413,22 @@ NeoBundleLazy 'zah/nimrod.vim', {
       \}
 " }}}
 
+" Rust {{{
+NeoBundleLazy 'rust-lang/rust.vim', {
+      \  "autoload": {
+      \    "filetypes": ['rust'],
+      \  }
+      \}
+
+if executable("racer")
+  NeoBundle 'racer-rust/vim-racer', {
+        \  "autoload": {
+        \    "filetypes": ['rust'],
+        \  }
+        \}
+  " }}}
+endif
+
 " Toml {{{
 NeoBundleLazy 'cespare/vim-toml', {
         \  "autoload": {
@@ -943,6 +959,13 @@ let g:tex_flavor='latex'
 
 let g:Tex_DefaultTargetFormat='pdf'
 let g:Tex_ViewRule_pdf='okular'
+" }}}
+
+" racer-rust/vim-racer {{{
+if neobundle#tap('vim-racer')
+  let g:racer_cmd = "/usr/bin/racer"
+  let $RUST_SRC_PATH="/usr/src/rust/src"
+endif
 " }}}
 
 " }}}
