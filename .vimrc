@@ -776,6 +776,7 @@ if neobundle#tap('vimfiler.vim')
     let g:vimfiler_file_icon = '-'
     let g:vimfiler_marked_file_icon = '*'
 
+    autocmd VimRC FileType vimfiler nmap <silent><buffer> <2-LeftMouse> <Plug>(vimfiler_smart_l)
   endfunction "}}}
   call neobundle#untap()
 endif
