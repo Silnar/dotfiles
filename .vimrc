@@ -78,7 +78,10 @@ endif
 
 " Load NeoBundle plugin {{{
 if has('vim_starting')
-  set nocompatible
+  if &compatible
+    set nocompatible
+  endif
+
   set runtimepath& runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 " }}}
