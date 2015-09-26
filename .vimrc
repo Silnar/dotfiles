@@ -410,6 +410,14 @@ NeoBundleLazy 'zah/nimrod.vim', {
       \}
 " }}}
 
+" Toml {{{
+NeoBundleLazy 'cespare/vim-toml', {
+        \  "autoload": {
+        \    "filetypes": ['toml'],
+        \  }
+        \}
+" }}}
+
 " Idris {{{
 NeoBundleLazy 'idris-hackers/idris-vim', {
       \  "autoload": {
