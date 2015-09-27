@@ -28,7 +28,7 @@
 " - Fix neco-ghc, vim-latex config - add tap, snippet?
 
 " Load helper functions {{{
-source ~/.vim/functions.rc.vim
+source ~/.vim/rc/functions.rc.vim
 " }}}
 
 " Startup {{{
@@ -82,17 +82,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 if neobundle#load_cache()
   NeoBundleFetch 'Shougo/neobundle.vim'
 
-  NeoBundle 'Shougo/vimproc', {
-        \  'build' : {
-        \    'windows' : 'make -f make_mingw32.mak',
-        \    'cygwin'  : 'make -f make_cygwin.mak',
-        \    'mac'     : 'make -f make_mac.mak',
-        \    'unix'    : 'make -f make_unix.mak',
-        \  },
-        \}
-
-  let g:rc#plugin_define = 1
-  for file in split(globpath('~/.vim/plugins/', '*.rc.vim'), '\n')
+  for file in split(globpath('~/.vim/rc/plugins/', '*.plugin.def.vim'), '\n')
     execute "source " . fnameescape(file)
   endfor
 
@@ -103,7 +93,7 @@ call neobundle#end()
 " }}}
 
 " Load default settings {{{
-source ~/.vim/defaults.rc.vim
+source ~/.vim/rc/defaults.rc.vim
 " }}}
 
 " Filetype & Autocommand {{{
@@ -117,8 +107,8 @@ autocmd VimRC BufWritePre * :%s/\s\+$//e
 
 " Plugin settings {{{
 let g:rc#plugin_define = 0
-for file in split(globpath('~/.vim/plugins/', '*.rc.vim'), '\n')
-  let plugin_name = fnamemodify(file, ":t:s?.rc.vim??")
+for file in split(globpath('~/.vim/rc/plugins/', '*.plugin.rc.vim'), '\n')
+  let plugin_name = fnamemodify(file, ":t:s?.plugin.rc.vim??")
 
   if neobundle#tap(plugin_name)
     execute "source " . fnameescape(file)
