@@ -15,7 +15,8 @@ if has("gui_running")
   if has("gui_macvim")
     set guifont=Monaco:h14
   else
-    set guifont=Bitstream\ Vera\ Sans\ Mono\ 14
+    set guifont=Fantasque\ Sans\ Mono\ Regular\ 14
+    " set guifont=Bitstream\ Vera\ Sans\ Mono\ 14
   endif
 endif
 
