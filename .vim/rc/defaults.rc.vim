@@ -31,8 +31,15 @@ if !has("nvim")
 endif
 
 " Colorscheme
-colorscheme mrkn256
-hi CursorLine term=NONE cterm=NONE gui=NONE
+if has("nvim")
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+let g:gruvbox_contrast_dark="hard"
+let g:gruvbox_italic=1
+set bg=dark
+colorscheme gruvbox
+" colorscheme mrkn256
+" hi CursorLine term=NONE cterm=NONE gui=NONE
 
 " Highlight current line
 set cursorline
