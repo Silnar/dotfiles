@@ -201,6 +201,8 @@ bar {
         mode hide
 }
 
+hide_edge_borders both
+
 for_window [title="^FTL$"] floating enable
 for_window [title="^xfce4-notifyd$"] floating enable
 for_window [title="^xfce4-notifyd$"] border none
