@@ -27,10 +27,6 @@
 "
 " - Fix neco-ghc, vim-latex config - add tap, snippet?
 
-" Load helper functions {{{
-source ~/.vim/rc/functions.rc.vim
-" }}}
-
 " Startup {{{
 " Note: Skip initialization for vim-tiny or vim-small.
 if !1 | finish | endif
@@ -44,6 +40,12 @@ if !1 | finish | endif
 "   autocmd VimEnter * let s:startuptime = reltime(s:startuptime) | redraw
 "   \ | echomsg 'startuptime: ' . reltimestr(s:startuptime)
 " endif
+
+" Load helper functions {{{
+source ~/.vim/rc/functions.rc.vim
+" }}}
+
+let g:rc#os=GetRunningOS()
 
 " Clear main augroup {{{
 augroup VimRC

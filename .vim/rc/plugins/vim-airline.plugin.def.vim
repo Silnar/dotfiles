@@ -1,3 +1,3 @@
-if !has("gui_macvim")
+if has("nvim")
   NeoBundle 'bling/vim-airline'
 endif
