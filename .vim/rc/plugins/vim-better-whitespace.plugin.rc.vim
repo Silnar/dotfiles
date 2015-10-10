@@ -10,3 +10,8 @@ function! Strip_whitespace_on_write()
 endfunction
 
 autocmd VimRC BufWritePre * :call Strip_whitespace_on_write()
+
+" Blacklist
+function! neobundle#tapped.hooks.on_post_source(bundle)
+  let g:better_whitespace_filetypes_blacklist += ['log']
+endfunction

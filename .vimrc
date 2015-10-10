@@ -74,22 +74,24 @@ if has('vim_starting')
     set nocompatible
   endif
 
-  set runtimepath& runtimepath+=~/.vim/bundle/neobundle.vim/
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 " }}}
 
 " Load bundles {{{
 call neobundle#begin(expand('~/.vim/bundle/'))
 
-if neobundle#load_cache()
-  NeoBundleFetch 'Shougo/neobundle.vim'
+  if neobundle#load_cache()
+    NeoBundleFetch 'Shougo/neobundle.vim'
 
-  for file in split(globpath('~/.vim/rc/plugins/', '*.plugin.def.vim'), '\n')
-    execute "source " . fnameescape(file)
-  endfor
+    NeoBundleLocal ~/.vim/bundle-local/
 
-  NeoBundleSaveCache
-endif
+    for file in split(globpath('~/.vim/rc/plugins/', '*.plugin.def.vim'), '\n')
+      execute "source " . fnameescape(file)
+    endfor
+
+    NeoBundleSaveCache
+  endif
 
 call neobundle#end()
 " }}}
