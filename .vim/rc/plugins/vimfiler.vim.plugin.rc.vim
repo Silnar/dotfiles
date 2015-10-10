@@ -13,3 +13,7 @@ function! neobundle#tapped.hooks.on_source(bundle)
 
   autocmd VimRC FileType vimfiler nmap <silent><buffer> <2-LeftMouse> <Plug>(vimfiler_smart_l)
 endfunction
+
+function! neobundle#tapped.hooks.on_post_source(bundle)
+  autocmd VimRC FileType vimfiler unmap <silent><buffer> \
+endfunction
