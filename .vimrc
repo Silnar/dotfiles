@@ -195,8 +195,8 @@ endfunction
 let maplocalleader = "\\l"
 
 nmap <silent> <Leader>t :tabnew<CR>
-nmap <silent> <Leader>e :<C-u>VimFiler -toggle<CR>
-nmap <silent> <Leader>E :<C-u>VimFilerExplorer -toggle<CR>
+nmap <silent> <Leader>e :<C-u>execute "VimFiler -toggle -buffer-name=vimfiler#" . tabpagenr() . " " . fnameescape(getcwd())<CR>
+nmap <silent> <Leader>E :<C-u>execute "VimFilerExplorer -toggle -buffer-name=vimfiler#" . tabpagenr() . " " . fnameescape(getcwd())<CR>
 nmap <silent> <Leader>u :<C-u>GundoToggle<CR>
 nmap <silent> <Leader>. :edit ~/.vimrc<CR>
 nmap <silent> <Leader>> :source ~/.vimrc<CR>
