@@ -102,9 +102,6 @@ source ~/.vim/rc/defaults.rc.vim
 " Tabs
 autocmd VimRC Filetype haskell setlocal ts=2 sts=2 sw=2 et ai
 autocmd VimRC Filetype taskpaper setlocal ts=2 sts=2 sw=2 ai
-
-" Remove trailing whitespaces on write
-autocmd VimRC BufWritePre * :%s/\s\+$//e
 " }}}
 
 " Plugin settings {{{
