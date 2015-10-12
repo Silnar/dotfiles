@@ -1,0 +1,1 @@
+autocmd VimRC BufWritePost * Neomake
