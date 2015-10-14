@@ -16,4 +16,5 @@ endfunction
 
 function! neobundle#tapped.hooks.on_post_source(bundle)
   autocmd VimRC FileType vimfiler unmap <silent><buffer> \
+  autocmd VimRC FileType vimfiler set nonumber
 endfunction
