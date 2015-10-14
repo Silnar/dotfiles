@@ -1,1 +1,1 @@
-NeoBundle 'ntpeters/vim-better-whitespace'
+" NeoBundle 'ntpeters/vim-better-whitespace'
