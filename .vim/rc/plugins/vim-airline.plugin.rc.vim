@@ -3,3 +3,7 @@ let g:airline_right_sep = ''
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline#extensions#whitespace#trailing_format = 'tr[%s]'
+let g:airline#extensions#whitespace#mixed_indent_format = 'mi[%s]'
+let g:airline#extensions#whitespace#long_format = 'long[%s]'
+let g:airline#extensions#hunks#non_zero_only = 1
