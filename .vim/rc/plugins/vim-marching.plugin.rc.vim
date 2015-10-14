@@ -1,3 +1,7 @@
+let g:marching_clang_command = "/usr/bin/clang"
+let g:marching_include_paths = [
+	\	"/usr/include"
+	\]
 let g:marching_enable_neocomplete = 1
 
 if !exists('g:neocomplete#force_omni_input_patterns')
