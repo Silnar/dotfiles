@@ -6,7 +6,7 @@
 	interactive = auto
 	status = auto
 [core]
-	editor = nvim
+	editor = kak
 	quotepath = false
 [alias]
 	st = status
