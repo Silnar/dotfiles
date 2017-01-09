@@ -4,3 +4,7 @@
 [submodule ".oh-my-zsh-custom/plugins/zsh-autosuggestions"]
 	path = .oh-my-zsh-custom/plugins/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions.git
+
+[submodule ".gitrc/git-diff-image"]
+	path = .gitrc/git-diff-image
+	url = https://github.com/ewanmellor/git-diff-image.git

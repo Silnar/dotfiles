@@ -1,23 +1,29 @@
 [include]
-  path = ~/.gituserinfo
+	path = ~/.gituserinfo
 [color]
 	branch = auto
 	diff = auto
 	interactive = auto
 	status = auto
+[pager]
+	status = true
 [core]
 	editor = kak
 	quotepath = false
+	attributesfile = ~/.gitattributes
 [alias]
 	st = status
 	co = checkout
-  ci = commit
+	ci = commit
 	br = branch
-  df = diff
-  dc = diff --cached
-  logg = log --graph --decorate --pretty=oneline --abbrev-commit --branches --format='%C(auto)%d%C(auto,reset) %s (%h, %an)'
-  logga = log --graph --decorate --pretty=oneline --abbrev-commit --branches --format='%C(auto)%d%C(auto,reset) %s (%h, %an)' --all
-  ign = ls-files -o -i --exclude-standard
-  history = "!function pp() { for file in \"$@\"; do echo \"$file|\" `git log --pretty=format:'%cr: %s [%cn]' -1 -- \"$GIT_PREFIX$file\"`; done | column -t --separator '|'; }; pp "
+	df = diff
+	dc = diff --cached
+	logg = log --graph --decorate --pretty=oneline --abbrev-commit --branches --format='%C(auto)%d%C(auto,reset) %s (%h, %an)'
+	logga = log --graph --decorate --pretty=oneline --abbrev-commit --branches --format='%C(auto)%d%C(auto,reset) %s (%h, %an)' --all
+	ign = ls-files -o -i --exclude-standard
+	history = "!function pp() { for file in \"$@\"; do echo \"$file|\" `git log --pretty=format:'%cr: %s [%cn]' -1 -- \"$GIT_PREFIX$file\"`; done | column -t --separator '|'; }; pp "
+	diff-image = "!f() { GIT_DIFF_IMAGE_ENABLED=1 git diff \"$@\"; }; f"
 [push]
 	default = simple
+[diff "image"]
+	command = ~/.gitrc/git-diff-image/git_diff_image
