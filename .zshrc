@@ -86,7 +86,7 @@ source $ZSH/oh-my-zsh.sh
 
 # setopt CHECK_JOBS
 
-[ -f ~/.env ] && source ~/.env
+[ -f ~/.env.sh ] && source ~/.env.sh
 
 alias dotfiles='git --work-tree=$HOME --git-dir=$HOME/.dotfiles'
 
