@@ -9,6 +9,7 @@
 	status = true
 [core]
 	editor = kak
+	pager = less -XFR
 	quotepath = false
 	attributesfile = ~/.gitattributes
 [alias]
