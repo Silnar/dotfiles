@@ -24,6 +24,7 @@
 	ign = ls-files -o -i --exclude-standard
 	history = "!function pp() { for file in \"$@\"; do echo \"$file|\" `git log --pretty=format:'%cr: %s [%cn]' -1 -- \"$GIT_PREFIX$file\"`; done | column -t --separator '|'; }; pp "
 	diff-image = "!f() { GIT_DIFF_IMAGE_ENABLED=1 git diff \"$@\"; }; f"
+	nyancat = "!nyancat"
 [push]
 	default = simple
 [diff "image"]
