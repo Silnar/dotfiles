@@ -8,3 +8,6 @@
 [submodule ".gitrc/git-diff-image"]
 	path = .gitrc/git-diff-image
 	url = https://github.com/ewanmellor/git-diff-image.git
+[submodule ".local/share/omf"]
+	path = .local/share/omf
+	url = https://github.com/oh-my-fish/oh-my-fish.git
