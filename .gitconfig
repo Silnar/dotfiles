@@ -29,3 +29,5 @@
 	default = simple
 [diff "image"]
 	command = ~/.gitrc/git-diff-image/git_diff_image
+[diff]
+	wsErrorHighlight = all
