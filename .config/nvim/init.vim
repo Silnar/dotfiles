@@ -1,1 +1,2 @@
-execute 'source' fnamemodify(expand('<sfile>'), ':h').'/rc/vimrc'
+
+au BufNewFile,BufRead *.ioslog set filetype=ioslog
