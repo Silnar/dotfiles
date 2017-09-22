@@ -19,6 +19,8 @@
 	br = branch
 	df = diff
 	dc = diff --cached
+	l = log --graph --decorate --pretty=oneline --abbrev-commit --branches --format='%C(auto)%d%C(auto,reset) %s (%h, %an)'
+	la = log --graph --decorate --pretty=oneline --abbrev-commit --branches --format='%C(auto)%d%C(auto,reset) %s (%h, %an)' --all
 	logg = log --graph --decorate --pretty=oneline --abbrev-commit --branches --format='%C(auto)%d%C(auto,reset) %s (%h, %an)'
 	logga = log --graph --decorate --pretty=oneline --abbrev-commit --branches --format='%C(auto)%d%C(auto,reset) %s (%h, %an)' --all
 	root = rev-parse --show-toplevel
