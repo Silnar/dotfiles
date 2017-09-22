@@ -1,0 +1,24 @@
+*.gif diff=image
+*.jpeg diff=image
+*.jpg diff=image
+*.png diff=image
+
+*.tar diff=tar
+*.tar.bz2 diff=tar-bz2
+*.tar.gz diff=tar-gz
+*.tar.xz diff=tar-xz
+*.bz2 diff=bz2
+*.gz diff=gz
+*.zip diff=zip
+*.jar diff=zip
+*.aar diff=zip
+*.xz diff=xz
+
+*.odf diff=odf
+*.odt diff=odf
+*.odp diff=odf
+*.pdf diff=pdf
+*.exe diff=bin
+*.png diff=bin
+*.jpg diff=bin
+
