@@ -11,3 +11,6 @@
 [submodule ".local/share/omf"]
 	path = .local/share/omf
 	url = https://github.com/oh-my-fish/oh-my-fish.git
+[submodule "/home/pico/.local/opt/antigen"]
+	path = /home/pico/.local/opt/antigen
+	url = https://github.com/zsh-users/antigen
