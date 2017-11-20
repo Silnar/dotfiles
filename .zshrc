@@ -12,6 +12,9 @@ antigen theme tamorim/naiz naiz
 
 antigen apply
 
+source ~/.antigen/bundles/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.antigen/bundles/zsh-users/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 [ -f ~/.env.sh ] && source ~/.env.sh
 
 alias dotfiles='git --work-tree=$HOME --git-dir=$HOME/.dotfiles'
