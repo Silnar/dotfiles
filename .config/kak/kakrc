@@ -1,5 +1,9 @@
 # colorscheme base16
 
+hook global BufCreate .*/?mk %{
+    set-option buffer filetype makefile
+}
+
 def surround %!on-key %@exec %sh&
   case "$kak_key" in
   "<lt>") key="<" ;;
