@@ -14,3 +14,6 @@
 [submodule ".local/opt/antigen"]
 	path = .local/opt/antigen
 	url = https://github.com/zsh-users/antigen
+[submodule ".tmux/plugins/tmux-resurrect"]
+	path = .tmux/plugins/tmux-resurrect
+	url = https://github.com/tmux-plugins/tmux-resurrect
