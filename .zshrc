@@ -1,9 +1,12 @@
+setopt share_history
+
 source ~/.local/opt/antigen/antigen.zsh
 
 antigen use oh-my-zsh
 
 antigen bundle git
 
+# antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-syntax-highlighting
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 antigen bundle zsh-users/zsh-autosuggestions
@@ -12,6 +15,7 @@ antigen theme tamorim/naiz naiz
 
 antigen apply
 
+# source ~/.antigen/bundles/zsh-users/zsh-completions/zsh-completions.plugin.zsh
 source ~/.antigen/bundles/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.antigen/bundles/zsh-users/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
