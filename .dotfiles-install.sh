@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -o pipefail
+
 git --git-dir=$HOME/.dotfiles --work-tree=$HOME init
 git --git-dir=$HOME/.dotfiles --work-tree=$HOME remote add origin https://github.com/Silnar/dotfiles.git
 git --git-dir=$HOME/.dotfiles --work-tree=$HOME fetch
