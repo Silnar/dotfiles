@@ -8,3 +8,4 @@ git --git-dir=$HOME/.dotfiles --work-tree=$HOME remote add origin https://github
 git --git-dir=$HOME/.dotfiles --work-tree=$HOME fetch
 git --git-dir=$HOME/.dotfiles --work-tree=$HOME checkout master
 git --git-dir=$HOME/.dotfiles --work-tree=$HOME submodule update --init --recursive
+git --git-dir=$HOME/.dotfiles --work-tree=$HOME config --local status.showUntrackedFiles no
