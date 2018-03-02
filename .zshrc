@@ -19,9 +19,24 @@ antigen apply
 source ~/.antigen/bundles/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.antigen/bundles/zsh-users/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+# Helper functions
+function join_by { local IFS="$1"; shift; echo "$*"; }
+
+function git_diff() {
+  git diff --no-ext-diff -w "$@" | vim -R -
+}
+
+function print_path() {
+  tr ':' '\n' <<< "$PATH"
+}
+
+# Local config
 [ -f ~/.env.sh ] && source ~/.env.sh
 
+# Aliases
 alias dotfiles='git --work-tree=$HOME --git-dir=$HOME/.dotfiles'
+alias gitka='gitk --all'
+
 
 # # If you come from bash you might have to change your $PATH.
 # # export PATH=$HOME/bin:/usr/local/bin:$PATH
