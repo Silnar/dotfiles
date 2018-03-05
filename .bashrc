@@ -2,9 +2,9 @@
 # ~/.bashrc
 #
 
-if [ -f ~/.env ]
+if [ -f ~/.env.sh ]
 then
-  source ~/.env
+  source ~/.env.sh
 fi
 
 export EDITOR='vim'
