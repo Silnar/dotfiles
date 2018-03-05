@@ -2,6 +2,8 @@
 # ~/.bashrc
 #
 
+alias dotfiles='git --work-tree=$HOME --git-dir=$HOME/.dotfiles'
+
 if [ -f ~/.env.sh ]
 then
   source ~/.env.sh
