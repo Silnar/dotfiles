@@ -1,0 +1,42 @@
+{
+    "android_long_log": {
+        "title": "Android log",
+        "description": "Android log format",
+        "file-pattern": ".*\\.android.long.log",
+        "regex": {
+            "std": {
+                "pattern": "\\[ (?<timestamp>\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.\\d{3})\\s*?(?<log_pid>\\w+)\\:\\s*?(?<log_tid>\\w+) (?<level>\\w)\\/(?<log_tag>.+?)\\s*?\\](?<body>(?:.|\\n)*)"
+            }
+        },
+        "sample" : [
+            {
+                "line" : "[ 08-13 23:04:14.956 27499:27499 E/AndroidRuntime ]\nFATAL EXCEPTION: main\nProcess: com.citynav.jakdojade.pl.android, PID: 27499\n\n"
+            }
+        ],
+        "level-field" : "level",
+        "level" : {
+            "trace" : "V",
+            "error" : "E",
+            "warning" : "W",
+            "info": "I",
+            "fatal": "F"
+        },
+        "timestamp-format" : ["%m-%d %H:%M:%S.%L"],
+        "opid-field" : "log_pid",
+        "value" : {
+            "log_pid" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "log_tid" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "log_tag" : {
+                "kind" : "string",
+                "identifier" : true
+            }
+        }
+    }
+}
+
