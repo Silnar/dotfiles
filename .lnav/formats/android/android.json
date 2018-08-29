@@ -37,6 +37,44 @@
                 "identifier" : true
             }
         }
+    },
+    "android_studio_log": {
+        "title": "Android log",
+        "description": "Android log format",
+        "file-pattern": ".*\\.android.studio.log",
+        "regex": {
+            "std": {
+                "pattern": "(?<timestamp>\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.\\d{3})\\s(?<log_pid>\\w+)\\-(?<log_tid>\\w+)\\/\\S+ (?<level>\\w)\\/(?<log_tag>.+?)\\:\\s+?(?<body>(?:.|\\n)*)"
+            }
+        },
+        "sample" : [
+            {
+                "line": "08-28 11:42:47.089 1384-1384/? D/StatusBar.NetworkController: onSignalStrengthsChanged signalStrength=SignalStrength: 13 99 -120 -160 -120 -1 -1 99 2147483647 2147483647 2147483647 -1 2147483647 0x4 gsm|lte level=4\nupdateTelephonySignalStrength: hasService=true ss=SignalStrength: 13 99 -120 -160 -120 -1 -1 99 2147483647 2147483647 2147483647 -1 2147483647 0x4 gsm|lte\nupdateTelephonySignalStrength: iconLevel=4"
+            }
+        ],
+        "level-field" : "level",
+        "level" : {
+            "trace" : "V",
+            "error" : "E",
+            "warning" : "W",
+            "info": "I",
+            "fatal": "F"
+        },
+        "timestamp-format" : ["%m-%d %H:%M:%S.%L"],
+        "opid-field" : "log_pid",
+        "value" : {
+            "log_pid" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "log_tid" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "log_tag" : {
+                "kind" : "string",
+                "identifier" : true
+            }
+        }
     }
 }
-

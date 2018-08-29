@@ -1,0 +1,45 @@
+{
+    "ios_log": {
+        "title": "iOS log",
+        "description": "iOS log format",
+        "file-pattern": ".*\\.ios.log",
+        "regex": {
+            "std": {
+                "pattern": "(?<timestamp>\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.\\d{6}\\+\\d{4})\\s(?<log_app>\\w+)\\[(?<log_pid>\\d+):(?<log_tid>\\d+)\\]\\s((?<log_tag>\\w+)\\s\\|\\s+(?<level>\\w+)\\s+\\|\\s)?(?<body>(?:.|\\n)*)"
+            }
+        },
+        "sample" : [
+            {
+                "line": "2018-08-28 18:55:13.516083+0200 SmartyAlpha[336:84764] SmartySDK | VERBOSE | SMEventDispatcher: Received message. type: connection, selector: onConnection:, params: {\n  success: 0\n}"
+            }
+        ],
+        "level-field" : "level",
+        "level" : {
+            "trace" : "VERBOSE",
+            "error" : "ERROR",
+            "warning" : "WARN",
+            "info": "INFO",
+            "fatal": "FATAL"
+        },
+        // "timestamp-format" : ["%Y-%m-%d %H:%M:%S.%f+0%z"],
+        "opid-field" : "log_app",
+        "value" : {
+            "log_app" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "log_pid" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "log_tid" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "log_tag" : {
+                "kind" : "string",
+                "identifier" : true
+            }
+        }
+    }
+}
