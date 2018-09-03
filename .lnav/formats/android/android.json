@@ -5,7 +5,7 @@
         "file-pattern": ".*\\.android.long.log",
         "regex": {
             "std": {
-                "pattern": "\\[ (?<timestamp>\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.\\d{3})\\s*?(?<log_pid>\\w+)\\:\\s*?(?<log_tid>\\w+) (?<level>\\w)\\/(?<log_tag>.+?)\\s*?\\](?<body>(?:.|\\n)*)"
+                "pattern": "\\[ (?<timestamp>\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.\\d{3})\\s*?(?<pid>\\w+)\\:\\s*?(?<tid>\\w+) (?<level>\\w)\\/(?<tag>.+?)\\s*?\\](?<body>(?:.|\\n)*)"
             }
         },
         "sample" : [
@@ -22,17 +22,17 @@
             "fatal": "F"
         },
         "timestamp-format" : ["%m-%d %H:%M:%S.%L"],
-        "opid-field" : "log_pid",
+        "opid-field" : "pid",
         "value" : {
-            "log_pid" : {
+            "pid" : {
                 "kind" : "string",
                 "identifier" : true
             },
-            "log_tid" : {
+            "tid" : {
                 "kind" : "string",
                 "identifier" : true
             },
-            "log_tag" : {
+            "tag" : {
                 "kind" : "string",
                 "identifier" : true
             }
@@ -44,7 +44,7 @@
         "file-pattern": ".*\\.android.studio.log",
         "regex": {
             "std": {
-                "pattern": "(?<timestamp>\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.\\d{3})\\s(?<log_pid>\\w+)\\-(?<log_tid>\\w+)\\/\\S+ (?<level>\\w)\\/(?<log_tag>.+?)\\:\\s+?(?<body>(?:.|\\n)*)"
+                "pattern": "(?<timestamp>\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.\\d{3})\\s(?<pid>\\w+)\\-(?<tid>\\w+)\\/\\S+ (?<level>\\w)\\/(?<tag>.+?)\\:\\s+?(?<body>(?:.|\\n)*)"
             }
         },
         "sample" : [
@@ -61,17 +61,17 @@
             "fatal": "F"
         },
         "timestamp-format" : ["%m-%d %H:%M:%S.%L"],
-        "opid-field" : "log_pid",
+        "opid-field" : "pid",
         "value" : {
-            "log_pid" : {
+            "pid" : {
                 "kind" : "string",
                 "identifier" : true
             },
-            "log_tid" : {
+            "tid" : {
                 "kind" : "string",
                 "identifier" : true
             },
-            "log_tag" : {
+            "tag" : {
                 "kind" : "string",
                 "identifier" : true
             }

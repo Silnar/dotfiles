@@ -1,0 +1,51 @@
+{
+    "smarty_bot_log": {
+        "title": "Smarty Bot log",
+        "description": "Smarty bot log format",
+        "file-pattern": ".*\\.smarty.bot.log",
+        "regex": {
+            "000": {
+                "pattern": "(?<timestamp>\\d{2}:\\d{2}:\\d{2}.\\d{3})\\s(?<mdc>{Context=(?<mdc_context>\\S+), Name=(?<mdc_name>\\S+)})?\\s\\[(?<thread>\\S+)\\]\\s(?<level>\\w+)\\s+(?<logger>\\S+)\\s-\\s(?<body>(?:.|\\n)*)"
+            },
+            "100": {
+                "pattern": "(?<timestamp>\\d{2}:\\d{2}:\\d{2}.\\d{3})\\s(?<mdc>{(?:\\S+=\\S+(?:, )?)*})?\\s\\[(?<thread>\\S+)\\]\\s(?<level>\\w+)\\s+(?<logger>\\S+)\\s-\\s(?<body>(?:.|\\n)*)"
+            }
+        },
+        "sample" : [
+            {
+                "line" : "12:18:33.404 {Context=Bot, Name=Player#9598} [pool-3-thread-4] DEBUG c.l.smarty.game.GameLocalHost - Received game state. gamePlayer: {SmartyLocalPlayer gamePlayer: {SMAIGamePlayer id: 393}}, gameState: {result: Win, playState: Playing, winnerid: -1, botGame:false}"
+            }
+        ],
+        "level-field" : "level",
+        "level" : {
+            "trace" : "TRACE",
+            "debug": "DEBUG",
+            "info": "INFO",
+            "error" : "ERROR",
+            "warning" : "WARN"
+        },
+        "timestamp-format" : ["%H:%M:%S.%L"],
+        "value" : {
+            "mdc" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "mdc_context" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "mdc_name" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "thread" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "logger" : {
+                "kind" : "string",
+                "identifier" : true
+            }
+        }
+    }
+}

@@ -5,7 +5,7 @@
         "file-pattern": ".*\\.ios.log",
         "regex": {
             "std": {
-                "pattern": "(?<timestamp>\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.\\d{6}\\+\\d{4})\\s(?<log_app>\\w+)\\[(?<log_pid>\\d+):(?<log_tid>\\d+)\\]\\s((?<log_tag>\\w+)\\s\\|\\s+(?<level>\\w+)\\s+\\|\\s)?(?<body>(?:.|\\n)*)"
+                "pattern": "(?<timestamp>\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.\\d{6}\\+\\d{4})\\s(?<app>\\w+)\\[(?<pid>\\d+):(?<tid>\\d+)\\]\\s((?<tag>\\w+)\\s\\|\\s+(?<level>\\w+)\\s+\\|\\s)?(?<body>(?:.|\\n)*)"
             }
         },
         "sample" : [
@@ -22,21 +22,21 @@
             "fatal": "FATAL"
         },
         // "timestamp-format" : ["%Y-%m-%d %H:%M:%S.%f+0%z"],
-        "opid-field" : "log_app",
+        "opid-field" : "app",
         "value" : {
-            "log_app" : {
+            "app" : {
                 "kind" : "string",
                 "identifier" : true
             },
-            "log_pid" : {
+            "pid" : {
                 "kind" : "string",
                 "identifier" : true
             },
-            "log_tid" : {
+            "tid" : {
                 "kind" : "string",
                 "identifier" : true
             },
-            "log_tag" : {
+            "tag" : {
                 "kind" : "string",
                 "identifier" : true
             }
