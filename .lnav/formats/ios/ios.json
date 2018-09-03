@@ -5,7 +5,7 @@
         "file-pattern": ".*\\.ios.log",
         "regex": {
             "std": {
-                "pattern": "(?<timestamp>\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.\\d{6}\\+\\d{4})\\s(?<app>\\w+)\\[(?<pid>\\d+):(?<tid>\\d+)\\]\\s((?<tag>\\w+)\\s\\|\\s+(?<level>\\w+)\\s+\\|\\s)?(?<body>(?:.|\\n)*)"
+                "pattern": "(?<timestamp>\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.\\d{6}\\+\\d{4})\\s(?<app>\\S+)\\[(?<pid>\\d+):(?<tid>\\d+)\\]\\s((?<tag>\\w+)\\s\\|\\s+(?<level>\\w+)\\s+\\|\\s)?(?<body>(?:.|\\n)*)"
             }
         },
         "sample" : [
