@@ -5,12 +5,15 @@
         "file-pattern": ".*\\.ios.log",
         "regex": {
             "std": {
-                "pattern": "(?<timestamp>\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.\\d{6}\\+\\d{4})\\s(?<app>\\S+)\\[(?<pid>\\d+):(?<tid>\\d+)\\]\\s((?<tag>\\w+)\\s\\|\\s+(?<level>\\w+)\\s+\\|\\s)?(?<body>(?:.|\\n)*)"
+                "pattern": "(?<timestamp>\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}.\\d{6}\\+\\d{4})\\s(?<app>.+)\\[(?<pid>\\d+):(?<tid>\\d+)\\]\\s((?<tag>\\w+)\\s\\|\\s+(?<level>\\w+)\\s+\\|\\s)?(?<body>(?:.|\\n)*)"
             }
         },
         "sample" : [
             {
                 "line": "2018-08-28 18:55:13.516083+0200 SmartyAlpha[336:84764] SmartySDK | VERBOSE | SMEventDispatcher: Received message. type: connection, selector: onConnection:, params: {\n  success: 0\n}"
+            },
+            {
+                "line": "2018-10-10 13:36:25.380146+0200 Rummy LITE[1633:6354267] [DYMTLInitPlatform] platform initialization successful"
             }
         ],
         "level-field" : "level",
