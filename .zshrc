@@ -35,6 +35,10 @@ function print_path() {
 [ -f ~/.env.sh ] && source ~/.env.sh
 
 # Aliases
+function mkdircd() {
+    mkdir "$1" && cd "$1"
+}
+
 alias dotfiles='git --work-tree=$HOME --git-dir=$HOME/.dotfiles'
 alias gitka='gitk --all'
 
