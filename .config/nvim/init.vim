@@ -11,7 +11,11 @@ if s:dein_dir != '' || &runtimepath !~ '/dein.vim'
     let s:dein_dir = expand('$CACHE/dein')
           \. '/repos/github.com/Shougo/dein.vim'
     if !isdirectory(s:dein_dir)
-      execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
+      if has('nvim') || v:version >= 800
+        execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
+      else
+        execute '!git clone -b 1.5 https://github.com/Shougo/dein.vim' s:dein_dir
+      endif
     endif
   endif
   execute 'set runtimepath^=' . substitute(
