@@ -60,6 +60,11 @@ if dein#check_install()
   call dein#install()
 endif
 
+" Config
+nnoremap gev :e $MYVIMRC<CR>
+nnoremap gsv :so $MYVIMRC<CR>
+
+" Denite
 autocmd FileType denite call s:denite_my_settings()
 function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <CR>
@@ -70,12 +75,20 @@ function! s:denite_my_settings() abort
   \ denite#do_map('do_action', 'preview')
   nnoremap <silent><buffer><expr> q
   \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> <esc>
+  \ denite#do_map('quit')
   nnoremap <silent><buffer><expr> i
   \ denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> <Space>
   \ denite#do_map('toggle_select').'j'
+  nnoremap <silent><buffer><expr> ?
+  \ denite#do_map('choose_action')
 endfunction
 
+nnoremap <leader>fb :Denite buffer<CR>
+nnoremap <leader>ff :Denite file/rec<CR>
+
+" Defx
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
   " Define mappings
@@ -141,3 +154,5 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> cd
   \ defx#do_action('change_vim_cwd')
 endfunction
+
+nnoremap <leader>e :Defx<CR>
