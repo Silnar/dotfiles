@@ -155,4 +155,4 @@ function! s:defx_my_settings() abort
   \ defx#do_action('change_vim_cwd')
 endfunction
 
-nnoremap <leader>e :Defx<CR>
+nnoremap <leader>e :Defx -toggle -resume -split=vertical -winwidth=30 -direction=topleft -root-marker='dir: ' <CR>
