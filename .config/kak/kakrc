@@ -3,6 +3,7 @@
 source "%val{config}/expand-tab.kak"
 source "%val{config}/surround.kak"
 source "%val{config}/fzf.kak"
+source "%val{config}/cocoapods.kak"
 
 source "%val{config}/makefile.kak"
 
