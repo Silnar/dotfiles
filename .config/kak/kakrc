@@ -1,10 +1,38 @@
+source "%val{config}/plugins/plug.kak/rc/plug.kak"
+
+plug "andreyorst/fzf.kak" config %{
+    map global normal <c-p> ': fzf-mode<ret>'
+}
+
+plug "danr/kakoune-easymotion" config %{
+    map global normal <a-g> ':enter-user-mode<space>easymotion<ret>'
+}
+
+plug "lePerdu/kakboard" %{
+    hook global WinCreate .* %{ kakboard-enable }
+}
+
+plug 'delapouite/kakoune-mirror' %{
+  map global user m ': enter-user-mode -lock mirror<ret>' -docstring 'Mirror mode'
+}
+
+plug "lenormf/kakoune-extra"
+
+plug "occivink/kakoune-find"
+
+map global user c ':edit "%val{config}/kakrc"<ret>' -docstring 'Edit config'
+map global user <a-c> ':source "%val{config}/kakrc"<ret>' -docstring 'Source config'
+map global user / ':comment-line<ret>' -docstring 'Toggle comment'
+
+
 # colorscheme base16
 
-source "%val{config}/expand-tab.kak"
-source "%val{config}/surround.kak"
-source "%val{config}/fzf.kak"
-source "%val{config}/cocoapods.kak"
-source "%val{config}/gradle.kak"
 
-source "%val{config}/makefile.kak"
+# source "%val{config}/expand-tab.kak"
+# source "%val{config}/surround.kak"
+# source "%val{config}/fzf.kak"
+
+# source "%val{config}/cocoapods.kak"
+# source "%val{config}/gradle.kak"
+# source "%val{config}/makefile.kak"
 
