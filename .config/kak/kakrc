@@ -1,7 +1,8 @@
-# Map as soon as possible, in case of configuration errors
+#= Map as soon as possible, in case of configuration errors
 map global user c ':edit "%val{config}/kakrc"<ret>' -docstring 'Edit config'
 map global user <a-c> ':source "%val{config}/kakrc"<ret>' -docstring 'Source config'
 
+#= Plugins
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
 plug "andreyorst/smarttab.kak" defer smarttab %{
@@ -22,11 +23,16 @@ plug "andreyorst/smarttab.kak" defer smarttab %{
 }
 
 plug "andreyorst/fzf.kak" config %{
-    map global normal <c-p> ': fzf-mode<ret>'
+    map global normal <minus> ': fzf-mode<ret>'
 }
 
 plug "danr/kakoune-easymotion" config %{
-    map global normal <a-g> ':enter-user-mode<space>easymotion<ret>'
+    # map global normal <a-g> ':enter-user-mode<space>easymotion<ret>'
+    declare-user-mode jump
+    map global jump c ':easy-motion-char<ret>' -docstring 'to char'
+    map global jump w '<esc>:easy-motion-word<ret>' -docstring 'to word'
+    map global jump g ':easy-motion-line<ret>' -docstring 'to line'
+    map global normal <a-minus> ':enter-user-mode<space>jump<ret>'
 }
 
 plug "lePerdu/kakboard" %{
@@ -60,6 +66,7 @@ plug "occivink/kakoune-find"
 plug "https://gitlab.com/Screwtapello/kakoune-inc-dec"
 
 
+#= Trailing whitespace errors
 # Fix trailing whitespace errors
 define-command trailine-whitespace-errors-fix -docstring '
 Removes trailing whitespace errors
@@ -88,12 +95,15 @@ hook global ModeChange push:normal:insert -group trailine-whitespace-errors trai
 hook global ModeChange pop:insert:normal -group trailine-whitespace-errors trailing-whitespace-errors-show
 
 
-# Auto save
+#= Auto save
 # - use draft to avoid clearing echo line, so for example ':echo abc' will be able to show its output
 hook global NormalIdle .* -group auto-save 'try %{ exec -draft :w<ret>}'
 hook global ModeChange pop:insert:normal -group auto-save 'try %{exec -draft :w<ret>}'
 
+#= Options
+# set-option global extra_word_chars '_' '-'
 
+#= Mappings
 map global user / ':comment-line<ret>' -docstring 'Toggle comment'
 
 declare-user-mode project
@@ -101,8 +111,10 @@ map global project b ':make build:debug<ret>' -docstring 'build debug'
 map global project r ':make build:debug run<ret>' -docstring 'run debug'
 map global normal <=> ':enter-user-mode<space>project<ret>'
 
+#= Colorscheme
 # colorscheme base16
 
+#= Imports
 source "%val{config}/filetype/haxe.kak"
 source "%val{config}/filetype/cocoapods.kak"
 source "%val{config}/filetype/gradle.kak"
