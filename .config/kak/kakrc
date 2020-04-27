@@ -24,6 +24,8 @@ plug "andreyorst/smarttab.kak" defer smarttab %{
 
 plug "andreyorst/fzf.kak" config %{
     map global normal <minus> ': fzf-mode<ret>'
+} defer fzf %{
+    set fzf_implementation skim
 }
 
 plug "danr/kakoune-easymotion" config %{
@@ -96,9 +98,10 @@ hook global ModeChange pop:insert:normal -group trailine-whitespace-errors trail
 
 
 #= Auto save
+# TODO: It changes files - add some lineends, etc...
 # - use draft to avoid clearing echo line, so for example ':echo abc' will be able to show its output
-hook global NormalIdle .* -group auto-save 'try %{ exec -draft :w<ret>}'
-hook global ModeChange pop:insert:normal -group auto-save 'try %{exec -draft :w<ret>}'
+# hook global NormalIdle .* -group auto-save 'try %{ exec -draft :w<ret>}'
+# hook global ModeChange pop:insert:normal -group auto-save 'try %{exec -draft :w<ret>}'
 
 #= Options
 # set-option global extra_word_chars '_' '-'
@@ -107,6 +110,8 @@ hook global ModeChange pop:insert:normal -group auto-save 'try %{exec -draft :w<
 map global user / ':comment-line<ret>' -docstring 'Toggle comment'
 
 declare-user-mode project
+map global project <(> ':bp<ret>' -docstring 'prev buffer'
+map global project <)> ':bn<ret>' -docstring 'next buffer'
 map global project b ':make build:debug<ret>' -docstring 'build debug'
 map global project r ':make build:debug run<ret>' -docstring 'run debug'
 map global normal <=> ':enter-user-mode<space>project<ret>'
