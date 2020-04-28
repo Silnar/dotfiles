@@ -98,7 +98,7 @@ plug "ul/kak-lsp" do %{
     # Install only when it doesn't exist.
     command -v kak-lsp >/dev/null 2>&1 || cargo install --locked --force --path .
 } config %{
-    set-option global lsp_server_configuration haxe.haxe.executable="haxe"
+    # set-option global lsp_server_configuration haxe.haxe.executable="haxe"
 
     # debug
     # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
