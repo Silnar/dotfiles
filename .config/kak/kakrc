@@ -1,6 +1,8 @@
 #= Map as soon as possible, in case of configuration errors
 map global user ,     ': edit "%val{config}/kakrc"<ret>'   -docstring 'Edit config'
 map global user <a-,> ': source "%val{config}/kakrc"<ret>' -docstring 'Source config'
+map global user /     ': comment-line<ret>'  -docstring 'comment line'
+map global user <a-/> ': comment-block<ret>' -docstring 'comment block'
 
 #= Plugins
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
@@ -95,6 +97,16 @@ plug "alexherbo2/connect.kak" config %{
 plug "ul/kak-lsp" do %{
     # Install only when it doesn't exist.
     command -v kak-lsp >/dev/null 2>&1 || cargo install --locked --force --path .
+} config %{
+    set-option global lsp_server_configuration haxe.haxe.executable="haxe"
+
+    # debug
+    # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
+
+    map global normal <minus> ':enter-user-mode<space>lsp<ret>'
+    hook global WinSetOption filetype=(haxe) %{
+        lsp-enable-window
+    }
 }
 
 # plug "lenormf/kakoune-extra"
@@ -143,9 +155,6 @@ hook global ModeChange pop:insert:normal -group trailine-whitespace-errors trail
 # set-option global extra_word_chars '_' '-'
 
 #= Mappings
-map global user /     ': comment-line<ret>'  -docstring 'comment line'
-map global user <a-/> ': comment-block<ret>' -docstring 'comment block'
-
 declare-user-mode project
 map global project <(> ' :bp<ret>'                   -docstring 'prev buffer'
 map global project <)> ' :bn<ret>'                   -docstring 'next buffer'
