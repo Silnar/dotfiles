@@ -25,7 +25,7 @@ plug "andreyorst/smarttab.kak" defer smarttab %{
 }
 
 plug "alexherbo2/yank-ring.kak" config %{
-    map global user y '<esc>: yank-ring<ret>' -docstring "yank-ring"
+    map global user Y '<esc>: yank-ring<ret>' -docstring "yank-ring"
 }
 
 plug "andreyorst/fzf.kak" config %{
@@ -39,7 +39,7 @@ plug "andreyorst/fzf.kak" config %{
     map global user 's'     '<esc>: fzf-buffer-search<ret>'               -docstring "search in buffer"
     map global user 'v'     '<esc>: require-module fzf_vcs; fzf-vcs<ret>' -docstring "edit file from vcs repo"
     map global user '<a-v>' '<esc>: fzf-vcs-mode<ret>'                    -docstring "switch to vcs selection mode"
-    map global user 'p'     '<esc>: fzf-project<ret>'                     -docstring "open project"
+    map global user 'r'     '<esc>: fzf-project<ret>'                     -docstring "open project"
     map global user 'c'     '<esc>: fzf-cd<ret>'                          -docstring "change directory"
     # doesn't work
     # map global user 'y'   '<esc>: fzf-yank-ring<ret>'                   -docstring "open yank-ring"
@@ -67,19 +67,12 @@ plug "andreyorst/fzf.kak" config %{
 # }
 
 plug "danr/kakoune-easymotion" config %{
-    # map global normal <a-g> ':enter-user-mode<space>easymotion<ret>'
+    # map global normal <a-g> ': enter-user-mode<space>easymotion<ret>'
     declare-user-mode jump
     map global jump c '<esc>: easy-motion-char<ret>'      -docstring 'to char'
     map global jump w '<esc>: easy-motion-word<ret>'      -docstring 'to word'
     map global jump g '<esc>: easy-motion-line<ret>'      -docstring 'to line'
     map global user j ': enter-user-mode<space>jump<ret>' -docstring 'jump'
-}
-
-plug "lePerdu/kakboard" %{
-    # hook global WinCreate .* %{ kakboard-enable }
-    map global user t ': kakboard-toggle<ret>' -docstring 'Kakboard toggle'
-    # map global user y ': kakboard-push-clipboard<ret>' -d ocstring 'Push clipboard'
-    # map global user p ': kakboard-pull-clipboard<ret>' -docst ring 'Push clipboard'
 }
 
 plug 'delapouite/kakoune-mirror' %{
@@ -103,7 +96,7 @@ plug "ul/kak-lsp" do %{
     # debug
     # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
-    map global normal <minus> ':enter-user-mode<space>lsp<ret>'
+    map global normal <minus> ': enter-user-mode<space>lsp<ret>'
     hook global WinSetOption filetype=(haxe) %{
         lsp-enable-window
     }
@@ -114,6 +107,53 @@ plug "ul/kak-lsp" do %{
 plug "occivink/kakoune-find"
 
 plug "https://gitlab.com/Screwtapello/kakoune-inc-dec"
+
+
+#= Clipboard
+declare-option -docstring 'command to copy to clipboard' \
+    str clipboard_copy_cmd
+declare-option -docstring 'command to paste from clipboard' \
+    str clipboard_paste_cmd
+evaluate-commands %sh{
+    copy=
+    paste=
+    case $(uname -s) in
+        Darwin)
+            copy="pbcopy"
+            paste="pbpaste"
+            ;;
+
+        *)
+            if test -n "$WAYLAND_DISPLAY" \
+                && command -v wl-copy >/dev/null \
+                && command -v wl-paste >/dev/null
+            then
+                # wl-clipboard
+                copy="wl-copy --foreground"
+                paste="wl-paste --no-newline"
+            elif test -n "$DISPLAY" && command -v xsel >/dev/null; then
+                # xsel
+                copy="xsel --input --clipboard"
+                paste="xsel --output --clipboard"
+            elif test -n "$DISPLAY" && command -v xclip >/dev/null; then
+                # xclip
+                copy="xclip -in -selection clipboard"
+                paste="xclip -out -selection clipboard"
+            fi
+            ;;
+    esac
+
+    echo "set-option global clipboard_copy_cmd '$copy'"
+    echo "set-option global clipboard_paste_cmd '$paste'"
+}
+declare-user-mode clipboard
+map -docstring "copy to system clipboard"                   global clipboard 'y' "<a-|>%opt{clipboard_copy_cmd}<ret>:<space>echo -markup %{{Information}yanked selection to system clipboard}<ret>"
+map -docstring "cut to system clipboard"                    global clipboard 'd' "|%opt{clipboard_copy_cmd}<ret>"
+map -docstring "cut to system clipboard, enter insert mode" global clipboard 'c' "|%opt{clipboard_copy_cmd}<ret>i"
+map -docstring "paste from system clipboard before cursor"  global clipboard 'P' "!%opt{clipboard_paste_cmd}<ret>"
+map -docstring "paste from system clipboard after cursor"   global clipboard 'p' "<a-!>%opt{clipboard_paste_cmd}<ret>"
+map -docstring "replace selection with system clipboard"    global clipboard 'R' "|%opt{clipboard_paste_cmd}<ret>"
+map global normal <a-,> ': enter-user-mode<space>clipboard<ret>'
 
 
 #= Trailing whitespace errors
@@ -152,6 +192,7 @@ hook global ModeChange pop:insert:normal -group trailine-whitespace-errors trail
 # hook global ModeChange pop:insert:normal -group auto-save 'try %{exec -draft :w<ret>}'
 
 #= Options
+# set-option global ui_options 'ncurses_assistant=cat'
 # set-option global extra_word_chars '_' '-'
 
 #= Mappings
