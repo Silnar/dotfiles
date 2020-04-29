@@ -70,3 +70,9 @@ define-command -hidden haxe-indent-on-closing-curly-brace %[
 ]
 
 §
+
+hook global BufSetOption filetype=(haxe) %{
+    set-option buffer comment_line '//'
+    set-option buffer comment_block_begin '/*'
+    set-option buffer comment_block_end '*/'
+}
