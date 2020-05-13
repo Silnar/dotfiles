@@ -45,6 +45,7 @@ plug "andreyorst/fzf.kak" config %{
     # map global user 'y'   '<esc>: fzf-yank-ring<ret>'                   -docstring "open yank-ring"
 } defer fzf %{
     set fzf_implementation skim
+    set fzf_grep_command rg
 }
 
 plug "alexherbo2/phantom.kak" config %{
@@ -111,6 +112,18 @@ plug "ul/kak-lsp" do %{
 plug "occivink/kakoune-find"
 
 plug "https://gitlab.com/Screwtapello/kakoune-inc-dec"
+
+plug "andreyorst/kaktree" config %{
+    hook global WinSetOption filetype=kaktree %{
+        remove-highlighter buffer/numbers
+        remove-highlighter buffer/matching
+        remove-highlighter buffer/wrap
+        remove-highlighter buffer/show-whitespaces
+    }
+    kaktree-enable
+
+    map global user t ': kaktree-toggle<ret>' -docstring 'kaktree'
+}
 
 
 #= Clipboard
