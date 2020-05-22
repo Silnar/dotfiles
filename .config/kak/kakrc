@@ -15,13 +15,8 @@ plug "andreyorst/smarttab.kak" defer smarttab %{
     set-option global smarttab_noexpandtab_mode_name 'noexp'
     set-option global smarttab_smarttab_mode_name    'smart'
 } config %{
-    hook global WinSetOption filetype=.* expandtab
-    # # these languages will use `expandtab' behavior
-    # hook global WinSetOption filetype=(rust|markdown|kak|lisp|scheme|sh|perl) expandtab
-    # # these languages will use `noexpandtab' behavior
-    # hook global WinSetOption filetype=(makefile|gas) noexpandtab
-    # # these languages will use `smarttab' behavior
-    # hook global WinSetOption filetype=(c|cpp) smarttab
+    hook global BufSetOption filetype=.* expandtab
+    hook global BufSetOption filetype=(makefile) noexpandtab
 }
 
 plug "alexherbo2/yank-ring.kak" config %{
@@ -211,6 +206,12 @@ hook global ModeChange pop:insert:normal -group trailine-whitespace-errors trail
 #= Options
 # set-option global ui_options 'ncurses_assistant=cat'
 # set-option global extra_word_chars '_' '-'
+
+#== Languages
+hook global BufSetOption filetype=ruby %{
+    set-option buffer indentwidth 2
+}
+
 
 #= Mappings
 declare-user-mode project
