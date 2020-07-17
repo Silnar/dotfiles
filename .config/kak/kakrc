@@ -208,7 +208,7 @@ hook global ModeChange pop:insert:normal -group trailine-whitespace-errors trail
 # set-option global extra_word_chars '_' '-'
 
 #== Languages
-hook global BufSetOption filetype=ruby %{
+hook global BufSetOption filetype=(ruby|yaml) %{
     set-option buffer indentwidth 2
 }
 
