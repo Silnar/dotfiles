@@ -234,6 +234,7 @@ map global normal <=>  ' :enter-user-mode<space>project<ret>'
 #= Imports
 source "%val{config}/filetype/haxe.kak"
 source "%val{config}/filetype/cocoapods.kak"
+source "%val{config}/filetype/csharp.kak"
 source "%val{config}/filetype/gradle.kak"
 source "%val{config}/filetype/makefile.kak"
 
