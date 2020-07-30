@@ -74,12 +74,10 @@ plug "alexherbo2/phantom.kak" config %{
 }
 
 plug "danr/kakoune-easymotion" config %{
-    # map global normal <a-g> ': enter-user-mode<space>easymotion<ret>'
-    declare-user-mode jump
-    map global jump c '<esc>: easy-motion-char<ret>'      -docstring 'to char'
-    map global jump w '<esc>: easy-motion-word<ret>'      -docstring 'to word'
-    map global jump g '<esc>: easy-motion-line<ret>'      -docstring 'to line'
-    map global user j ': enter-user-mode<space>jump<ret>' -docstring 'jump'
+    map global easymotion <a-x> '<esc>: easy-motion-char<ret>'  -docstring 'char'
+    map global easymotion x '<esc>: easy-motion-word<ret>'      -docstring 'word'
+    map global easymotion X '<esc>: easy-motion-line<ret>'      -docstring 'line'
+    map global user e ': enter-user-mode<space>easymotion<ret>' -docstring 'easymotion'
 }
 
 plug 'delapouite/kakoune-mirror' %{
