@@ -9,7 +9,7 @@ define-command -docstring 'Copy position' copy-position %{
         echo "set-register dquote \"$kak_selection:\\n    $(realpath --relative-to=$PWD $kak_buffile):$kak_cursor_line:$kak_cursor_column\""
     }
 }
-map global user x ': copy-position<ret>' -docstring 'Copy position'
+# map global user x ': copy-position<ret>' -docstring 'Copy position'
 
 #= Plugins
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
@@ -208,6 +208,20 @@ hook global ModeChange pop:insert:normal -group trailine-whitespace-errors trail
 # hook global NormalIdle .* -group auto-save 'try %{ exec -draft :w<ret>}'
 # hook global ModeChange pop:insert:normal -group auto-save 'try %{exec -draft :w<ret>}'
 
+#= Subwords
+def -hidden select-next-subword %{
+      exec /[A-Z][a-z]+|[A-Z]+|[a-z]+<ret>
+}
+def -hidden extend-next-subword %{
+      exec ?[A-Z][a-z]+|[A-Z]+|[a-z]+<ret>
+}
+def -hidden select-prev-subword %{
+      exec <a-/>[A-Z][a-z]+|[A-Z]+|[a-z]+<ret>
+}
+def -hidden extend-prev-subword %{
+      exec <a-?>[A-Z][a-z]+|[A-Z]+|[a-z]+<ret>
+}
+
 #= Options
 # set-option global ui_options 'ncurses_assistant=cat'
 # set-option global extra_word_chars '_' '-'
@@ -225,6 +239,16 @@ map global project <)> ' :bn<ret>'                   -docstring 'next buffer'
 map global project b   ' :make build:debug<ret>'     -docstring 'build debug'
 map global project r   ' :make build:debug run<ret>' -docstring 'run debug'
 map global normal <=>  ' :enter-user-mode<space>project<ret>'
+
+declare-user-mode subword
+map global subword w ' :select-next-subword<ret>' -docstring 'next'
+map global subword b ' :select-prev-subword<ret>' -docstring 'prev'
+map global user x ' :enter-user-mode<space>subword<ret>' -docstring 'subword'
+
+declare-user-mode subwordex
+map global subwordex w ' :extend-next-subword<ret>' -docstring 'next'
+map global subwordex b ' :extend-prev-subword<ret>' -docstring 'prev'
+map global user X ' :enter-user-mode<space>subwordex<ret>' -docstring 'subword (extend)'
 
 #= Colorscheme
 # colorscheme base16
