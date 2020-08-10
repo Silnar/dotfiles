@@ -34,6 +34,8 @@ plug "andreyorst/fzf.kak" config %{
     # map global normal <minus> ': fzf-mode<ret>'
 
     require-module fzf
+    # set-option global fzf_implementation skim
+    set-option global fzf_grep_command rg
     map global user 'f'     '<esc>: fzf-file<ret>'                        -docstring "open file"
     map global user 'b'     '<esc>: fzf-buffer<ret>'                      -docstring "open buffer"
     map global user '<a-b>' '<esc>: fzf-delete-buffer<ret>'               -docstring "delete buffer"
@@ -46,8 +48,6 @@ plug "andreyorst/fzf.kak" config %{
     # doesn't work
     # map global user 'y'   '<esc>: fzf-yank-ring<ret>'                   -docstring "open yank-ring"
 } defer fzf %{
-    set fzf_implementation skim
-    set fzf_grep_command rg
 }
 
 plug "alexherbo2/phantom.kak" config %{
