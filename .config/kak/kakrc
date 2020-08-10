@@ -85,6 +85,7 @@ plug 'delapouite/kakoune-mirror' %{
 }
 
 plug "alexherbo2/prelude.kak"
+plug "alexherbo2/terminal-mode.kak"
 plug "alexherbo2/connect.kak" config %{
     def connect-nnn %{
     	connect-terminal sh -c '(NNN_OPENER=edit nnn; NNN_OPENER=edit bash)'
