@@ -4,6 +4,8 @@ map global user <a-,> ': source "%val{config}/kakrc"<ret>' -docstring 'Source co
 map global user /     ': comment-line<ret>'  -docstring 'comment line'
 map global user <a-/> ': comment-block<ret>' -docstring 'comment block'
 
+add-highlighter global/wrap wrap -word -indent -marker '¬ '
+
 define-command -docstring 'Copy position' copy-position %{
     eval %sh{
         echo "set-register dquote \"$kak_selection:\\n    $(realpath --relative-to=$PWD $kak_buffile):$kak_cursor_line:$kak_cursor_column\""
