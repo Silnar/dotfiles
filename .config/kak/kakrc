@@ -5,6 +5,7 @@ map global user /     ': comment-line<ret>'  -docstring 'comment line'
 map global user <a-/> ': comment-block<ret>' -docstring 'comment block'
 
 add-highlighter global/wrap wrap -word -indent -marker '¬ '
+set global autocomplete ''
 
 define-command -docstring 'Copy position' copy-position %{
     eval %sh{
