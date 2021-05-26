@@ -40,6 +40,7 @@ function mkdircd() {
 }
 
 alias dotfiles='git --work-tree=$HOME --git-dir=$HOME/.dotfiles'
+alias git='LANG=en_US.UTF-8 git'
 alias gitka='gitk --all'
 
 
