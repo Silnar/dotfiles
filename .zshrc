@@ -17,8 +17,8 @@ antigen theme tamorim/naiz naiz
 antigen apply
 
 # source ~/.antigen/bundles/zsh-users/zsh-completions/zsh-completions.plugin.zsh
-source ~/.antigen/bundles/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.antigen/bundles/zsh-users/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source ~/.antigen/bundles/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source ~/.antigen/bundles/zsh-users/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Helper functions
 function join_by { local IFS="$1"; shift; echo "$*"; }
@@ -30,9 +30,6 @@ function git_diff() {
 function print_path() {
   tr ':' '\n' <<< "$PATH"
 }
-
-# Local config
-[ -f ~/.env.sh ] && source ~/.env.sh
 
 # Aliases
 function mkdircd() {
