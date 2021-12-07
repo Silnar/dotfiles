@@ -7,7 +7,7 @@ antigen use oh-my-zsh
 antigen bundle git
 antigen bundle docker
 
-# antigen bundle zsh-users/zsh-completions
+antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-syntax-highlighting
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 antigen bundle zsh-users/zsh-autosuggestions
@@ -19,6 +19,10 @@ antigen apply
 # source ~/.antigen/bundles/zsh-users/zsh-completions/zsh-completions.plugin.zsh
 # source ~/.antigen/bundles/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh
 # source ~/.antigen/bundles/zsh-users/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Local config
+[ -f ~/.env.sh ] && source ~/.env.sh
+
 
 # Helper functions
 function join_by { local IFS="$1"; shift; echo "$*"; }
