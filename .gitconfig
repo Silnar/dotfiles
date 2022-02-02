@@ -12,6 +12,9 @@
     pager = less -XFR
     quotepath = false
     attributesfile = ~/.gitattributes
+    # nocheckin
+    # based on: https://medium.com/@ripoche.b/using-global-pre-commit-hook-to-prevent-committing-unwanted-code-edbbf957ad12
+    hooksPath = ~/.config/git/hooks
 [alias]
     st = status
     co = checkout
