@@ -24,3 +24,6 @@
 	url = https://github.com/robertmeta/plug.kak
 [submodule "plugins/plug.kak"]
 	url = https://github.com/robertmeta/plug.kak
+[submodule ".config/kitty/themes"]
+	path = .config/kitty/themes
+	url = https://github.com/dexpota/kitty-themes
