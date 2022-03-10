@@ -37,6 +37,8 @@ plug "andreyorst/fzf.kak" config %{
     # map global normal <minus> ': fzf-mode<ret>'
 
     require-module fzf
+    require-module fzf-file
+    require-module fzf-grep
     # set-option global fzf_implementation skim
     set-option global fzf_grep_command rg
     map global user 'f'     '<esc>: fzf-file<ret>'                        -docstring "open file"
