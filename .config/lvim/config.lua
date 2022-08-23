@@ -11,7 +11,8 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "onedarker"
+lvim.colorscheme = "onedark"
+vim.o.background = "light"
 vim.o.guifont = "FantasqueSansMono Nerd Font"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
@@ -55,6 +56,29 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 --   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
 -- }
 
+Config = {}
+function Config.find_packer_files(opts)
+  local utils = require "lvim.utils"
+  local _, builtin = pcall(require, "telescope.builtin")
+  local _, themes = pcall(require, "telescope.themes")
+  opts = opts or {}
+  local theme_opts = themes.get_ivy {
+    sorting_strategy = "ascending",
+    layout_strategy = "bottom_pane",
+    prompt_prefix = ">> ",
+    prompt_title = "~ Packer files ~",
+    cwd = utils.join_paths(get_runtime_dir(), "site/pack/packer"),
+    search_dirs = { utils.join_paths(get_runtime_dir(), "site/pack/packer/") },
+  }
+  opts = vim.tbl_deep_extend("force", theme_opts, opts)
+  builtin.find_files(opts)
+end
+
+lvim.builtin.which_key.mappings["p"].f = {
+  "<cmd>lua Config.find_packer_files()<cr>",
+  "Find Packer files",
+}
+
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
@@ -64,6 +88,53 @@ lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.dap.active = true
+lvim.builtin.dap.on_config_done = function()
+  local dap = require('dap')
+  dap.adapters.lldb = {
+    type = 'executable',
+    command = '/usr/bin/lldb-vscode', -- adjust as needed, must be absolute path
+    name = 'lldb'
+  }
+  dap.configurations.cpp = {
+    {
+      name = 'Launch',
+      type = 'lldb',
+      request = 'launch',
+      program = function()
+        return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+      end,
+      cwd = '${workspaceFolder}',
+      stopOnEntry = false,
+      args = {},
+
+      -- 💀
+      -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
+      --
+      --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+      --
+      -- Otherwise you might get the following error:
+      --
+      --    Error on launch: Failed to attach to the target process
+      --
+      -- But you should be aware of the implications:
+      -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
+      -- runInTerminal = false,
+    },
+  }
+
+  dap.configurations.c = dap.configurations.cpp
+  dap.configurations.rust = dap.configurations.cpp
+end
+
+-- TODO: Remove after update
+-- More info: https://github.com/LunarVim/LunarVim/issues/2920#issuecomment-1216709244
+lvim.builtin.which_key.on_config_done = function()
+  lvim.builtin.which_key.mappings.s.p = {
+    "<cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<cr>",
+    "Colorscheme with Preview",
+  }
+end
+
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -167,10 +238,25 @@ lvim.builtin.treesitter.highlight.enabled = true
 --       cmd = "TroubleToggle",
 --     },
 -- }
+vim.g.onedark_config = {
+  highlights = {
+    Comment = { fg = '#226600' },
+    TSComment = { fg = '#226600' },
+  },
+  code_style = {
+    comments = 'bold'
+  }
+}
 lvim.plugins = {
+  { "rktjmp/lush.nvim" },
   { "sainnhe/edge" },
   { "Th3Whit3Wolf/one-nvim" },
-  { "olimorris/onedarkpro.nvim" }
+  { "olimorris/onedarkpro.nvim" },
+  { "navarasu/onedark.nvim" },
+  { "kdheepak/monochrome.nvim" },
+  { "lourenci/github-colors" },
+  { "rockyzhang24/arctic.nvim" },
+  { "marko-cerovac/material.nvim" },
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
