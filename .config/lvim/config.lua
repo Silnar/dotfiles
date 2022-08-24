@@ -8,16 +8,25 @@ an executable
 ]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
--- general
+-- TODO: TODOs
+-- TODO: Shortcuts to remove trailing whitespaces
+-- TODO: Show whitespaces
+-- TODO: Inspect which-key commands
+
+-- General
 lvim.log.level = "warn"
-lvim.format_on_save = true
+lvim.format_on_save = false
+
+-- Colorscheme (https://github.com/rockerBOO/awesome-neovim#colorscheme)
 lvim.colorscheme = "onedark"
 vim.o.background = "light"
+
+-- UI
 vim.o.guifont = "FantasqueSansMono Nerd Font"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
--- keymappings [view all the defaults by pressing <leader>Lk]
+-- Keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
@@ -26,6 +35,11 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- override a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
 
+-- Autopairs (https://github.com/windwp/nvim-autopairs)
+lvim.builtin.autopairs.enable_check_bracket_line = true
+lvim.builtin.autopairs.ignored_next_char = "[%w%.]"
+
+-- Telescope ()
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
 -- local _, actions = pcall(require, "telescope.actions")
@@ -44,6 +58,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 --   },
 -- }
 
+-- Which-Key
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 -- lvim.builtin.which_key.mappings["t"] = {
@@ -55,6 +70,10 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 --   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
 --   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
 -- }
+lvim.builtin.which_key.mappings["t"] = {
+  "<cmd>TodoTelescope<cr>",
+  "todo"
+}
 
 Config = {}
 function Config.find_packer_files(opts)
@@ -257,6 +276,24 @@ lvim.plugins = {
   { "lourenci/github-colors" },
   { "rockyzhang24/arctic.nvim" },
   { "marko-cerovac/material.nvim" },
+  {
+    "folke/todo-comments.nvim",
+    event = "BufRead",
+    config = function()
+      require("todo-comments").setup() {
+        highlight = {
+          comments_only = true,
+        },
+        search = {
+          pattern = [[\b(KEYWORDS)\b.*?:]]
+        }
+      }
+    end,
+  },
+  {
+    "folke/trouble.nvim",
+    -- cmd = "TroubleToggle",
+  },
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
