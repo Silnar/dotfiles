@@ -12,6 +12,12 @@ an executable
 -- TODO: Shortcuts to remove trailing whitespaces
 -- TODO: Show whitespaces
 -- TODO: Inspect which-key commands
+-- TODO: How to check if there is a mapping for :tabmove ?
+-- TODO: Change how autocomplete works in command line (don't fill in until I choose)
+-- TODO: Reload selected (with telescope) module
+--       lua require('plenary.reload').reload_module('unity-nvim')
+
+require('unity-nvim')
 
 -- General
 lvim.log.level = "warn"
@@ -22,7 +28,8 @@ lvim.colorscheme = "onedark"
 vim.o.background = "light"
 
 -- UI
-vim.o.guifont = "FantasqueSansMono Nerd Font"
+-- vim.o.guifont = "FantasqueSansMono Nerd Font:h16"
+vim.o.guifont = "BlexMono Nerd Font"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -30,12 +37,15 @@ vim.o.guifont = "FantasqueSansMono Nerd Font"
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["<C-L>"] = ":BufferLineMoveNext<cr>"
+lvim.keys.normal_mode["<C-H>"] = ":BufferLineMovePrev<cr>"
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
 
 -- Autopairs (https://github.com/windwp/nvim-autopairs)
+lvim.builtin.autopairs.active = false
 lvim.builtin.autopairs.enable_check_bracket_line = true
 lvim.builtin.autopairs.ignored_next_char = "[%w%.]"
 
@@ -279,16 +289,16 @@ lvim.plugins = {
   {
     "folke/todo-comments.nvim",
     event = "BufRead",
-    config = function()
-      require("todo-comments").setup() {
-        highlight = {
-          comments_only = true,
-        },
-        search = {
-          pattern = [[\b(KEYWORDS)\b.*?:]]
-        }
-      }
-    end,
+    -- config = function()
+    --   require("todo-comments").setup() {
+    --     highlight = {
+    --       comments_only = true,
+    --     },
+    --     search = {
+    --       pattern = [[\b(KEYWORDS)\b:]]
+    --     }
+    --   }
+    -- end,
   },
   {
     "folke/trouble.nvim",
