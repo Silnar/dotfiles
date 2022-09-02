@@ -1,3 +1,5 @@
+# In use:
+# Delta: https://github.com/dandavison/delta
 [include]
     path = ~/.gituserinfo
 [color]
@@ -9,7 +11,8 @@
     status = true
 [core]
     editor = kak
-    pager = less -XFR
+    pager = delta
+    # pager = less -XFR
     quotepath = false
     attributesfile = ~/.gitattributes
     # nocheckin
@@ -33,6 +36,7 @@
     default = simple
 
 [diff]
+    colorMoved = default
     wsErrorHighlight = all
 [diff "image"]
     command = ~/.gitrc/git-diff-image/git_diff_image
@@ -72,3 +76,16 @@
     smudge = git-lfs smudge -- %f
     process = git-lfs filter-process
     required = true
+
+[interactive]
+    diffFilter = delta --color-only
+[add.interactive]
+    useBuiltin = false
+
+[delta]
+    navigate = true
+    light = true
+    # side-by-side = true
+
+[merge]
+    conflictstyle = diff3
