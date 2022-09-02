@@ -8,14 +8,9 @@ an executable
 ]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
--- TODO: TODOs
 -- TODO: Shortcuts to remove trailing whitespaces
 -- TODO: Show whitespaces
 -- TODO: Inspect which-key commands
--- TODO: How to check if there is a mapping for :tabmove ?
--- TODO: Change how autocomplete works in command line (don't fill in until I choose)
--- TODO: Reload selected (with telescope) module
---       lua require('plenary.reload').reload_module('unity-nvim')
 
 require('unity-nvim')
 
@@ -26,10 +21,16 @@ lvim.format_on_save = false
 -- Colorscheme (https://github.com/rockerBOO/awesome-neovim#colorscheme)
 lvim.colorscheme = "onedark"
 vim.o.background = "light"
+vim.o.wildmode = "longest:full"
+
+-- Nvim-cmp
+-- Default config: https://github.com/hrsh7th/nvim-cmp/blob/main/lua/cmp/config/default.lua
+-- See cmp.lua file for default keymap
+lvim.builtin.cmp.completion.autocomplete = {}
 
 -- UI
 -- vim.o.guifont = "FantasqueSansMono Nerd Font:h16"
-vim.o.guifont = "BlexMono Nerd Font"
+vim.o.guifont = "BlexMono Nerd Font:h16"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -83,6 +84,10 @@ lvim.builtin.autopairs.ignored_next_char = "[%w%.]"
 lvim.builtin.which_key.mappings["t"] = {
   "<cmd>TodoTelescope<cr>",
   "todo"
+}
+lvim.builtin.which_key.mappings["L"].R = {
+  "<cmd>Telescope reloader<cr>",
+  "Reload module"
 }
 
 Config = {}
@@ -304,6 +309,21 @@ lvim.plugins = {
     "folke/trouble.nvim",
     -- cmd = "TroubleToggle",
   },
+  {
+    "hrsh7th/cmp-cmdline",
+    after = { "nvim-cmp", "cmp-path" },
+    config = function ()
+      local cmp = require('cmp')
+      cmp.setup.cmdline(':', {
+        mapping = cmp.mapping.preset.cmdline {},
+        sources = {
+          { name = 'cmdline' },
+          { name = 'path' }
+        }
+      })
+    end
+  },
+  { "rickhowe/diffchar.vim" }
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)

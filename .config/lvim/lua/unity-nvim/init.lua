@@ -66,4 +66,20 @@ vim.api.nvim_create_user_command("UnityLogRemoveStackTraces", function (_)
   M.remove_stack_traces()
 end, {})
 
+vim.api.nvim_create_user_command("UnityLogRemoveMatchingEntries", function (arg)
+  local pattern = arg.fargs[1]
+  local view = vim.fn.winsaveview()
+  vim.api.nvim_command([=[%s/\v%(\d\d:\d\d:\d\d)\_.{-}%(\d\d:\d\d:\d\d|%$)@=/\=submatch(0)->match("]=] .. pattern .. [=[")>=0 ? "" : submatch(0)]=])
+  vim.fn.winrestview(view)
+  vim.api.nvim_set_option("hlsearch", false)
+end, { nargs = 1 })
+
+vim.api.nvim_create_user_command("UnityLogKeepMatchingEntries", function (arg)
+  local pattern = arg.fargs[1]
+  local view = vim.fn.winsaveview()
+  vim.api.nvim_command([=[%s/\v%(\d\d:\d\d:\d\d)\_.{-}%(\d\d:\d\d:\d\d|%$)@=/\=submatch(0)->match("]=] .. pattern .. [=[")>=0 ? submatch(0) : ""]=])
+  vim.fn.winrestview(view)
+  vim.api.nvim_set_option("hlsearch", false)
+end, { nargs = 1 })
+
 return M
