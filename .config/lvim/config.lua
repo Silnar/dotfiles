@@ -323,7 +323,14 @@ lvim.plugins = {
       })
     end
   },
-  { "rickhowe/diffchar.vim" }
+  { "rickhowe/diffchar.vim" },
+  -- {
+  --   "nvim-orgmode/orgmode",
+  --   config = function ()
+  --     require('orgmode').setup{}
+  --     require('orgmode').setup_ts_grammar()
+  --   end
+  -- },
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
