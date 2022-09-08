@@ -1,3 +1,6 @@
+# Config inspirations:
+# https://github.com/andreyorst/dotfiles/tree/master/.config/kak
+
 #= Map as soon as possible, in case of configuration errors
 map global user ,     ': edit "%val{config}/kakrc"<ret>'   -docstring 'Edit config'
 map global user <a-,> ': source "%val{config}/kakrc"<ret>' -docstring 'Source config'
@@ -28,19 +31,16 @@ set-option global plug_always_ensure true
 set-option global plug_profile true
 
 # plug "andreyorst/powerline.kak" defer powerline %{
-#     set-option global powerline_ignore_warnings true
-#     set-option global powerline_format 'git bufname langmap smarttab mode_info filetype client session position'
-#     set-option global powerline_separator '║'
+#     set-option global powerline_separator ''
 #     set-option global powerline_separator_thin ''
-# } defer powerline_bufname %{
-#     set-option global powerline_shorten_bufname 'short'
-# } defer powerline_base16_gruvbox %{
-#     powerline-theme base16-gruvbox
 # } config %{
 #     powerline-start
 # }
 # plug "lenormf/kakoune-extra"
 plug-chain "andreyorst/plug.kak" noload \
+plug 'delapouite/kakoune-text-objects' \
+plug "occivink/kakoune-vertical-selection" \
+plug "occivink/kakoune-find" \
 plug "andreyorst/fzf.kak" config %{
     map -docstring 'fzf mode' global normal '<c-p>' ': fzf-mode<ret>'
 } defer fzf %{
@@ -75,12 +75,6 @@ plug "andreyorst/fzf.kak" config %{
     map global user e ': enter-user-mode<space>easymotion<ret>' -docstring 'easymotion'
 } plug 'delapouite/kakoune-mirror' %{
   map global user m ': enter-user-mode -lock mirror<ret>' -docstring 'mirror'
-} plug "alexherbo2/prelude.kak" \
-plug "alexherbo2/connect.kak" config %{
-    def connect-nnn %{
-    	connect-terminal sh -c '(NNN_OPENER=edit nnn; NNN_OPENER=edit bash)'
-    }
-    map global user n ': connect-nnn<ret>' -docstring 'nnn'
 } plug "ul/kak-lsp" do %{
     # Install only when it doesn't exist.
     command -v kak-lsp >/dev/null 2>&1 || cargo install --locked --force --path .
@@ -95,7 +89,6 @@ plug "alexherbo2/connect.kak" config %{
         lsp-enable-window
     }
 } \
-plug "occivink/kakoune-find" \
 plug "https://gitlab.com/Screwtapello/kakoune-inc-dec"
 
 #= Clipboard
