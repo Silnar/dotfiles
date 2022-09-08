@@ -46,9 +46,6 @@ plug "andreyorst/fzf.kak" config %{
 } defer fzf %{
     set-option global fzf_tmux_popup true
     set-option global fzf_default_opts '--reverse'
-    when %sh{ [ -n "$(command -v bat)"  ] && echo true || echo false } %{
-        set-option global fzf_highlight_command bat
-    }
 } plug "andreyorst/smarttab.kak" defer smarttab %{
     # when `backspace' is pressed, 4 spaces are deleted at once
     set-option global softtabstop 4
