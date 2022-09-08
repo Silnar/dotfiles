@@ -30,30 +30,10 @@ plug "andreyorst/smarttab.kak" defer smarttab %{
 }
 
 plug "andreyorst/fzf.kak" config %{
-    # map global normal <minus> ': fzf-mode<ret>'
-
-    require-module fzf
-    require-module fzf-file
-    require-module fzf-grep
-    require-module fzf-buffer
-    require-module fzf-cd
-
-    set-option global fzf_default_opts '--reverse'
-    # set-option global fzf_implementation skim
-    set-option global fzf_grep_command rg
-    set-option global fzf_tmux_popup true
-    map global user 'f'     '<esc>: fzf-file<ret>'                        -docstring "open file"
-    map global user 'b'     '<esc>: fzf-buffer<ret>'                      -docstring "open buffer"
-    map global user '<a-b>' '<esc>: fzf-delete-buffer<ret>'               -docstring "delete buffer"
-    map global user 'g'     '<esc>: fzf-grep<ret>'                             -docstring 'grep file contents recursively'
-    map global user 's'     '<esc>: fzf-buffer-search<ret>'               -docstring "search in buffer"
-    map global user 'v'     '<esc>: require-module fzf_vcs; fzf-vcs<ret>' -docstring "edit file from vcs repo"
-    map global user '<a-v>' '<esc>: fzf-vcs-mode<ret>'                    -docstring "switch to vcs selection mode"
-    map global user 'r'     '<esc>: fzf-project<ret>'                     -docstring "open project"
-    map global user 'c'     '<esc>: fzf-cd<ret>'                          -docstring "change directory"
-    # doesn't work
-    # map global user 'y'   '<esc>: fzf-yank-ring<ret>'                   -docstring "open yank-ring"
+    map -docstring 'fzf mode' global normal '<c-p>' ': fzf-mode<ret>'
 } defer fzf %{
+    set-option global fzf_tmux_popup true
+    set-option global fzf_default_opts '--reverse'
 }
 
 plug "alexherbo2/phantom.kak" config %{
