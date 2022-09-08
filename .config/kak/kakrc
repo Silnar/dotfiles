@@ -29,10 +29,6 @@ plug "andreyorst/smarttab.kak" defer smarttab %{
     hook global BufSetOption filetype=(makefile) noexpandtab
 }
 
-plug "alexherbo2/yank-ring.kak" config %{
-    map global user Y '<esc>: yank-ring<ret>' -docstring "yank-ring"
-}
-
 plug "andreyorst/fzf.kak" config %{
     # map global normal <minus> ': fzf-mode<ret>'
 
