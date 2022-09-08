@@ -15,9 +15,38 @@ define-command -docstring 'Copy position' copy-position %{
 # map global user x ': copy-position<ret>' -docstring 'Copy position'
 
 #= Plugins
-source "%val{config}/plugins/plug.kak/rc/plug.kak"
+# bootstrap the plugin manager
+evaluate-commands %sh{
+    plugins="${kak_config:?}/plugins"
+    mkdir -p "$plugins"
+    [ ! -e "$plugins/plug.kak" ] && \
+        git clone -q https://github.com/andreyorst/plug.kak.git --branch master "$plugins/plug.kak"
+    printf "%s\n" "source '$plugins/plug.kak/rc/plug.kak'"
+}
 
-plug "andreyorst/smarttab.kak" defer smarttab %{
+set-option global plug_always_ensure true
+set-option global plug_profile true
+
+# plug "andreyorst/powerline.kak" defer powerline %{
+#     set-option global powerline_ignore_warnings true
+#     set-option global powerline_format 'git bufname langmap smarttab mode_info filetype client session position'
+#     set-option global powerline_separator '║'
+#     set-option global powerline_separator_thin ''
+# } defer powerline_bufname %{
+#     set-option global powerline_shorten_bufname 'short'
+# } defer powerline_base16_gruvbox %{
+#     powerline-theme base16-gruvbox
+# } config %{
+#     powerline-start
+# }
+# plug "lenormf/kakoune-extra"
+plug-chain "andreyorst/plug.kak" noload \
+plug "andreyorst/fzf.kak" config %{
+    map -docstring 'fzf mode' global normal '<c-p>' ': fzf-mode<ret>'
+} defer fzf %{
+    set-option global fzf_tmux_popup true
+    set-option global fzf_default_opts '--reverse'
+} plug "andreyorst/smarttab.kak" defer smarttab %{
     # when `backspace' is pressed, 4 spaces are deleted at once
     set-option global softtabstop 4
     # configure text that is being used to represent curent active mode
@@ -27,36 +56,30 @@ plug "andreyorst/smarttab.kak" defer smarttab %{
 } config %{
     hook global BufSetOption filetype=.* expandtab
     hook global BufSetOption filetype=(makefile) noexpandtab
-}
+} plug "andreyorst/kaktree" config %{
+    hook global WinSetOption filetype=kaktree %{
+        remove-highlighter buffer/numbers
+        remove-highlighter buffer/matching
+        remove-highlighter buffer/wrap
+        remove-highlighter buffer/show-whitespaces
+    }
+    kaktree-enable
 
-plug "andreyorst/fzf.kak" config %{
-    map -docstring 'fzf mode' global normal '<c-p>' ': fzf-mode<ret>'
-} defer fzf %{
-    set-option global fzf_tmux_popup true
-    set-option global fzf_default_opts '--reverse'
-}
-
-plug "danr/kakoune-easymotion" config %{
+    map global user t ': kaktree-toggle<ret>' -docstring 'kaktree'
+} plug "danr/kakoune-easymotion" config %{
     map global easymotion <a-x> '<esc>: easy-motion-char<ret>'  -docstring 'char'
     map global easymotion x '<esc>: easy-motion-word<ret>'      -docstring 'word'
     map global easymotion X '<esc>: easy-motion-line<ret>'      -docstring 'line'
     map global user e ': enter-user-mode<space>easymotion<ret>' -docstring 'easymotion'
-}
-
-plug 'delapouite/kakoune-mirror' %{
+} plug 'delapouite/kakoune-mirror' %{
   map global user m ': enter-user-mode -lock mirror<ret>' -docstring 'mirror'
-}
-
-plug "alexherbo2/prelude.kak"
-plug "alexherbo2/terminal-mode.kak"
+} plug "alexherbo2/prelude.kak" \
 plug "alexherbo2/connect.kak" config %{
     def connect-nnn %{
     	connect-terminal sh -c '(NNN_OPENER=edit nnn; NNN_OPENER=edit bash)'
     }
     map global user n ': connect-nnn<ret>' -docstring 'nnn'
-}
-
-plug "ul/kak-lsp" do %{
+} plug "ul/kak-lsp" do %{
     # Install only when it doesn't exist.
     command -v kak-lsp >/dev/null 2>&1 || cargo install --locked --force --path .
 } config %{
@@ -69,26 +92,9 @@ plug "ul/kak-lsp" do %{
     hook global WinSetOption filetype=(haxe) %{
         lsp-enable-window
     }
-}
-
-# plug "lenormf/kakoune-extra"
-
-plug "occivink/kakoune-find"
-
+} \
+plug "occivink/kakoune-find" \
 plug "https://gitlab.com/Screwtapello/kakoune-inc-dec"
-
-plug "andreyorst/kaktree" config %{
-    hook global WinSetOption filetype=kaktree %{
-        remove-highlighter buffer/numbers
-        remove-highlighter buffer/matching
-        remove-highlighter buffer/wrap
-        remove-highlighter buffer/show-whitespaces
-    }
-    kaktree-enable
-
-    map global user t ': kaktree-toggle<ret>' -docstring 'kaktree'
-}
-
 
 #= Clipboard
 declare-option -docstring 'command to copy to clipboard' \
