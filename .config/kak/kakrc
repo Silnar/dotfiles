@@ -42,8 +42,10 @@ plug "andreyorst/fzf.kak" config %{
     require-module fzf-buffer
     require-module fzf-cd
 
+    set-option global fzf_default_opts '--reverse'
     # set-option global fzf_implementation skim
     set-option global fzf_grep_command rg
+    set-option global fzf_tmux_popup true
     map global user 'f'     '<esc>: fzf-file<ret>'                        -docstring "open file"
     map global user 'b'     '<esc>: fzf-buffer<ret>'                      -docstring "open buffer"
     map global user '<a-b>' '<esc>: fzf-delete-buffer<ret>'               -docstring "delete buffer"
