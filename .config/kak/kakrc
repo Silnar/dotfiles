@@ -36,29 +36,6 @@ plug "andreyorst/fzf.kak" config %{
     set-option global fzf_default_opts '--reverse'
 }
 
-plug "alexherbo2/phantom.kak" config %{
-    map global user H -docstring "phantom add selections" \
-        ': phantom-append<ret>'
-    map global user h -docstring "phantom restore selections" \
-        ': phantom-restore; phantom-clear<ret>'
-    map global user <a-h> -docstring "phantom clear selections" \
-        ': phantom-clear<ret>'
-    # Iterate phantom selections in insert mode.
-    map global insert <a-i> -docstring "phantom insert main selection" \
-        '<esc>: phantom-append<ret><space>i'
-    map global insert <a-a> -docstring "phantom apppend main selection" \
-        '<esc>: phantom-append<ret><space>a'
-    map global insert <a-n> -docstring "phantom next selection" \
-        '<esc>: phantom-append; phantom-restore<ret>)<space>i'
-    map global insert <a-p> -docstring "phantom prev selection" \
-        '<esc>: phantom-append; phantom-restore<ret>(<space>i'
-
-    # unmap default bindings
-    unmap global normal F
-    unmap global normal f
-    unmap global normal <a-f>
-}
-
 plug "danr/kakoune-easymotion" config %{
     map global easymotion <a-x> '<esc>: easy-motion-char<ret>'  -docstring 'char'
     map global easymotion x '<esc>: easy-motion-word<ret>'      -docstring 'word'
