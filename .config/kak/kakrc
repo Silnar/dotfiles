@@ -56,7 +56,11 @@ plug "andreyorst/fzf.kak" config %{
 } config %{
     hook global BufSetOption filetype=.* expandtab
     hook global BufSetOption filetype=(makefile) noexpandtab
-} plug "andreyorst/kaktree" config %{
+} plug "andreyorst/kaktree" defer kaktree %{
+    map global user f ': kaktree-toggle<ret>' -docstring 'kaktree filetree panel'
+    # Enter '?' for help
+    set-option global kaktree_show_help false
+} config %{
     hook global WinSetOption filetype=kaktree %{
         remove-highlighter buffer/numbers
         remove-highlighter buffer/matching
@@ -64,8 +68,6 @@ plug "andreyorst/fzf.kak" config %{
         remove-highlighter buffer/show-whitespaces
     }
     kaktree-enable
-
-    map global user t ': kaktree-toggle<ret>' -docstring 'kaktree'
 } plug "danr/kakoune-easymotion" config %{
     map global easymotion <a-x> '<esc>: easy-motion-char<ret>'  -docstring 'char'
     map global easymotion x '<esc>: easy-motion-word<ret>'      -docstring 'word'
