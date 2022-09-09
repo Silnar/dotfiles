@@ -58,6 +58,10 @@ plug "andreyorst/fzf.kak" config %{
     when %sh{ [ -n "$(command -v bat)"  ] && echo true || echo false } %{
         set-option global fzf_highlight_command bat
     }
+} defer fzf-grep %{
+    when %sh{ [ -n "$(command -v bat)"  ] && echo true || echo false } %{
+        set-option global fzf_grep_preview_command 'bat --style=plain --color=always --highlight-line {2} {1}'
+    }
 } plug "andreyorst/smarttab.kak" defer smarttab %{
     # when `backspace' is pressed, 4 spaces are deleted at once
     set-option global softtabstop 4
