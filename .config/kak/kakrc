@@ -37,7 +37,7 @@ evaluate-commands %sh{
 }
 
 set-option global plug_always_ensure true
-set-option global plug_profile true
+# set-option global plug_profile true
 
 # plug "andreyorst/powerline.kak" defer powerline %{
 #     set-option global powerline_separator ''
