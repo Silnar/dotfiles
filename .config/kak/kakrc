@@ -54,6 +54,7 @@ plug "andreyorst/fzf.kak" config %{
     map -docstring 'fzf mode' global normal '<c-p>' ': fzf-mode<ret>'
 } defer fzf %{
     set-option global fzf_tmux_popup true
+    set-option global fzf_preview_tmux_height '90%'
     set-option global fzf_default_opts '--reverse'
     when %sh{ [ -n "$(command -v bat)"  ] && echo true || echo false } %{
         set-option global fzf_highlight_command bat
