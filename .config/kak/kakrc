@@ -10,6 +10,15 @@ map global user <a-/> ': comment-block<ret>' -docstring 'comment block'
 add-highlighter global/wrap wrap -word -indent -marker '¬ '
 set global autocomplete ''
 
+require-module kak
+add-highlighter shared/kakrc/code/if_else regex \b(if|when|unless)\b 0:keyword
+
+define-command true -params 2 %{ eval %arg{1} }
+define-command false -params 2 %{ eval %arg{2} }
+define-command if -params 3 %{ eval -verbatim %arg{1} %arg{2} %arg{3} }
+define-command when -params 2 %{ eval -verbatim %arg{1} %arg{2} nop }
+define-command unless -params 2 %{ eval -verbatim %arg{1} nop %arg{2} }
+
 define-command -docstring 'Copy position' copy-position %{
     eval %sh{
         echo "set-register dquote \"$kak_selection:\\n    $(realpath --relative-to=$PWD $kak_buffile):$kak_cursor_line:$kak_cursor_column\""
@@ -46,6 +55,9 @@ plug "andreyorst/fzf.kak" config %{
 } defer fzf %{
     set-option global fzf_tmux_popup true
     set-option global fzf_default_opts '--reverse'
+    when %sh{ [ -n "$(command -v bat)"  ] && echo true || echo false } %{
+        set-option global fzf_highlight_command bat
+    }
 } plug "andreyorst/smarttab.kak" defer smarttab %{
     # when `backspace' is pressed, 4 spaces are deleted at once
     set-option global softtabstop 4
