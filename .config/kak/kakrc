@@ -7,19 +7,19 @@ map global user <a-,> ': source "%val{config}/kakrc"<ret>' -docstring 'Source co
 map global user /     ': comment-line<ret>'  -docstring 'comment line'
 map global user <a-/> ': comment-block<ret>' -docstring 'comment block'
 
-add-highlighter global/wrap wrap -word -indent -marker '¬ '
+add-highlighter -override global/wrap wrap -word -indent -marker '¬ '
 set global autocomplete ''
 
 require-module kak
-add-highlighter shared/kakrc/code/if_else regex \b(if|when|unless)\b 0:keyword
+add-highlighter -override shared/kakrc/code/if_else regex \b(if|when|unless)\b 0:keyword
 
-define-command true -params 2 %{ eval %arg{1} }
-define-command false -params 2 %{ eval %arg{2} }
-define-command if -params 3 %{ eval -verbatim %arg{1} %arg{2} %arg{3} }
-define-command when -params 2 %{ eval -verbatim %arg{1} %arg{2} nop }
-define-command unless -params 2 %{ eval -verbatim %arg{1} nop %arg{2} }
+define-command true   -override -params 2 %{ eval %arg{1} }
+define-command false  -override -params 2 %{ eval %arg{2} }
+define-command if     -override -params 3 %{ eval -verbatim %arg{1} %arg{2} %arg{3} }
+define-command when   -override -params 2 %{ eval -verbatim %arg{1} %arg{2} nop }
+define-command unless -override -params 2 %{ eval -verbatim %arg{1} nop %arg{2} }
 
-define-command -docstring 'Copy position' copy-position %{
+define-command copy-position -override -docstring 'Copy position' %{
     eval %sh{
         echo "set-register dquote \"$kak_selection:\\n    $(realpath --relative-to=$PWD $kak_buffile):$kak_cursor_line:$kak_cursor_column\""
     }
@@ -145,19 +145,25 @@ evaluate-commands %sh{
     echo "set-option global clipboard_copy_cmd '$copy'"
     echo "set-option global clipboard_paste_cmd '$paste'"
 }
-declare-user-mode clipboard
-map -docstring "copy to system clipboard"                   global clipboard 'y' "<a-|>%opt{clipboard_copy_cmd}<ret>:<space>echo -markup %{{Information}yanked selection to system clipboard}<ret>"
-map -docstring "cut to system clipboard"                    global clipboard 'd' "|%opt{clipboard_copy_cmd}<ret>"
-map -docstring "cut to system clipboard, enter insert mode" global clipboard 'c' "|%opt{clipboard_copy_cmd}<ret>i"
-map -docstring "paste from system clipboard before cursor"  global clipboard 'P' "!%opt{clipboard_paste_cmd}<ret>"
-map -docstring "paste from system clipboard after cursor"   global clipboard 'p' "<a-!>%opt{clipboard_paste_cmd}<ret>"
-map -docstring "replace selection with system clipboard"    global clipboard 'R' "|%opt{clipboard_paste_cmd}<ret>"
+try %{ declare-user-mode clipboard }
+map global clipboard 'y' "<a-|>%opt{clipboard_copy_cmd}<ret>:<space>echo -markup %{{Information}yanked selection to system clipboard}<ret>" \
+    -docstring "copy to system clipboard"
+map global clipboard 'd' "|%opt{clipboard_copy_cmd}<ret>" \
+    -docstring "cut to system clipboard"
+map global clipboard 'c' "|%opt{clipboard_copy_cmd}<ret>i" \
+    -docstring "cut to system clipboard, enter insert mode"
+map global clipboard 'P' "!%opt{clipboard_paste_cmd}<ret>" \
+    -docstring "paste from system clipboard before cursor"
+map global clipboard 'p' "<a-!>%opt{clipboard_paste_cmd}<ret>" \
+    -docstring "paste from system clipboard after cursor"
+map global clipboard 'R' "|%opt{clipboard_paste_cmd}<ret>" \
+    -docstring "replace selection with system clipboard"
 map global normal <a-,> ': enter-user-mode<space>clipboard<ret>'
 
 
 #= Trailing whitespace errors
 # Fix trailing whitespace errors
-define-command trailine-whitespace-errors-fix -docstring '
+define-command trailine-whitespace-errors-fix -override -docstring '
 Removes trailing whitespace errors
 ' %{
     try %{
@@ -169,12 +175,12 @@ Removes trailing whitespace errors
 
 
 # Show trailing white space errors (except in insert mode)
-define-command trailing-whitespace-errors-show -docstring '
+define-command trailing-whitespace-errors-show -override -docstring '
 Shows trailing whitespace errors
 ' %{
-    add-highlighter global/trailing-whitespace-error regex \h+$ 0:black,red
+    add-highlighter -override global/trailing-whitespace-error regex \h+$ 0:black,red
 }
-define-command trailing-whitespace-errors-hide -docstring '
+define-command trailing-whitespace-errors-hide -override -docstring '
 Hide trailing whitespace errors
 ' %{
     remove-highlighter global/trailing-whitespace-error
@@ -191,16 +197,16 @@ hook global ModeChange pop:insert:normal -group trailine-whitespace-errors trail
 # hook global ModeChange pop:insert:normal -group auto-save 'try %{exec -draft :w<ret>}'
 
 #= Subwords
-def -hidden select-next-subword %{
+define-command -hidden select-next-subword -override %{
       exec /[A-Z][a-z]+|[A-Z]+|[a-z]+<ret>
 }
-def -hidden extend-next-subword %{
+define-command -hidden extend-next-subword -override %{
       exec ?[A-Z][a-z]+|[A-Z]+|[a-z]+<ret>
 }
-def -hidden select-prev-subword %{
+define-command -hidden select-prev-subword -override %{
       exec <a-/>[A-Z][a-z]+|[A-Z]+|[a-z]+<ret>
 }
-def -hidden extend-prev-subword %{
+define-command -hidden extend-prev-subword -override %{
       exec <a-?>[A-Z][a-z]+|[A-Z]+|[a-z]+<ret>
 }
 
@@ -215,19 +221,19 @@ hook global BufSetOption filetype=(ruby|yaml) %{
 
 
 #= Mappings
-declare-user-mode project
+try %{ declare-user-mode project }
 map global project <(> ' :bp<ret>'                   -docstring 'prev buffer'
 map global project <)> ' :bn<ret>'                   -docstring 'next buffer'
 map global project b   ' :make build:debug<ret>'     -docstring 'build debug'
 map global project r   ' :make build:debug run<ret>' -docstring 'run debug'
 map global normal <=>  ' :enter-user-mode<space>project<ret>'
 
-declare-user-mode subword
+try %{ declare-user-mode subword }
 map global subword w ' :select-next-subword<ret>' -docstring 'next'
 map global subword b ' :select-prev-subword<ret>' -docstring 'prev'
 map global user x ' :enter-user-mode<space>subword<ret>' -docstring 'subword'
 
-declare-user-mode subwordex
+try %{ declare-user-mode subwordex }
 map global subwordex w ' :extend-next-subword<ret>' -docstring 'next'
 map global subwordex b ' :extend-prev-subword<ret>' -docstring 'prev'
 map global user X ' :enter-user-mode<space>subwordex<ret>' -docstring 'subword (extend)'
