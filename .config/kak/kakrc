@@ -9,6 +9,16 @@ map global user <a-,> ': source "%val{config}/kakrc"<ret>' -docstring 'Source co
 map global user /     ': comment-line<ret>'                -docstring 'comment line'
 map global user <a-/> ': comment-block<ret>'               -docstring 'comment block'
 
+#= Basic commands
+require-module kak
+add-highlighter -override shared/kakrc/code/if_else regex \b(if|when|unless)\b 0:keyword
+
+define-command true   -override -params 2 %{ eval %arg{1} }
+define-command false  -override -params 2 %{ eval %arg{2} }
+define-command if     -override -params 3 %{ eval -verbatim %arg{1} %arg{2} %arg{3} }
+define-command when   -override -params 2 %{ eval -verbatim %arg{1} %arg{2} nop }
+define-command unless -override -params 2 %{ eval -verbatim %arg{1} nop %arg{2} }
+
 
 #= Options
 # colorscheme base16
@@ -17,6 +27,10 @@ set-option global ui_options 'terminal_assistant=off'
 # set-option global extra_word_chars '_' '-'
 add-highlighter -override global/wrap wrap -word -indent -marker '¬ '
 set global autocomplete ''
+
+when %sh{ [ -n "$(command -v rg)" ] && echo true || echo false } %{
+    set-option global grepcmd 'rg -L --hidden --with-filename --column'
+}
 
 
 #= Mappings
@@ -36,15 +50,6 @@ hook global BufSetOption filetype=(ruby|yaml) %{
 
 
 #= Commands
-require-module kak
-add-highlighter -override shared/kakrc/code/if_else regex \b(if|when|unless)\b 0:keyword
-
-define-command true   -override -params 2 %{ eval %arg{1} }
-define-command false  -override -params 2 %{ eval %arg{2} }
-define-command if     -override -params 3 %{ eval -verbatim %arg{1} %arg{2} %arg{3} }
-define-command when   -override -params 2 %{ eval -verbatim %arg{1} %arg{2} nop }
-define-command unless -override -params 2 %{ eval -verbatim %arg{1} nop %arg{2} }
-
 define-command -override -docstring 'Copy buffer position' \
 copy-position %{
     eval %sh{
