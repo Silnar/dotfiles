@@ -72,7 +72,10 @@ set-option global plug_always_ensure true
 # } config %{
 #     powerline-start
 # }
-# plug 'delapouite/kakoune-text-objects' \
+# plug 'delapouite/kakoune-text-objects' config %{
+#     map global normal s ': enter-user-mode selectors<ret>' -docstring 'selectors'
+# }
+
 plug-chain "andreyorst/plug.kak" noload \
 plug "occivink/kakoune-vertical-selection" \
 plug "occivink/kakoune-find" \
