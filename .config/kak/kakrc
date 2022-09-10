@@ -92,9 +92,10 @@ plug "andreyorst/fzf.kak" config %{
     kaktree-enable
 } plug "danr/kakoune-easymotion" config %{
     # Easymotion requires 'python' command
-    map global goto w     '<esc>: easy-motion-word<ret>' -docstring 'word'
-    map global goto <a-w> '<esc>: easy-motion-WORD<ret>' -docstring 'WORD'
-    map global goto x     '<esc>: easy-motion-line<ret>' -docstring 'line'
+    map global goto w           '<esc>: easy-motion-word<ret>' -docstring 'word'
+    map global goto <a-w>       '<esc>: easy-motion-WORD<ret>' -docstring 'WORD'
+    map global goto x           '<esc>: easy-motion-line<ret>' -docstring 'line'
+    map global goto <semicolon> '<esc>: easy-motion-char<ret>' -docstring 'char'
 } plug 'delapouite/kakoune-mirror' %{
   map global user m ': enter-user-mode -lock mirror<ret>' -docstring 'mirror'
 } plug "ul/kak-lsp" do %{
