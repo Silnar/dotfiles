@@ -211,7 +211,7 @@ define-command -hidden extend-prev-subword -override %{
 }
 
 #= Options
-# set-option global ui_options 'ncurses_assistant=cat'
+set-option global ui_options 'ncurses_assistant=off'
 # set-option global extra_word_chars '_' '-'
 
 #== Languages
