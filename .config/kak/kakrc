@@ -58,11 +58,13 @@ plug "andreyorst/fzf.kak" config %{
 } defer fzf %{
     set-option global fzf_tmux_popup true
     set-option global fzf_preview_tmux_height '90%'
-    set-option global fzf_default_opts '--reverse'
+    # Tiebreak=end works well for file search, but not so well for grep...
+    set-option global fzf_default_opts '--reverse --tiebreak=end'
     when %sh{ [ -n "$(command -v bat)"  ] && echo true || echo false } %{
         set-option global fzf_highlight_command bat
     }
 } defer fzf-grep %{
+    set-option global fzf_grep_command rg
     when %sh{ [ -n "$(command -v bat)"  ] && echo true || echo false } %{
         set-option global fzf_grep_preview_command 'bat --style=plain --color=always --highlight-line {2} {1}'
     }
