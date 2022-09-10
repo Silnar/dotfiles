@@ -122,7 +122,15 @@ plug "andreyorst/fzf.kak" config %{
     }
     kaktree-enable
 } plug "danr/kakoune-easymotion" config %{
-    # Easymotion requires 'python' command
+    evaluate-commands %sh{
+        if ! [ -x "$(command -v python)" ]
+        then
+          printf "%s\n" 'echo -debug Error: Easymotion plugin requires python command, which is missing.'
+        else
+          printf "\n"
+        fi
+    }
+
     map global goto w           '<esc>: easy-motion-word<ret>' -docstring 'word'
     map global goto <a-w>       '<esc>: easy-motion-WORD<ret>' -docstring 'WORD'
     map global goto x           '<esc>: easy-motion-line<ret>' -docstring 'line'
@@ -138,13 +146,22 @@ plug "andreyorst/fzf.kak" config %{
     # Install only when it doesn't exist.
     command -v kak-lsp >/dev/null 2>&1 || cargo install --locked --force --path .
 } config %{
+    evaluate-commands %sh{
+        if ! [ -x "$(command -v kak-lsp)" ]
+        then
+          printf "%s\n" 'echo -debug Error: Kak-lsp plugin requires kak-lsp command, which is missing.'
+        else
+          printf "\n"
+        fi
+    }
+
     # set-option global lsp_server_configuration haxe.haxe.executable="haxe"
 
     # debug
     # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
     map global normal <minus> ': enter-user-mode<space>lsp<ret>'
-    hook global WinSetOption filetype=(haxe) %{
+    hook global WinSetOption filetype=(python|haxe) %{
         lsp-enable-window
     }
 } \
