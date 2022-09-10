@@ -1,5 +1,7 @@
 # Config inspirations:
 # https://github.com/andreyorst/dotfiles/tree/master/.config/kak
+# Word mode
+# source: https://discuss.kakoune.com/t/avoiding-modifier-chording/107/4
 
 #= Map as soon as possible, in case of configuration errors
 map global user ,     ': edit "%val{config}/kakrc"<ret>'   -docstring 'Edit config'
@@ -48,9 +50,8 @@ set-option global plug_always_ensure true
 # } config %{
 #     powerline-start
 # }
-# plug "lenormf/kakoune-extra"
+# plug 'delapouite/kakoune-text-objects' \
 plug-chain "andreyorst/plug.kak" noload \
-plug 'delapouite/kakoune-text-objects' \
 plug "occivink/kakoune-vertical-selection" \
 plug "occivink/kakoune-find" \
 plug "andreyorst/fzf.kak" config %{
@@ -96,6 +97,11 @@ plug "andreyorst/fzf.kak" config %{
     map global goto <a-w>       '<esc>: easy-motion-WORD<ret>' -docstring 'WORD'
     map global goto x           '<esc>: easy-motion-line<ret>' -docstring 'line'
     map global goto <semicolon> '<esc>: easy-motion-char<ret>' -docstring 'char'
+} plug 'delapouite/kakoune-hump' config %{
+    map global user <a-h> '<esc>: select-previous-hump<ret>' -docstring 'select prev hump'
+    map global user h     '<esc>: select-next-hump<ret>'     -docstring 'select next hump'
+    map global user <a-H> '<esc>: extend-previous-hump<ret>' -docstring 'extend prev hump'
+    map global user H     '<esc>: extend-next-hump<ret>'     -docstring 'extend next hump'
 } plug 'delapouite/kakoune-mirror' %{
   map global user m ': enter-user-mode -lock mirror<ret>' -docstring 'mirror'
 } plug "ul/kak-lsp" do %{
@@ -202,20 +208,6 @@ hook global ModeChange pop:insert:normal -group trailine-whitespace-errors trail
 # hook global NormalIdle .* -group auto-save 'try %{ exec -draft :w<ret>}'
 # hook global ModeChange pop:insert:normal -group auto-save 'try %{exec -draft :w<ret>}'
 
-#= Subwords
-define-command -hidden select-next-subword -override %{
-      exec /[A-Z][a-z]+|[A-Z]+|[a-z]+<ret>
-}
-define-command -hidden extend-next-subword -override %{
-      exec ?[A-Z][a-z]+|[A-Z]+|[a-z]+<ret>
-}
-define-command -hidden select-prev-subword -override %{
-      exec <a-/>[A-Z][a-z]+|[A-Z]+|[a-z]+<ret>
-}
-define-command -hidden extend-prev-subword -override %{
-      exec <a-?>[A-Z][a-z]+|[A-Z]+|[a-z]+<ret>
-}
-
 #= Options
 set-option global ui_options 'terminal_assistant=off'
 # set-option global extra_word_chars '_' '-'
@@ -231,16 +223,6 @@ try %{ declare-user-mode project }
 map global project b   ' :make build:debug<ret>'     -docstring 'build debug'
 map global project r   ' :make build:debug run<ret>' -docstring 'run debug'
 map global normal <=>  ' :enter-user-mode<space>project<ret>'
-
-try %{ declare-user-mode subword }
-map global subword w ' :select-next-subword<ret>' -docstring 'next'
-map global subword b ' :select-prev-subword<ret>' -docstring 'prev'
-map global user x ' :enter-user-mode<space>subword<ret>' -docstring 'subword'
-
-try %{ declare-user-mode subwordex }
-map global subwordex w ' :extend-next-subword<ret>' -docstring 'next'
-map global subwordex b ' :extend-prev-subword<ret>' -docstring 'prev'
-map global user X ' :enter-user-mode<space>subwordex<ret>' -docstring 'subword (extend)'
 
 #= Colorscheme
 # colorscheme base16
