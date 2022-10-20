@@ -89,3 +89,10 @@
 
 [merge]
     conflictstyle = diff3
+
+# 2022-10-20: Github returns operation timed out when downloading cocos2d-x submodules
+# This is probably (?) due to old/deprecated github git protocol urls
+# Here is a fix
+# src: https://github.com/github/hub/issues/2145#issuecomment-496264742
+[url "git@github.com:"]
+    insteadOf = git://github.com/
