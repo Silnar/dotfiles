@@ -30,7 +30,7 @@ lvim.builtin.cmp.completion.autocomplete = {}
 
 -- UI
 -- vim.o.guifont = "FantasqueSansMono Nerd Font:h16"
-vim.o.guifont = "BlexMono Nerd Font:h16"
+vim.o.guifont = "BlexMono Nerd Font:h16,JetBrainsMono Nerd Font Mono:h14"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
