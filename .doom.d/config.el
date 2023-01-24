@@ -81,3 +81,7 @@
 ;; NOTE: Treat Mac Command key as Ctrl
 ;; More info: https://emacs.stackexchange.com/a/26619
 (setq mac-command-modifier 'control)
+
+;; NOTE: Disable autocompletion. Let it work on demand only.
+;; More info: https://github.com/company-mode/company-mode/issues/554#issuecomment-232347295
+(setq company-idle-delay nil)
