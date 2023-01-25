@@ -34,8 +34,8 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;;(setq doom-theme 'whiteboard)
-(setq doom-theme 'tango)
-;;(setq doom-theme 'moonlight)
+;; (setq doom-theme 'tango)
+(setq doom-theme 'doom-moonlight)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -80,8 +80,34 @@
 
 ;; NOTE: Treat Mac Command key as Ctrl
 ;; More info: https://emacs.stackexchange.com/a/26619
-(setq mac-command-modifier 'control)
+;; Disabled as it doesn't allow to call Super:
+;; https://emacs.stackexchange.com/questions/395/how-can-i-send-super-from-my-mac-to-my-emacs-instance
+;; (setq mac-command-modifier 'control)
 
 ;; NOTE: Disable autocompletion. Let it work on demand only.
 ;; More info: https://github.com/company-mode/company-mode/issues/554#issuecomment-232347295
 (setq company-idle-delay nil)
+
+;; NOTE: Allow to show help and paginate in which-mode via C-h
+(setq which-key-use-C-h-commands t)
+
+;; NOTE: Save frame dimensions
+;; Taken from here: https://github.com/doomemacs/doomemacs/issues/4300
+(when-let (dims (doom-store-get 'last-frame-size))
+  (cl-destructuring-bind ((left . top) width height fullscreen) dims
+    (setq initial-frame-alist
+          (append initial-frame-alist
+                  `((left . ,left)
+                    (top . ,top)
+                    (width . ,width)
+                    (height . ,height)
+                    (fullscreen . ,fullscreen))))))
+
+(defun save-frame-dimensions ()
+  (doom-store-put 'last-frame-size
+                  (list (frame-position)
+                        (frame-width)
+                        (frame-height)
+                        (frame-parameter nil 'fullscreen))))
+
+(add-hook 'kill-emacs-hook #'save-frame-dimensions)
