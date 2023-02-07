@@ -111,3 +111,9 @@
                         (frame-parameter nil 'fullscreen))))
 
 (add-hook 'kill-emacs-hook #'save-frame-dimensions)
+
+;; NOTE: Treat inserting todo state as a state change
+(setq org-treat-insert-todo-heading-as-state-change t)
+
+;; NOTE: Log task state changes into LOGBOOK drawer
+(setq org-log-into-drawer t)
