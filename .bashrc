@@ -3,6 +3,14 @@
 #
 
 alias dotfiles='git --work-tree=$HOME --git-dir=$HOME/.dotfiles'
+function dotfiles_enter() {
+    export GIT_WORK_TREE="$HOME"
+    export GIT_DIR="$HOME/.dotfiles"
+}
+function dotfiles_exit() {
+    unset GIT_WORK_TREE
+    unset GIT_DIR
+}
 
 export EDITOR='vim'
 
