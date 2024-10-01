@@ -56,6 +56,13 @@ alias gitka='gitk --all'
 alias brew86="arch -x86_64 /usr/local/bin/brew"
 alias pyenv86="arch -x86_64 pyenv"
 
+# On ArchLinux add hx alias for helix
+if [ -f "/etc/arch-release" ]
+then
+   alias hx=helix
+fi
+
+
 # # If you come from bash you might have to change your $PATH.
 # # export PATH=$HOME/bin:/usr/local/bin:$PATH
 # 

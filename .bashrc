@@ -12,7 +12,14 @@ function dotfiles_exit() {
     unset GIT_DIR
 }
 
-export EDITOR='vim'
+# On ArchLinux add hx alias for helix
+if [ -f "/etc/arch-release" ]
+then
+   alias hx=helix
+fi
+
+export EDITOR='hx'
+
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
