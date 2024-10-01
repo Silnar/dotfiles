@@ -1,0 +1,275 @@
+# Config inspirations:
+# https://github.com/andreyorst/dotfiles/tree/master/.config/kak
+# Word mode
+# source: https://discuss.kakoune.com/t/avoiding-modifier-chording/107/4
+
+#= Map as soon as possible, in case of configuration errors
+map global user ,     ': edit "%val{config}/kakrc"<ret>'   -docstring 'Edit config'
+map global user <a-,> ': source "%val{config}/kakrc"<ret>' -docstring 'Source config'
+map global user s     ': write<ret>'                       -docstring 'Save file'
+map global user /     ': comment-line<ret>'                -docstring 'comment line'
+map global user <a-/> ': comment-block<ret>'               -docstring 'comment block'
+
+#= Basic commands
+require-module kak
+add-highlighter -override shared/kakrc/code/if_else regex \b(if|when|unless)\b 0:keyword
+
+define-command true   -override -params 2 %{ eval %arg{1} }
+define-command false  -override -params 2 %{ eval %arg{2} }
+define-command if     -override -params 3 %{ eval -verbatim %arg{1} %arg{2} %arg{3} }
+define-command when   -override -params 2 %{ eval -verbatim %arg{1} %arg{2} nop }
+define-command unless -override -params 2 %{ eval -verbatim %arg{1} nop %arg{2} }
+
+
+#= Options
+# colorscheme base16
+
+set-option global ui_options 'terminal_assistant=off'
+# set-option global extra_word_chars '_' '-'
+add-highlighter -override global/wrap wrap -word -indent -marker '¬ '
+set global autocomplete ''
+
+when %sh{ [ -n "$(command -v rg)" ] && echo true || echo false } %{
+    set-option global grepcmd 'rg -L --hidden --with-filename --column'
+}
+
+
+#= Mappings
+map global goto <lt>  '<esc> :buffer-previous<ret>' -docstring 'prev buffer'
+map global goto <gt>  '<esc> :buffer-next<ret>' -docstring 'next buffer'
+
+try %{ declare-user-mode project }
+map global project b   ' :make build:debug<ret>'     -docstring 'build debug'
+map global project r   ' :make build:debug run<ret>' -docstring 'run debug'
+map global normal <=>  ' :enter-user-mode<space>project<ret>'
+
+
+#= Languages
+hook global BufSetOption filetype=(ruby|yaml) %{
+    set-option buffer indentwidth 2
+}
+
+
+#= Commands
+define-command -override -docstring 'Copy buffer position' \
+copy-position %{
+    eval %sh{
+        echo "set-register dquote \"$kak_selection:\\n    $(realpath --relative-to=$PWD $kak_buffile):$kak_cursor_line:$kak_cursor_column\""
+    }
+}
+# map global user x ': copy-position<ret>' -docstring 'Copy position'
+
+#= Plugins
+# bootstrap the plugin manager
+evaluate-commands %sh{
+    plugins="${kak_config:?}/plugins"
+    mkdir -p "$plugins"
+    [ ! -e "$plugins/plug.kak" ] && \
+        git clone -q https://github.com/andreyorst/plug.kak.git --branch master "$plugins/plug.kak"
+    printf "%s\n" "source '$plugins/plug.kak/rc/plug.kak'"
+}
+
+set-option global plug_always_ensure true
+# set-option global plug_profile true
+
+# plug "andreyorst/powerline.kak" defer powerline %{
+#     set-option global powerline_separator ''
+#     set-option global powerline_separator_thin ''
+# } config %{
+#     powerline-start
+# }
+# plug 'delapouite/kakoune-text-objects' config %{
+#     map global normal s ': enter-user-mode selectors<ret>' -docstring 'selectors'
+# }
+
+plug-chain "andreyorst/plug.kak" noload \
+plug "occivink/kakoune-vertical-selection" \
+plug "occivink/kakoune-find" \
+plug "occivink/kakoune-phantom-selection" config %{
+    map global user z       "<esc>: phantom-selection-add-selection<ret>"                       -docstring 'phantom add'
+    map global user Z       "<esc>: phantom-selection-select-all; phantom-selection-clear<ret>" -docstring 'phantom clear'
+    map global normal <a-0> "<esc>: phantom-selection-iterate-next<ret>"                        -docstring 'phantom next'
+    map global normal <a-9> "<esc>: phantom-selection-iterate-prev<ret>"                        -docstring 'phantom prev'
+} plug "andreyorst/fzf.kak" config %{
+    map -docstring 'fzf mode' global normal '<c-p>' ': fzf-mode<ret>'
+} defer fzf %{
+    set-option global fzf_tmux_popup true
+    set-option global fzf_preview_tmux_height '90%'
+    # Tiebreak=end works well for file search, but not so well for grep...
+    set-option global fzf_default_opts '--reverse'
+    when %sh{ [ -n "$(command -v bat)"  ] && echo true || echo false } %{
+        set-option global fzf_highlight_command bat
+    }
+} defer fzf-file %{
+    set-option global fzf_file_command 'fd --type f --strip-cwd-prefix'
+} defer fzf-grep %{
+    set-option global fzf_grep_command rg
+    when %sh{ [ -n "$(command -v bat)"  ] && echo true || echo false } %{
+        set-option global fzf_grep_preview_command 'bat --style=plain --color=always --highlight-line {2} {1}'
+    }
+} plug "andreyorst/smarttab.kak" defer smarttab %{
+    # when `backspace' is pressed, 4 spaces are deleted at once
+    set-option global softtabstop 4
+    # configure text that is being used to represent curent active mode
+    set-option global smarttab_expandtab_mode_name   'exp'
+    set-option global smarttab_noexpandtab_mode_name 'noexp'
+    set-option global smarttab_smarttab_mode_name    'smart'
+} config %{
+    hook global BufSetOption filetype=.* expandtab
+    hook global BufSetOption filetype=(makefile) noexpandtab
+} plug "andreyorst/kaktree" defer kaktree %{
+    map global user f ': kaktree-toggle<ret>' -docstring 'kaktree filetree panel'
+    # Enter '?' for help
+    set-option global kaktree_show_help false
+} config %{
+    hook global WinSetOption filetype=kaktree %{
+        remove-highlighter buffer/numbers
+        remove-highlighter buffer/matching
+        remove-highlighter buffer/wrap
+        remove-highlighter buffer/show-whitespaces
+    }
+    kaktree-enable
+} plug "danr/kakoune-easymotion" config %{
+    evaluate-commands %sh{
+        if ! [ -x "$(command -v python)" ]
+        then
+          printf "%s\n" 'echo -debug Error: Easymotion plugin requires python command, which is missing.'
+        else
+          printf "\n"
+        fi
+    }
+
+    map global goto w           '<esc>: easy-motion-word<ret>' -docstring 'word'
+    map global goto <a-w>       '<esc>: easy-motion-WORD<ret>' -docstring 'WORD'
+    map global goto x           '<esc>: easy-motion-line<ret>' -docstring 'line'
+    map global goto <semicolon> '<esc>: easy-motion-char<ret>' -docstring 'char'
+} plug 'delapouite/kakoune-hump' config %{
+    map global user <a-h> '<esc>: select-previous-hump<ret>' -docstring 'select prev hump'
+    map global user h     '<esc>: select-next-hump<ret>'     -docstring 'select next hump'
+    map global user <a-H> '<esc>: extend-previous-hump<ret>' -docstring 'extend prev hump'
+    map global user H     '<esc>: extend-next-hump<ret>'     -docstring 'extend next hump'
+} plug 'delapouite/kakoune-mirror' %{
+  map global user m ': enter-user-mode -lock mirror<ret>' -docstring 'mirror'
+} plug "ul/kak-lsp" do %{
+    # Install only when it doesn't exist.
+    command -v kak-lsp >/dev/null 2>&1 || cargo install --locked --force --path .
+} config %{
+    evaluate-commands %sh{
+        if ! [ -x "$(command -v kak-lsp)" ]
+        then
+          printf "%s\n" 'echo -debug Error: Kak-lsp plugin requires kak-lsp command, which is missing.'
+        else
+          printf "\n"
+        fi
+    }
+
+    # set-option global lsp_server_configuration haxe.haxe.executable="haxe"
+
+    # debug
+    # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
+
+    map global normal <minus> ': enter-user-mode<space>lsp<ret>'
+    hook global WinSetOption filetype=(python|haxe) %{
+        lsp-enable-window
+    }
+} \
+plug "https://gitlab.com/Screwtapello/kakoune-inc-dec"
+
+#== Clipboard
+declare-option -docstring 'command to copy to clipboard' \
+    str clipboard_copy_cmd
+declare-option -docstring 'command to paste from clipboard' \
+    str clipboard_paste_cmd
+evaluate-commands %sh{
+    copy=
+    paste=
+    case $(uname -s) in
+        Darwin)
+            copy="pbcopy"
+            paste="pbpaste"
+            ;;
+
+        *)
+            if test -n "$WAYLAND_DISPLAY" \
+                && command -v wl-copy >/dev/null \
+                && command -v wl-paste >/dev/null
+            then
+                # wl-clipboard
+                copy="wl-copy --foreground"
+                paste="wl-paste --no-newline"
+            elif test -n "$DISPLAY" && command -v xsel >/dev/null; then
+                # xsel
+                copy="xsel --input --clipboard"
+                paste="xsel --output --clipboard"
+            elif test -n "$DISPLAY" && command -v xclip >/dev/null; then
+                # xclip
+                copy="xclip -in -selection clipboard"
+                paste="xclip -out -selection clipboard"
+            fi
+            ;;
+    esac
+
+    echo "set-option global clipboard_copy_cmd '$copy'"
+    echo "set-option global clipboard_paste_cmd '$paste'"
+}
+try %{ declare-user-mode clipboard }
+map global clipboard 'y' "<a-|>%opt{clipboard_copy_cmd}<ret>:<space>echo -markup %{{Information}yanked selection to system clipboard}<ret>" \
+    -docstring "copy to system clipboard"
+map global clipboard 'd' "|%opt{clipboard_copy_cmd}<ret>" \
+    -docstring "cut to system clipboard"
+map global clipboard 'c' "|%opt{clipboard_copy_cmd}<ret>i" \
+    -docstring "cut to system clipboard, enter insert mode"
+map global clipboard 'P' "!%opt{clipboard_paste_cmd}<ret>" \
+    -docstring "paste from system clipboard before cursor"
+map global clipboard 'p' "<a-!>%opt{clipboard_paste_cmd}<ret>" \
+    -docstring "paste from system clipboard after cursor"
+map global clipboard 'R' "|%opt{clipboard_paste_cmd}<ret>" \
+    -docstring "replace selection with system clipboard"
+map global user 'c' ': enter-user-mode<space>clipboard<ret>' \
+    -docstring 'clipboard'
+
+
+#== Trailing whitespace errors
+# Fix trailing whitespace errors
+define-command trailine-whitespace-errors-fix -override -docstring '
+Removes trailing whitespace errors
+' %{
+    try %{
+        execute-keys -draft \% s \h+$ <ret> d
+    } catch %{
+        echo "No trailing whitespace errors"
+    }
+}
+
+
+# Show trailing white space errors (except in insert mode)
+define-command trailing-whitespace-errors-show -override -docstring '
+Shows trailing whitespace errors
+' %{
+    add-highlighter -override global/trailing-whitespace-error regex \h+$ 0:black,red
+}
+define-command trailing-whitespace-errors-hide -override -docstring '
+Hide trailing whitespace errors
+' %{
+    remove-highlighter global/trailing-whitespace-error
+}
+trailing-whitespace-errors-show
+hook global ModeChange push:normal:insert -group trailine-whitespace-errors trailing-whitespace-errors-hide
+hook global ModeChange pop:insert:normal -group trailine-whitespace-errors trailing-whitespace-errors-show
+
+
+#== Auto save
+# TODO: It changes files - add some lineends, etc...
+# - use draft to avoid clearing echo line, so for example ':echo abc' will be able to show its output
+# hook global NormalIdle .* -group auto-save 'try %{ exec -draft :w<ret>}'
+# hook global ModeChange pop:insert:normal -group auto-save 'try %{exec -draft :w<ret>}'
+
+#= Imports
+source "%val{config}/filetype/haxe.kak"
+source "%val{config}/filetype/cocoapods.kak"
+source "%val{config}/filetype/csharp.kak"
+source "%val{config}/filetype/gradle.kak"
+source "%val{config}/filetype/makefile.kak"
+
+# source "%val{config}/expand-tab.kak"
+
