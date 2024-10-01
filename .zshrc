@@ -53,6 +53,8 @@ function dotfiles_exit() {
 alias git='LANG=en_US.UTF-8 git'
 alias gitka='gitk --all'
 
+alias brew86="arch -x86_64 /usr/local/bin/brew"
+alias pyenv86="arch -x86_64 pyenv"
 
 # # If you come from bash you might have to change your $PATH.
 # # export PATH=$HOME/bin:/usr/local/bin:$PATH
