@@ -117,3 +117,15 @@
 
 ;; NOTE: Log task state changes into LOGBOOK drawer
 (setq org-log-into-drawer t)
+
+;; NOTE: Logview config
+(setq logview-additional-level-mappings
+      '(("Unity/LLog"    . ((error       "Error")
+                            (warning     "Warn")
+                            (information "Info")
+                            (debug       "Debug")
+                            (trace       "Verbose")))))
+(setq logview-additional-submodes
+      '(("Unity/LLog" . ((format  . "TIMESTAMP [NAME:LEVEL] [THREAD]: MESSAGE")
+                         (levels  . "Unity/LLog")
+                         (timestamp . ("ISO 8601 time only + millis"))))))
