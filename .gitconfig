@@ -17,7 +17,7 @@
     attributesfile = ~/.gitattributes
     # nocheckin
     # based on: https://medium.com/@ripoche.b/using-global-pre-commit-hook-to-prevent-committing-unwanted-code-edbbf957ad12
-    hooksPath = ~/.config/git/hooks
+    # hooksPath = ~/.config/git/hooks
 [alias]
     st = status
     co = checkout
@@ -71,12 +71,6 @@
 [diff "bin"]
     textconv = hexdump -v -C
 
-[filter "lfs"]
-    clean = git-lfs clean -- %f
-    smudge = git-lfs smudge -- %f
-    process = git-lfs filter-process
-    required = true
-
 [interactive]
     diffFilter = delta --color-only
 [add.interactive]
@@ -96,3 +90,8 @@
 # src: https://github.com/github/hub/issues/2145#issuecomment-496264742
 [url "git@github.com:"]
     insteadOf = git://github.com/
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
