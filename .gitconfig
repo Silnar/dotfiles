@@ -10,7 +10,7 @@
 [pager]
     status = true
 [core]
-    editor = kak
+    editor = hx
     pager = delta
     # pager = less -XFR
     quotepath = false
