@@ -21,8 +21,8 @@ antigen apply
 # source ~/.antigen/bundles/zsh-users/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Local config
+# Apply here. Applying in ~/.zshenv results in more entries in PATH
 [ -f ~/.env.sh ] && source ~/.env.sh
-
 
 # Helper functions
 function join_by { local IFS="$1"; shift; echo "$*"; }
