@@ -26,12 +26,53 @@
     df = diff
     dc = diff --cached
     logg  = log --graph --decorate --pretty=oneline --abbrev-commit --format='%C(auto)%d%C(auto,reset) %s (%h, %an)'
-    loggb = log --graph --decorate --pretty=oneline --abbrev-commit --format='%C(auto)%d%C(auto,reset) %s (%h, %an)' --branches 
+    loggb = log --graph --decorate --pretty=oneline --abbrev-commit --format='%C(auto)%d%C(auto,reset) %s (%h, %an)' --branches
     logga = log --graph --decorate --pretty=oneline --abbrev-commit --format='%C(auto)%d%C(auto,reset) %s (%h, %an)' --branches --all
     root = rev-parse --show-toplevel
     ign = ls-files -o -i --exclude-standard
     history = "!function pp() { for file in \"$@\"; do echo \"$file|\" `git log --pretty=format:'%cr: %s [%cn]' -1 -- \"$GIT_PREFIX$file\"`; done | column -t -s '|'; }; pp "
     diff-image = "!f() { GIT_DIFF_IMAGE_ENABLED=1 git diff \"$@\"; }; f"
+    # Collects days when there was at least one commit and counts them
+    days-of-work = !"git log --format="%ad" --date=iso | sort | cut -d ' ' -f 1 | uniq | wc -l"
+    # Show number of commits per week as a histogram (WIP)
+    # TODO: Add missing weeks without commits
+    histogram-mac = !"git log --format="%ad" --date=iso"\
+        " | cut -d ' ' -f 1"\
+        " | sort"\
+        " | xargs -I {} date -jf '%Y-%m-%d' +'%Y-%V' {}"\
+        " | uniq -c "\
+        " | ruby -ne 'BEGIN{l=nil}\n"\
+        "if l.nil?\n"\
+        "  l = $_\n"\
+        "  puts $_\n"\
+        "else\n"\
+        "  c = $_\n"\
+        "  if l == c\n"\
+        "    puts c\n"\
+        "  else\n"\
+        "    l =~ /\\d+ (\\d+)-(\\d+)/\n"\
+        "    ly = $1.to_i\n"\
+        "    lw = $2.to_i\n"\
+        "    c =~ /\\d+ (\\d+)-(\\d+)/\n"\
+        "    cy = $1.to_i\n"\
+        "    cw = $2.to_i\n"\
+        "    loop do\n"\
+        "      lw += 1\n"\
+        "      if lw > 52\n"\
+        "        lw = 0\n"\
+        "        ly += 1\n"\
+        "      end\n"\
+        "      if ly == cy && lw == cw\n"\
+        "        puts c.chomp\n"\
+        "        break\n"\
+        "      else\n"\
+        "        puts \"   0 #{ly}-#{\"%02d\" % lw}\"\n"\
+        "      end\n"\
+        "    end\n"\
+        "    l = c\n"\
+        "  end\n"\
+        "end'"\
+        " | perl -lane 'print $F[1], \"\t\", \"=\" x ($F[0] / 1)'"
 [push]
     default = simple
 
