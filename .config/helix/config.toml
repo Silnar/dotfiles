@@ -1,0 +1,7 @@
+theme = "emacs"
+
+[editor]
+auto-pairs = false
+
+[editor.soft-wrap]
+enable = true
