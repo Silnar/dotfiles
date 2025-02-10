@@ -2,6 +2,7 @@ theme = "emacs"
 
 [editor]
 auto-pairs = false
+auto-format = false
 
 [editor.soft-wrap]
 enable = true
